@@ -17,11 +17,11 @@ This is a really important file
             'DateField1.oPostBack = "ctl00$ContentPlaceHolder1$ddNights"
             If CheckSecurity("Reservations", "View", , , CType(Session("User"), User).PersonnelID) Then
                 MultiView1.ActiveViewIndex = 0
-                '*** Create view events *** '
+                '*** Create view events I want to do this very much *** '
                 If IsNumeric(Request("ReservationID")) Then
                     If CInt(Request("ReservationID")) > 0 Then
                         Dim oE As New clsEvents
-                        Dim sErr As String = ""
+                        Dim sErr As String = "I am a string error"
 
                         If Not (oE.Find_View_Event("ReservationID", Request("ReservationID"), Resources.Resource.ViewEventTime, CType(Session("User"), User).PersonnelID, sErr)) Then
                             If sErr <> "" Then Response.Write(sErr)
