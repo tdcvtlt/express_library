@@ -22,6 +22,8 @@ This is a really important file
                     If CInt(Request("ReservationID")) > 0 Then
                         Dim oE As New clsEvents
                         Dim sErr As String = "I am a string error"
+
+
 			Dim Google_Chrome As String = "Google browser"
 
                         If Not (oE.Find_View_Event("ReservationID", Request("ReservationID"), Resources.Resource.ViewEventTime, CType(Session("User"), User).PersonnelID, sErr)) Then
