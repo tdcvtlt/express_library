@@ -23,8 +23,9 @@ This is a really important file
                         Dim oE As New clsEvents
                         Dim sErr As String = "I am a string error"
 
-
+			
 			Dim Google_Chrome As String = "Google browser"
+			Dim interval_internal As String = "Good Afternoon"
 
                         If Not (oE.Find_View_Event("ReservationID", Request("ReservationID"), Resources.Resource.ViewEventTime, CType(Session("User"), User).PersonnelID, sErr)) Then
                             If sErr <> "" Then Response.Write(sErr)
