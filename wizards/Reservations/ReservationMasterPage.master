@@ -1,0 +1,124 @@
+﻿<%@ Master Language="VB" MasterPageFile="~/crms.master" AutoEventWireup="false" CodeFile="ReservationMasterPage.master.vb" Inherits="wizard_Reservations_ReservationMasterPage" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" Runat="Server">
+
+    <link rel="stylesheet" href="../../Scripts/flatpickr/dist/flatpickr.material_green.min.css" />
+    <link rel="Stylesheet" href="../../Content/bootstrap.min.css" />
+    <link rel="Stylesheet" href="../../Content/animate.css" />    
+    <link rel="stylesheet" href="../../Scripts/jquery-ui-1.12.0.custom/jquery-ui.min.css" />
+    <link rel="stylesheet" href="../../Scripts/jquery-ui-1.12.0.custom/jquery-ui.theme.min.css" />
+
+    <script type="text/javascript" src="../../Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/noty/packaged/jquery.noty.packaged.min.js"></script>  
+    <script type="text/javascript" src="../../Scripts/flatpickr/dist/flatpickr.js"></script>
+    <script type="text/javascript" src="../../Scripts/jquery-ui-1.12.0.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../scripts/moment.js"></script>
+    
+        
+    <style type="text/css">
+        .modal
+        {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: black;
+            z-index: 99;
+            opacity: 0.4;
+            filter: alpha(opacity=40);
+            -moz-opacity: 0.4;
+            min-height: 100%;
+            width: 100%;
+        }
+        .loading
+        {
+            font-family:'Times New Roman';
+            font-size: 10pt;
+            border: 1px solid #67CFF5;
+            width: 200px;
+            height: 100px;
+            display: none;
+            position: fixed;
+            background-color:white;
+            z-index: 999;
+            box-shadow:12px 12px 6px rgba(255,255,255,0.275);
+            font-style:italic;
+            color:darkblue;
+        }   
+    </style>
+    <style type="text/css">
+        .top-buffer{
+            margin-top:10px;
+        }
+    </style>
+
+    
+    <script type="text/javascript">
+
+        //window.history.forward();
+
+    </script>
+
+    <asp:ContentPlaceHolder ID="Head2" runat="server">                
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">  
+   
+    
+    <div id="main">        
+        <div class="container">
+            <div class="form-group form-group-sm">
+                <div class="jumbotron">
+                    <div class="container-fluid">
+                        <div class="row top-buffer" style="border-radius: 15px;-moz-border-radius: 15px;border:1px solid lightblue;">
+                    
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6" >
+                        <table runat="server" class="table table-condensed" id="tbSummary">
+                            <tbody>
+                                <tr >
+                                    <td style="width:30%;"><asp:Label ID="Label1" runat="server" CssClass="text-uppercase text-left" Text="Prospect" Font-Bold="true"></asp:Label>     </td>
+                                    <td><asp:Label runat="server" CssClass="control-label text-capitalize text-left" ID="lbProspect" Text=""></asp:Label></td>
+                                </tr>
+                                <tr>
+                                    <td><asp:Label ID="Label2" runat="server" CssClass="text-uppercase text-left" Text="Package" Font-Bold="true"></asp:Label>     </td>
+                                    <td><asp:Label runat="server" CssClass="control-label  text-capitalize text-left" ID="lbPackage" Text=""></asp:Label>      </td>
+                                </tr>
+                                <tr>
+                                    <td><asp:Label ID="Label3" runat="server" CssClass="text-uppercase text-left" Text="Vendor" Font-Bold="true"></asp:Label>     </td>
+                                    <td><asp:Label runat="server" CssClass="control-label  text-uppercase text-left" ID="lbVendor" Text=""></asp:Label>      </td>
+                                </tr>
+                                 <tr>
+                                    <td><asp:Label ID="Label4" runat="server" CssClass="text-uppercase text-left" Text="Reservation" Font-Bold="true"></asp:Label>     </td>
+                                    <td><asp:Label runat="server" CssClass="control-label text-capitalize text-left" ID="lbReservation" Text=""></asp:Label>      </td>
+                                </tr>
+                                 <tr>
+                                    <td><asp:Label runat="server" CssClass="text-uppercase text-left" ID="lbPackageCost" Text="Package Cost" Font-Bold="true"></asp:Label>     </td>
+                                    <td><asp:Label runat="server" CssClass="control-label text-capitalize text-left" ID="lbInvoice" Text=""></asp:Label>      </td>
+                                </tr>
+                            </tbody>
+                        </table>                        
+                    </div>
+                        </div>
+                    </div>                    
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+
+        <div class="form-group form-group-sm">
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <asp:Label runat="server" ID="LB_ERR_MASTERPAGE" ForeColor="Red"></asp:Label>                                        
+                    <asp:Label runat="server" ID="LB_WIZ_DATA" style="position:absolute;top:-1000px;left:-1000px;" ></asp:Label>   
+                </div>
+            </div>
+        </div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server"></asp:ContentPlaceHolder>
+    </div>        
+         
+</asp:Content>
+

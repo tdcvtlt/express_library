@@ -1,0 +1,491 @@
+﻿Imports System.Data.SqlClient
+Imports System.Data
+Partial Class wizards_Accounting_CEAssessmentWizard
+    Inherits System.Web.UI.Page
+
+    Protected Sub rblType_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rblType.SelectedIndexChanged
+        If rblType.SelectedValue = "MF" Then
+            MultiView1.ActiveViewIndex = 1
+        ElseIf rblType.SelectedValue = "LF" Then
+            MultiView1.ActiveViewIndex = 2
+        End If
+        cbSelect.Visible = False
+        gvResults.Visible = False
+        lblcheck.visible = False
+    End Sub
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not IsPostBack Then
+            BindData()
+        End If
+    End Sub
+
+    Private Sub BindData()
+        Dim ds As New SqlDataSource
+        Dim cn As New System.Data.SqlClient.SqlConnection(Resources.Resource.cns)
+        Dim cm As New System.Data.SqlClient.SqlCommand("Select comboitemid, comboitem from t_Comboitems i inner join t_Combos c on c.comboid = i.comboid where c.comboname = 'ContractStatus' order by comboitem", cn)
+        Dim dr As System.Data.SqlClient.SqlDataReader
+        Try
+            ds.ConnectionString = Resources.Resource.cns
+            ds.SelectCommand = "Select FintransID, i.Comboitem as Year from t_Comboitems i inner join t_Combos c on c.comboid = i.comboid inner join t_FinTranscodes f on f.transcodeid = i.comboitemid inner join t_ComboItems tt on f.TransTypeID = tt.ComboItemID where tt.ComboItem = 'ProspectTrans' and i.comboitem like 'CD%' order by cast(right(i.comboitem, 2) as int)"
+            ddYear.DataSource = ds
+            ddYear.DataTextField = "Year"
+            ddYear.DataValueField = "FintransID"
+            ddYear.DataBind()
+            ddLFYear.DataSource = ds
+            ddLFYear.DataTextField = "Year"
+            ddLFYear.DataValueField = "FinTransID"
+            ddLFYear.DataBind()
+            'cn.Open()
+        Catch ex As Exception
+            Response.Write(ex.ToString)
+        Finally
+            If cn.State <> ConnectionState.Closed Then cn.Close()
+            cn = Nothing
+            cm = Nothing
+            dr = Nothing
+            ds = Nothing
+        End Try
+    End Sub
+
+    Protected Sub btnPreview_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPreview.Click
+        Dim ds As New SqlDataSource
+        Dim sStatus As String = ""
+        Dim MFYear As String = Right(ddYear.SelectedItem.Text, 2)
+        MFYear = IIf(CInt(MFYear) < 0, "19" & MFYear, "20" & MFYear)
+
+        ds.ConnectionString = Resources.Resource.cns
+
+        Dim sSQL As String = "select * from (	 " & _
+                        "select p.lastname as [Last Name], p.firstname as [First Name], c.contractnumber as [KCP#],  " & _
+                        "	case when c.maintenancefeeamount is null then 0 else c.maintenancefeeamount  end as MFAmount, " & _
+                        "	case when i.Total is null then 0 else i.Total end as [Previously Assessed], " & _
+                        "	case when case when i.Total is null then 0 else i.Total end - case when c.maintenancefeeamount is null then 0 else  c.maintenancefeeamount end  < 0 then " & _
+                        "		case when i.Total is null then 0 else i.Total end - case when c.maintenancefeeamount is null then 0 else c.maintenancefeeamount end else " & _
+                        "0 " & _
+                        "	end  * -1 as [To Be Assessed], " & _
+                        "	case when charindex(' ', st.comboitem) > 0 then left(st.comboitem, charindex(' ',st.comboitem)) else st.comboitem end as Type " & _
+                        "from t_Contract c  " & _
+                        "	left outer join t_Comboitems st on st.comboitemid = c.saletypeid  " & _
+                        "	inner join t_Prospect p on p.prospectid = c.prospectid " & _
+                        "    left outer join t_Frequency f on f.frequencyid = c.frequencyid  " & _
+                        "   left outer join ( " & _
+                        "		select keyvalue as Contractid, sum(i.Amount) as Total " & _
+                        "		from t_Invoices i " & _
+                        "			inner join t_Fintranscodes f on f.fintransid = i.fintransid " & _
+                        "			inner join t_Comboitems tc on tc.comboitemid = f.transcodeid " & _
+                        "		where i.keyfield = 'contractid'  " & _
+                        "			and tc.comboitem = '" & ddYear.SelectedItem.Text & "' " & _
+                        "			and applytoid = 0 " & _
+                        "		group by keyvalue) as i on i.contractid = c.contractid " & _
+                        "where c.statusid in (" & sStatus & ")  " & _
+                        "	and (" & MFYear & "-year(c.occupancydate))%f.interval = 0  " & _
+                        "	and year(c.occupancydate)<= " & MFYear & " " & _
+                        "    and st.comboitem <> 'trial' " & _
+                        "	and c.contractdate <='" & dfCuttOff.Selected_Date & "' " & _
+                        ")a where [To Be Assessed]>0"
+        ds.SelectCommand = sSQL
+        gvResults.DataSource = ds
+        gvResults.DataBind()
+        gvLF.Visible = False
+        gvResults.Visible = True
+        cbSelect.Visible = True
+        lblCheck.Visible = True
+        ds = Nothing
+        'rs.open(sSQL, cn, 0, 1)
+
+        ''response.write "<tr><td colspan = 6>" & sSQL & "</td></tr>"
+        'If Request("DETAILS") = "true" Then
+        '    Response.Write("<tr><th>Selected</th></th><th>Last Name</th><th>First Name</th><th>KCP #</th><th>MF Amount</th><th>Previously Assessed</th><th>To Be Assessed</th><th>Type</th><th></th></tr>")
+        'End If
+        'Dim counter, zerodue
+        'counter = 0
+        'zerodue = 0
+        'rs2 = Server.CreateObject("ADODB.Recordset")
+        'Do While Not rs.eof
+        '    due = 0
+        '    counter = counter + 1
+        '    If conamount Then
+        '        If rs.fields("Total").value < rs.fields("MaintenanceFeeAmount").value Or rs.fields("Total").value & "" = "" Then
+        '            If rs.fields("Total").value >= 0 Then
+        '                due = rs.fields("MaintenanceFeeAmount").value - rs.fields("Total").value
+        '            Else
+        '                due = rs.fields("MaintenanceFeeAmount").value
+        '            End If
+        '        End If
+        '    Else
+        '        If rs.fields("Total").value < amount Or rs.fields("Total").value & "" = "" Then
+        '            If rs.fields("Total").value >= 0 Then
+        '                due = amount - rs.fields("Total").value
+        '            Else
+        '                due = amount
+        '            End If
+        '        End If
+        '    End If
+        '    If due & "" = "" Then due = 0
+        '    Dim bFoundType
+        '    bFoundType = False
+        '    'rs2.open "select " & dbname & ".dbo.ufn_ContractType(" & rs.fields("ContractID").value & ")", cn, 0, 1
+        '    'sType = rs2.fields(0).value
+        '    'rs2.close
+        '    For i = 0 To UBound(types)
+        '        sType = ""
+        '        If InStr(rs.fields("SalesType").value & "", " ") > 0 Then
+        '            sType = Left(rs.fields("SalesType").value, InStr(rs.fields("SalesType").value, " "))
+        '        Else
+        '            sType = rs.fields("SalesType").value & ""
+        '        End If
+
+        '        If UCase(Trim(types(i))) = UCase(Trim(sType & "")) Then
+        '            totals(i) = totals(i) + due
+        '            bFoundType = True
+        '            Exit For
+        '        End If
+        '    Next
+
+        '    If Not bFoundType Then totals(UBound(totals)) = totals(UBound(totals)) + due
+
+        '    If Request("Details") And due > 0 Then
+        '        Response.Write("<tr>")
+        '        Response.Write("<td><input type=checkbox name=contract value='" & rs.fields("ContractNumber").value & "' checked ></td>")
+        '        Response.Write("<td>" & rs.fields("LastName").value & "</td>")
+        '        Response.Write("<td>" & rs.fields("FirstName").value & "</td>")
+        '        Response.Write("<td>" & rs.fields("ContractNumber").value & "</td>")
+        '        If rs.fields("MaintenanceFeeAmount").value & "" <> "" Then
+        '            Response.Write("<td>" & FormatCurrency(rs.fields("MaintenanceFeeAmount").value) & "</td>")
+        '        Else
+        '            Response.Write("<td>" & FormatCurrency(0) & "</td>")
+        '        End If
+        '        If rs.fields("total").value & "" = "" Then
+        '            Response.Write("<td>" & FormatCurrency(0) & "</td>")
+        '        Else
+        '            Response.Write("<td>" & FormatCurrency(rs.fields("Total").value) & "</td>")
+        '        End If
+        '        Response.Write("<td>" & FormatCurrency(Due) & "</td>")
+        '        'response.write  "<td>" &  rs.fields("Frequency").value & "</td>"
+        '        Response.Write("<td>" & rs.fields("SalesType").value & "</td>")
+        '        'response.write  "<td>" &  rs.fields("OccupancyDate").value & "</td>"
+        '        Response.Write("<td><a href='../editcontract.asp?contractid=" & rs.fields("ContractID").value & "'><img src = '../images/edit.gif'></a></td>")
+        '        Response.Write("</tr>")
+        '        'Add_to_Preview rs.fields("ContractNumber").value, rs.fields("due").value
+        '    ElseIf due = 0 Then
+        '        zerodue = zerodue + 1
+        '    End If
+        '    rs.movenext()
+        'Loop
+
+    End Sub
+
+    Protected Sub btnExport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnExport.Click
+        Response.Clear()
+        Response.ContentType = "application/vnd.ms-excel"
+        Response.AddHeader("Content-Disposition", "attachment; filename=" & IIf(rblType.SelectedValue = "MF", "Maintenance Fee Assessment ", "Late Fee Assessment ") & "for " & ddYear.SelectedItem.Text & ".xls")
+        Response.Write("<table>")
+        Response.Write("<tr>")
+        For i = 0 To gvResults.Columns.Count - 1
+            Response.Write("<th>")
+            Response.Write(gvResults.Columns(i).HeaderText)
+            Response.Write("</th>")
+        Next
+        Response.Write("</tr>")
+        For Each ro As GridViewRow In gvResults.Rows
+            Response.Write("<tr>")
+            For i = 0 To ro.Cells.Count - 1
+                Response.Write("<td>")
+                Response.Write(ro.Cells(i).Text)
+                Response.Write("</td>")
+            Next
+            Response.Write("</tr>")
+        Next
+        Response.Write("</table>")
+        Response.End()
+    End Sub
+
+    Protected Sub cbSelect_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cbSelect.CheckedChanged
+        For Each oRow As GridViewRow In gvResults.Rows
+            If Not (oRow.FindControl("cb") Is Nothing) Then CType(oRow.FindControl("cb"), CheckBox).Checked = cbSelect.Checked
+        Next
+    End Sub
+
+
+    Protected Sub btnAssess_Click(sender As Object, e As System.EventArgs) Handles btnAssess.Click
+        Dim oFT As New clsFinancialTransactionCodes
+        Dim oCon As clsContract
+        Dim oInv As clsInvoices
+        Dim ftc As Integer = oFT.Find_Fin_Trans("MFTrans", ddyear.selecteditem.text)
+        Dim conid As Integer = 0
+        Dim invID As Integer = 0
+
+        For Each oRow As gridviewrow In gvresults.rows
+            If Not (oRow.findcontrol("cb") Is Nothing) Then
+                If CType(oRow.findcontrol("cb"), checkbox).checked Then
+                    oInv = New clsInvoices
+                    oCon = New clsContract
+                    'Get Contractid
+                    oCon.ContractNumber = oRow.cells(3).text
+                    oCon.Load()
+                    conid = oCon.ContractID
+                    invID = 0
+                    If CDbl(oRow.cells(5).text) > 0 Then 'Find the existing Invoice
+                        invID = oInv.Find_Existing_Invoice("ContractID", conid, ddyear.selecteditem.text)
+                    End If
+                    oInv.Load()
+                    oInv.Amount = oRow.cells(6).text
+                    oInv.ApplyToID = invID
+                    oInv.Adjustment = iif(invID = 0, False, True)
+                    oInv.Description = ddyear.selectedItem.text
+                    oInv.PosNeg = 0
+                    oInv.DueDate = dfduedate.selected_date
+                    oInv.FinTransID = ftc
+                    oInv.ProspectID = oCon.ProspectID
+                    oInv.KeyField = "ContractID"
+                    oInv.KeyValue = conid
+                    oInv.Reference = ddyear.selecteditem.text
+                    oInv.TransDate = Date.Now
+                    oInv.UserID = Session("UserDBID")
+                    oInv.Save()
+                    Create_Document(conid)
+                    oInv = Nothing
+                    oCon = Nothing
+                End If
+            End If
+        Next
+        oInv = Nothing
+        oFT = Nothing
+        oCon = Nothing
+    End Sub
+
+    Private Sub Create_Document(ByVal ConID As Integer)
+        Dim oDoc As New clsPendingWordDocuments
+        Dim oItems As New clsPendingWordDocumentValues
+        Dim cn As New SqlConnection(Resources.Resource.cns)
+        Dim cm As New SqlCommand("Select * from v_MFLetter where contractid = " & ConID, cn)
+        Dim dr As SqlDataReader
+        Dim sql As String = ""
+        If Not (InStr(ddTemplate.SelectedItem.Text, "Late Fee") > 0) Then
+            'Maintenance Fee Invoice
+            sql = "select f.frequency, contractnumber, case when trustname is null then '' else trustname end as trustname, lastname, firstname, address1, city, s.comboitem as State, case when co.comboitem is null then '' else co.comboitem end as country, postalcode, " & _
+                 "    case when bf.balanceforward is null then 0 else bf.balanceforward end as balanceforward, " & _
+                 "    balance as AmountDue, i.amount - i.balance as payments, i.Amount as amountbilled, i.balance,i.balance + isnull(bf.balanceforward,0) as TotalDue, i.invoice_description as Description " & _
+                    "from t_Contract c " & _
+                 "    inner join t_Prospect p on p.prospectid = c.prospectid " & _
+                 "    left outer join t_Frequency f on f.frequencyid = c.frequencyid " & _
+                 "    inner join (select * from  v_Invoices where keyfield = 'contractid' and invoice = '" & ddYear.SelectedItem.Text & "') i on i.keyvalue = c.contractid " & _
+                 "    left outer join (Select keyvalue, sum(balance)as Balanceforward from v_invoices where keyfield = 'contractid' and duedate <= '" & dfDueDate.Selected_Date & "' and invoice <> '" & ddYear.SelectedItem.Text & "' group by keyvalue) bf on bf.keyvalue = c.contractid " & _
+                 "    left outer join (select * from t_ProspectAddress where activeflag = 1) a on a.prospectid = p.prospectid " & _
+                 "    left outer join t_Comboitems s on s.comboitemid = a.stateid	 " & _
+                 "    left outer join t_Comboitems co on co.comboitemid = a.countryid " & _
+                    "where contractid = " & ConID
+            cm.CommandText = sql
+            cn.Open()
+            dr = cm.ExecuteReader
+            If dr.HasRows Then
+                While dr.Read
+                    oDoc.PendingWordDocumentID = 0
+                    oDoc.Load()
+                    oDoc.Completed = 0
+                    oDoc.DateRequested = Date.Today
+                    oDoc.FileName = dr("ContractNumber") & "=" & ddTemplate.SelectedItem.Text & Right(ddTemplate.SelectedValue, 4)
+                    oDoc.Printer = ddPrinter.SelectedValue
+                    oDoc.SessionID = Session.SessionID
+                    oDoc.TemplateFile = ddTemplate.SelectedValue
+                    oDoc.SaveFile = "\\kcp.local\resort shares\N Drive\DAILY UPLOAD\mis\" & oDoc.FileName
+                    oDoc.Save()
+                    Add_Item_Value("<NAME>", dr("firstname") & " " & dr("LastName"), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<ADDRESS>", dr("ADDRESS1") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<CITY>", dr("CITY") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<STATE>", dr("STATE") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<ZIP>", dr("POSTALCODE") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<COUNTRY>", dr("COUNTRY") & " ", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<LETTERDATE>", Date.Today, oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<KCP>", dr("CONTRACTNUMBER") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<DESCRIPTION>", dr("DESCRIPTION") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<BALANCEFORWARD>", FormatCurrency(dr("BALANCEFORWARD")), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<AMOUNT>", FormatCurrency(dr("amountbilled")), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<BALANCE>", FormatCurrency(dr("BALANCE")), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<TOTALDUE>", FormatCurrency(dr("TOTALDUE")), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<TRI>", " ", oDoc.PendingWordDocumentID)
+                    oDoc.Ready = True
+                    oDoc.Save()
+                    Response.Write(oDoc.Error_Message)
+                End While
+            End If
+            cn.Close()
+        Else
+            'Late Fee Invoice
+            sql = "select f.frequency, contractnumber, case when trustname is null then '' else trustname end as trustname, lastname, firstname, address1, city, s.comboitem as State, case when co.comboitem is null then '' else co.comboitem end as country, postalcode, " & _
+                 "    case when bf.balanceforward is null then 0 else bf.balanceforward end as balanceforward, " & _
+                 "    balance as AmountDue, i.amount - i.balance as payments, i.Amount as amountbilled, i.balance,i.balance + isnull(bf.balanceforward,0) as TotalDue, i.invoice_description as Description " & _
+                    "from t_Contract c " & _
+                 "    inner join t_Prospect p on p.prospectid = c.prospectid " & _
+                 "    left outer join t_Frequency f on f.frequencyid = c.frequencyid " & _
+                 "    inner join (select * from  v_Invoices where keyfield = 'contractid' and invoice = 'Late Fee' and reference = 'LF" & Right(ddLFYear.SelectedItem.Text, 2) & "') i on i.keyvalue = c.contractid " & _
+                 "    left outer join (Select keyvalue, sum(balance)as Balanceforward from v_invoices where keyfield = 'contractid' and duedate <= '" & Date.Today.AddDays(-1) & "' group by keyvalue) bf on bf.keyvalue = c.contractid " & _
+                 "    left outer join (select * from t_ProspectAddress where activeflag = 1) a on a.prospectid = p.prospectid " & _
+                 "    left outer join t_Comboitems s on s.comboitemid = a.stateid	 " & _
+                 "    left outer join t_Comboitems co on co.comboitemid = a.countryid " & _
+                    "where contractid = " & ConID
+            cm.CommandText = sql
+            cn.Open()
+            dr = cm.ExecuteReader
+            If dr.HasRows Then
+                While dr.Read
+                    oDoc.PendingWordDocumentID = 0
+                    oDoc.Load()
+                    oDoc.Completed = 0
+                    oDoc.DateRequested = Date.Today
+                    oDoc.FileName = dr("ContractNumber") & "=" & ddTemplate.SelectedItem.Text & Right(ddTemplate.SelectedValue, 4)
+                    oDoc.Printer = ddPrinter.SelectedValue
+                    oDoc.SessionID = Session.SessionID
+                    oDoc.TemplateFile = ddTemplate.SelectedValue
+                    oDoc.SaveFile = "\\kcp.local\resort shares\N Drive\DAILY UPLOAD\mis\" & oDoc.FileName
+                    oDoc.Save()
+                    Add_Item_Value("<NAME>", dr("firstname") & " " & dr("LastName"), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<ADDRESS>", dr("ADDRESS1") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<CITY>", dr("CITY") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<STATE>", dr("STATE") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<ZIP>", dr("POSTALCODE") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<COUNTRY>", dr("COUNTRY") & " ", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<LETTERDATE>", Date.Today, oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<KCP>", dr("CONTRACTNUMBER") & "", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<DESCRIPTION>", "20" & Right(ddLFYear.SelectedItem.Text, 2) & " Maintenance Fee Late Fee", oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<BALANCEFORWARD>", FormatCurrency(dr("BALANCEFORWARD")), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<AMOUNT>", FormatCurrency(dr("amountbilled")), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<BALANCE>", FormatCurrency(dr("BALANCE")), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<TOTALDUE>", FormatCurrency(dr("TOTALDUE")), oDoc.PendingWordDocumentID)
+                    Add_Item_Value("<TRI>", " ", oDoc.PendingWordDocumentID)
+                    oDoc.Ready = True
+                    oDoc.Save()
+                    Response.Write(oDoc.Error_Message)
+                End While
+            End If
+            cn.Close()
+        End If
+        dr = Nothing
+        cm = Nothing
+        cn = Nothing
+        oDoc = Nothing
+        oItems = Nothing
+    End Sub
+
+    Private Sub Add_Item_Value(ByVal sBookMark As String, ByVal sValue As String, ByVal DocID As Integer)
+        Dim oItems As New clsPendingWordDocumentValues
+        oItems.PendingWordDocumentValueID = 0
+        oItems.Load()
+        oItems.BookMark = sBookMark
+        oItems.Value = sValue
+        oItems.PendingWordDocumentID = DocID
+        oItems.Save()
+        oItems = Nothing
+    End Sub
+
+    Protected Sub btnLFPreview_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLFPreview.Click
+        If Not (IsNumeric(txtLFAmount.Text)) Or txtLFAmount.Text = "" Or Not (IsNumeric(txtDays.Text)) Or txtdays.text = "" Then
+            ClientScript.RegisterClientScriptBlock(Me.GetType, "missing", "alert('Please enter a valid Late Fee Amount and Days Late.');", True)
+            Exit Sub
+        End If
+        Dim sql As String = "select p.lastname as [Last Name], p.firstname as [First Name], c.contractnumber as [KCP#], i.Invoice as TransCode, i.amount as [AmountInvoiced], i.balance as Balance, " & txtLFAmount.Text & " as [LFAmount],  inv.saletype as Type " & _
+                            "from v_Invoices i  " & _
+                            "	inner join t_Contract c on c.contractid = i.keyvalue " & _
+                            "	inner join t_Prospect p on p.prospectid = c.prospectid " & _
+                            "	left outer join v_ContractInventory inv on inv.contractid = c.contractid " & _
+                            "where i.invoice = '" & ddLFYear.SelectedItem.Text & "'  " & _
+                            "	and i.balance >  " & _
+                            "		case when inv.frequency <> 'Triennial' then  " & _
+                            "0 " & _
+                            "		else  " & _
+                            "			i.amount - ((i.amount / 3.00) * (year(getdate())- (2000 + cast(right(i.invoice,2) as int)))) " & _
+                            "        End " & _
+                            "	and i.id not in ( " & _
+                            "  Select mfinvoiceid " & _
+                            "		from t_lf2mf " & _
+                            "	)  " & _
+                            "	and datediff(dd,duedate,getdate())>= " & txtDays.Text & _
+                            " order by p.lastname, p.firstname"
+        Dim ds As New SqlDataSource(Resources.Resource.cns, sql)
+        gvLF.DataSource = ds
+        gvLF.DataBind()
+        gvLF.Visible = True
+        gvResults.Visible = False
+        ds = Nothing
+    End Sub
+
+    Protected Sub btnLFExport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLFExport.Click
+        Response.Clear()
+        Response.ContentType = "application/vnd.ms-excel"
+        Response.AddHeader("Content-Disposition", "attachment; filename=" & IIf(rblType.SelectedValue = "MF", "Maintenance Fee Assessment ", "Late Fee Assessment ") & "for " & ddYear.SelectedItem.Text & ".xls")
+        Response.Write("<table>")
+        Response.Write("<tr>")
+        For i = 0 To gvLF.Columns.Count - 1
+            Response.Write("<th>")
+            Response.Write(gvLF.Columns(i).HeaderText)
+            Response.Write("</th>")
+        Next
+        Response.Write("</tr>")
+        For Each ro As GridViewRow In gvLF.Rows
+            Response.Write("<tr>")
+            For i = 0 To ro.Cells.Count - 1
+                Response.Write("<td>")
+                Response.Write(ro.Cells(i).Text)
+                Response.Write("</td>")
+            Next
+            Response.Write("</tr>")
+        Next
+        Response.Write("</table>")
+        Response.End()
+    End Sub
+
+    Protected Sub btnLFAssess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLFAssess.Click
+        'Exit Sub
+        Dim oFT As New clsFinancialTransactionCodes
+        Dim oCon As clsContract
+        Dim oInv As clsInvoices
+        Dim ftc As Integer = oFT.Find_Fin_Trans("LFTrans", "LATE FEE")
+        Dim conid As Integer = 0
+        Dim invID As Integer = 0
+
+        For Each oRow As GridViewRow In gvLF.Rows
+            If Not (oRow.FindControl("cb") Is Nothing) Then
+                If CType(oRow.FindControl("cb"), CheckBox).Checked Then
+                    oInv = New clsInvoices
+                    oCon = New clsContract
+                    'Get Contractid
+                    oCon.ContractNumber = oRow.Cells(3).Text
+                    oCon.Load()
+                    conid = oCon.ContractID
+                    invID = 0
+                    If CDbl(oRow.Cells(5).Text) > 0 Then 'Find the existing Invoice
+                        invID = oInv.Find_Existing_Invoice("ContractID", conid, ddLFYear.SelectedItem.Text)
+                    End If
+                    oInv.Load()
+                    oInv.Amount = oRow.Cells(8).Text
+                    oInv.ApplyToID = 0
+                    oInv.Adjustment = False
+                    oInv.Description = ddLFYear.SelectedItem.Text & " Late Fee"
+                    oInv.PosNeg = 0
+                    oInv.DueDate = Date.Today
+                    oInv.FinTransID = ftc
+                    oInv.ProspectID = oCon.ProspectID
+                    oInv.KeyField = "ContractID"
+                    oInv.KeyValue = conid
+                    oInv.Reference = "LF" & Right(ddLFYear.SelectedItem.Text, 2)
+                    oInv.TransDate = Date.Now
+                    oInv.UserID = Session("UserDBID")
+                    oInv.Save()
+                    Dim oLF2MF As New clsLF2MF
+                    oLF2MF.LFInvoiceID = oInv.InvoiceID
+                    oLF2MF.MFInvoiceID = invID
+                    oLF2MF.Save()
+                    oLF2MF = Nothing
+                    Create_Document(conid)
+                    oInv = Nothing
+                    oCon = Nothing
+                End If
+            End If
+        Next
+        oInv = Nothing
+        oFT = Nothing
+        oCon = Nothing
+    End Sub
+
+End Class
