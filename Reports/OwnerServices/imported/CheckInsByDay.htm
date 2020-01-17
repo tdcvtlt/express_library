@@ -1,0 +1,32 @@
+<html>
+
+<head>
+<title>Check Ins By Day</title>
+<script language="javascript" type="text/javascript" src="scripts/checkinsbyday.js"></script>
+<script language="javascript" type="text/javascript" src="../../../scripts/ajaxrequest.js"></script>
+<script language="javascript" type="text/javascript" src="../../../scripts/scw.js"></script>
+<meta name="Microsoft Theme" content="none, default">
+<meta name="Microsoft Border" content="none, default">
+</head>
+
+<body>
+
+<form>
+<table>
+	<tr>
+		<td><b>Date Range:</b></td>
+		<td><input type = 'text'  name = 'sdate' Readonly="Readonly"  onclick="scwShow(this,this);" size='20' /></td>
+        <td><input type = 'text'  name = 'edate' Readonly="Readonly"  onclick="scwShow(this,this);" size='20' /></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input type="button" value="Run Report" onclick="RunReport();" /></td>
+	</tr>
+</table>
+
+<div id='report'></div>
+
+</form>
+
+</body>
+
+</html>

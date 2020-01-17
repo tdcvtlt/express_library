@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Cancelled Contracts</title>
+
+<script language="javascript" type="text/javascript" src="scripts/cancelled_contracts.js"></script>
+<script language="javascript" type="text/javascript" src="../../../scripts/ajaxRequest.js"></script>
+<script language="javascript" type="text/javascript" src = "../../../scripts/scw.js"></script>									
+
+<meta name="Microsoft Theme" content="none, default">
+<meta name="Microsoft Border" content="tlb;default">
+</head>
+
+
+<body><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
+
+<p align="center"><font size="6"><strong>
+</strong></font><br>
+</p>
+<p align="center">&nbsp;</p>
+
+</td></tr><!--msnavigation--></table><!--msnavigation--><table dir="ltr" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%">
+
+</td><td valign="top" width="24"></td><!--msnavigation--><td valign="top">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td><p align="center"><font size="6"><strong></strong></font><br></p>
+            <p align="center">&nbsp;</p>
+        </td>
+    </tr>
+    </table>
+    
+    <table dir="ltr" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td valign="top" width="1%"></td>
+        <td valign="top" width="24"></td>
+        <td valign="top">
+
+        <div class="report">
+            <form name="Main" id="Main" action="">
+                <table border="0" id="table1">
+                    <tr>
+                        <td><label>Date Start :</label></td>
+                        <td><input type="text" name="date_start" readonly="readonly" onclick="scwShow(this,this);"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Date End :</label></td>
+                        <td><input type="text" name="date_end" readonly="readonly" onclick="scwShow(this,this);"/></td>
+                    </tr>
+                    <tr>
+                        <td><input type='button' name='search' id='search' value='On Screen' onclick='caller();' /></td>
+                        <td><input type="button" onclick="Run_Excel();" value="To Excel" /></td>
+                    </tr>
+                </table>
+                <p>&nbsp;</p><p></p>
+            </form>
+        </div>
+        
+   
+        <div id="display"></div>
+        </td>
+    </tr>
+    </table>
+        
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+
+<!--msnavigation--></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
+
+</td></tr><!--msnavigation--></table></body>
+</html>

@@ -1,0 +1,31 @@
+<html>
+
+<head>
+<title>Usage by Day</title>
+<script language="javascript" src="../../../scripts/scw.js"></script>
+<script language="javascript" src="../../../scripts/ajaxRequest.js"></script>
+<script language="javascript" src="scripts/UsageByDay.js"></script>
+<meta name="Microsoft Theme" content="none, default">
+<meta name="Microsoft Border" content="none, default">
+</head>
+
+<body>
+
+<form>
+
+	<table>
+		<tr>
+			<td><b>Date Range:</b></td><td><input type = 'text'  name = 'sdate' Readonly  onclick="scwShow(this,this);" size='20'></td><td><input type="text" name="edate" readonly onclick="scwShow(this,this);"></td>
+		</tr>
+		<tr>
+			<td colspan='2'><input type="button" value="Run Report" onclick="RunReport();"></td>
+		</tr>
+	</table>
+
+	<div id='report'></div>
+
+</form>
+
+</body>
+
+</html>

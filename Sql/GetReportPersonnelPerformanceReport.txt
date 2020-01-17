@@ -1,0 +1,131 @@
+﻿select  p.PersonnelID, p.LastName + ', ' +  p.Firstname Personnel, isnull(t.Tours,0) as Tours,isnull(c.Contracts,0) As Contracts, 
+isnull(AV.Volume, 0) ActiveVolume,
+round(isnull(AV.Volume,0)/(case when isnull(t.tours,0) = 0 then 1 else isnull(t.tours,0) end),2) as VPG,
+isnull(PENDER.Total, 0) PenderCount, 
+isnull(PV.Volume, 0) PenderVolume,
+isnull(re.Contracts,0) as Rescinds,
+isnull(rv.volume,0) as RescindVolume
+from t_Personnel p inner join t_ComboItems ps on p.StatusID = ps.ComboItemID 
+	left outer join 
+	(
+		select personnelid, count(distinct keyvalue) as Contracts 
+		from t_Personneltrans t
+			inner join t_Contract c on c.contractid = t.keyvalue
+			inner join t_Tour tr on c.TourID = tr.TourID
+		where (
+			c.contractdate between '{0}' and '{1}' or (c.contractdate < '{0}' 
+			and c.statusdate between '{0}' and '{1}' 
+			and c.contractid in (select KEYVALUE from t_Event where KEYVALUE > 0 AND KEYFIELD = 'CONTRACTID' AND OLDVALUE in('PENDER','PENDER-INV') AND DATECREATED BETWEEN '{0}' and '{1}')
+			))		
+			and t.titleid in ('{2}')
+			and tr.TourlocationID = {3}
+			and c.statusid in (16571, 16585,17277)
+		group by personnelid
+	) c on c.personnelid = p.personnelid
+	left outer join (
+		select personnelid, count(distinct keyvalue) as Tours, TourLocationID
+		from t_Personneltrans tr
+		inner join t_Tour t on t.tourid = tr.keyvalue
+		where t.tourdate between '{0}' and '{1}'
+		and tr.titleid in ('{2}') and t.statusid in (16994, 17011, 17020)
+		and t.TourLocationID in ({3})
+		and t.tourid not in ( Select TourID from t_Tour where subtypeid in 
+			(select comboitemid from t_ComboItems A INNER JOIN T_COMBOS B
+			ON A.COMBOID = B.COMBOID
+			where comboname = 'toursubtype' and comboitem = 'exit') 
+			and TourLocationID = {3} 
+		and tourdate between '{0}' and '{1}')
+		group by personnelid, TourLocationID
+	) t on t.personnelid = p.personnelid
+	
+	LEFT OUTER JOIN (
+		SELECT PERSONNELID, COUNT(DISTINCT KEYVALUE) AS Total
+			FROM T_PERSONNELTRANS TR INNER JOIN T_CONTRACT C
+			ON C.CONTRACTID = TR.KEYVALUE
+			inner join t_Tour t on t.TouriD = c.TourID
+			WHERE (CONTRACTDATE BETWEEN '{0}' AND '{1}')
+			AND TR.TITLEID IN ('{2}') 
+			and t.TourLocationID = {3}
+			AND C.STATUSID IN (
+				Select Comboitemid from t_ComboItems A INNER JOIN T_COMBOS B ON A.COMBOID = B.COMBOID 
+				where ComboName = 'ContractStatus' and comboitem in ('Pender','Pender-Inv')
+			)
+			and c.contractid not in (
+				select contractid from t_contract where contractnumber like 't%'
+			)
+		GROUP BY PERSONNELID		
+	) PENDER ON PENDER.PERSONNELID = P.PERSONNELID
+	LEFT OUTER JOIN (
+		select personnelid, sum(salesvolume) As Volume
+		from t_mortgage m inner join 
+			(
+				select distinct t.personnelid, t.keyvalue  
+				from t_Personneltrans t
+					inner join t_Contract c on c.contractid = t.keyvalue
+					inner join t_Tour tr on c.TourID = tr.TouriD
+				where (
+					c.contractdate between '{0}' and '{1}' or (c.contractdate < '{0}' 
+					and c.statusdate between '{0}' and '{1}' 
+					and c.contractid in (select KEYVALUE from t_Event where KEYVALUE > 0 AND KEYFIELD = 'CONTRACTID' AND OLDVALUE in('PENDER','PENDER-INV') AND DATECREATED BETWEEN '{0}' and '{1}')
+					))		
+					and tr.TourLocationID = {3}
+					and t.titleid in ('{2}')
+					and c.statusid in (16571, 16585, 17277)	
+			) p
+		on m.contractid = p.keyvalue
+		group by personnelid
+	) AV ON AV.personnelID = p.personnelID
+		
+	left outer join (
+		select personnelid,sum(salesvolume) as volume
+		from t_mortgage m inner join		
+			(
+			SELECT PERSONNELID,KEYVALUE
+			FROM T_PERSONNELTRANS TR 
+				INNER JOIN T_CONTRACT C	ON C.CONTRACTID = TR.KEYVALUE
+				Inner join t_Tour t on c.TourID = t.TourID
+			WHERE (CONTRACTDATE BETWEEN '{0}' AND '{1}')
+				AND TR.TITLEID IN ('{2}') 
+				and t.TourLocationID = {3}
+				AND C.STATUSID IN (
+					Select Comboitemid from t_ComboItems A INNER JOIN T_COMBOS B ON A.COMBOID = B.COMBOID 
+					where ComboName = 'ContractStatus' and comboitem in ('Pender','Pender-Inv')
+				)
+				and c.contractid not in (
+					select contractid from t_contract where contractnumber like 't%'
+				)
+			) p on m.contractid = p.keyvalue
+		group by personnelid					
+	) PV ON PV.PersonnelID = P.PersonnelID
+	left outer join 
+	(
+		select personnelid, count(distinct keyvalue) as Contracts 
+		from t_Personneltrans t
+			inner join t_Contract c on c.contractid = t.keyvalue
+			Inner join t_Tour tr on c.TourID = tr.TourID
+		where (
+			c.statusdate BETWEEN '{0}' AND '{1}' )		
+			and t.titleid in ('{2}')
+			and tr.TourID = {3}
+			and c.statusid in (16584)
+		group by personnelid
+	) re on re.personnelid = p.personnelid
+	LEFT OUTER JOIN (
+		select personnelid, sum(salesvolume) As Volume
+		from t_mortgage m inner join 
+			(
+				select distinct t.personnelid, t.keyvalue  
+				from t_Personneltrans t
+					inner join t_Contract c on c.contractid = t.keyvalue
+					inner join t_Tour tr on c.TourID = tr.TourID
+				where (
+					c.statusdate BETWEEN '{0}' AND '{1}')		
+					and t.titleid in ('{2}')
+					and tr.TourLocationID = {3}
+					and c.statusid in (16584)	
+			) p
+		on m.contractid = p.keyvalue
+		group by personnelid
+	) RV ON RV.personnelID = p.personnelID
+where  (isnull(t.tours,0) > 0 or isnull(c.contracts,0)>0) and ps.ComboItem = 'Active' 
+order by p.LastName

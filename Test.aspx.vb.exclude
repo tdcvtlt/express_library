@@ -1,0 +1,697 @@
+﻿Imports FreeTextBoxControls
+Imports System.DirectoryServices
+Imports formsauth
+Imports System.IO
+Imports System.Data
+Partial Class Test
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(sender As Object, e As System.EventArgs) Handles Me.Load
+        If Not IsPostBack Then
+            Dim opkgLetter As New clsPackageLetters
+            opkgLetter.PackageLetterID = 17
+            opkgLetter.Load()
+            'TextBox2.Text = opkgLetter.LetterContent
+            'CKEditor1.Text = opkgLetter.LetterContent
+
+            opkgLetter = Nothing
+
+            Dim objADAM As DirectoryEntry
+            Dim objGroupEntry As DirectoryEntry
+            Dim objSearchADAM As DirectorySearcher
+            Dim objSearchResults As SearchResultCollection
+            Dim strPath As String
+            Dim result As New List(Of String)
+
+            strPath = "LDAP://kcp.local"
+
+            objADAM = New DirectoryEntry(strPath)
+            objADAM.RefreshCache()
+
+            objSearchADAM = New DirectorySearcher(objADAM)
+            'Security Groups
+            objSearchADAM.Filter = "(&(objectClass=group)(objectCategory=group)(groupType:1.2.840.113556.1.4.803:=-2147483646))"
+
+            'Email Distribution Groups
+            'objSearchADAM.Filter = "(&(objectClass=group)(!(groupType:1.2.840.113556.1.4.803:=2147483648)))"
+            objSearchADAM.SearchScope = SearchScope.Subtree
+
+            objSearchResults = objSearchADAM.FindAll
+            If objSearchResults.Count <> 0 Then
+                Dim objResult As SearchResult
+                For Each objResult In objSearchResults
+                    objGroupEntry = objResult.GetDirectoryEntry
+                    result.Add(objGroupEntry.Name)
+
+                Next objResult
+            Else
+                Throw New Exception("No groups found")
+            End If
+
+            result.Sort()
+
+        End If
+    End Sub
+
+    Protected Sub Button1_Click(sender As Object, e As System.EventArgs) Handles Button1.Click
+        'Dim occTrans As New clsCCTrans
+        'occTrans.CCTransID = 0
+        'occTrans.AccountID = TextBox1.Text
+        'occTrans.Save()
+        'occTrans = Nothing
+
+        Dim opkgLetter As New clsPackageLetters
+        opkgLetter.PackageLetterID = 0
+        opkgLetter.Load()
+        opkgLetter.Name = TextBox1.Text
+        'opkgLetter.LetterContent = CKEditor1.Text
+        opkgLetter.Save()
+        Literal1.Text = opkgLetter.Err
+        opkgLetter = Nothing
+
+    End Sub
+
+    Protected Sub Button2_Click(sender As Object, e As System.EventArgs) Handles Button2.Click
+        Dim oPkgLetter As New clsPackageLetters
+        oPkgLetter.PackageLetterID = 17
+        oPkgLetter.Load()
+        Send_Mail("mbenton@kingscreekplantation.com", "mbenton@kingscreekplantation.com", "TEST", Replace(Replace(Server.HtmlDecode(oPkgLetter.LetterContent), "<NAME>", "Matt Benton"), "<DATE>", Date.Now.ToShortDateString), True)
+        oPkgLetter = Nothing
+    End Sub
+
+    Sub handle_Date() Handles TestCalendar1.Date_Selected
+        TextBox1.Text = TestCalendar1.dateSelected '.cellSelected
+        TestCalendar1.Select_Range(TestCalendar1.dateSelected, DropDownList1.SelectedValue)
+    End Sub
+
+
+
+    '        If UCASE(Left(pkgName, 4)) = "CZAR" and emailAddy <> "" and UCASE(pkgName) <> "CZAR-FM" Then
+    'Dim body
+    '        body = "<html><body>"
+    ''body = "<!DOCTYPE html PUBLIC " & Chr(10) & "-//W3C//DTD XHTML 1.0 Transitional//EN" & Chr(10) & " " & Chr(10) & "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" & Chr(10) & "><html xmlns=" & Chr(10) & "http://www.w3.org/1999/xhtml" & Chr(10) & "><head><meta http-equiv=" & Chr(10) & "Content-Type" & Chr(10) & " content=" & Chr(10) & "text/html; charset=UTF-8" & Chr(10) & " /></head><body>"
+    '        body = body & "<img src = " & Chr(10) & "http://vendors.kingscreekplantation.com/vendors/test.net/images/vrc.bmp" & chr(10) & "><br><br><br><br>"
+    '        body = body & "<table width=614>" ' style= " & Chr(10) & "width:6.4in;margin-left:5.4pt;border-collapse:collapse;" & Chr(10) & ">"
+    ''body = body & "<tr><td width=307 valign =top style = " & chr(10) & "width:3.2in;padding:0in 5.4pt 0in 5.4pt" & chr(10) & "><p><span style=" & Chr(10) & "font-size:11.0pt;font-family:" & Chr(34) & "Arial Narrow" & Chr(34) & "," & Chr(34) & "sans-serif" & Chr(34) & Chr(10) & ">" & request("fName") & " " & request("lName") & "</span></p>"
+    '        body = body & "<tr><td  width = 307 valign = top><p><span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">" & request("fName") & " " & request("lName") & "</span><br>"
+    ''body = body & "<p><span style=" & Chr(10) & "font-size:11.0pt;font-family:" & Chr(34) & "Arial Narrow" & Chr(34) & "," & Chr(34) & "sans-serif" & Chr(34) & Chr(10) & ">" & request("Address") & "</span></p>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">" & request("Address") & "</span><br>"
+    ''body = body & "<p><span style=" & Chr(10) & "font-size:11.0pt;font-family:" & Chr(34) & "Arial Narrow" & Chr(34) & "," & Chr(34) & "sans-serif" & Chr(34) & Chr(10) & ">" & request("City") & ", " & stateName & " " & request("PostalCode") & "</span></p>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">" & request("City") & ", " & stateName & " " & request("PostalCode") & "</span><br>"
+    '        body = body & "</td>"
+    '        If UCase(pkgName) = "CZAR-M" Then
+    '            body = body & "<td width = 307 valign = top><span style=" & Chr(10) & "font-size:11.0pt;text-align:right;" & Chr(10) & ">2 Destination Getaway</span><br>"
+    '        ElseIf UCase(pkgName) = "CZAR-LV" then
+    '            body = body & "<td width = 307 valign = top><span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Destination: Las Vegas, NV</span><br>"
+    '        ElseIf UCase(pkgName) = "CZAR-O" then
+    '            body = body & "<td width = 307 valign = top><span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Destination: Orlando, FL</span><br>"
+    '        ElseIf UCase(pkgName) = "CZAR-W" or UCase(pkgName) = "CZAR2" Then
+    '            body = body & "<td width = 307 valign = top><span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Destination: Williamsburg, VA</span><br>"
+    '        ElseIf Ucase(pkgName) = "CZAR-GCB" or UCase(pkgName) = "CZAR-GCTN" Then
+    '            body = body & "<td width = 307 valign = top><span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Vacation Getaway</span><br>"
+    '        Else
+    '            body = body & "<td>"
+    '        End If
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Sale Amount: " & FormatCurrency(request("pkgPrice"), 2) & "</span><br>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Account#: " & pkgIssID & "</span><br>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Sale Date: " & Date & "</span><br>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Email: " & emailAddy & "</span><br>"
+    '        body = body & "</td></tr></table>"
+    '        body = body & "<br><br>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Dear " & request("fName") & " " & request("lName") & "</span><br>"
+    '        body = body & "<br>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">"
+    '        If UCase(pkgName) = "CZAR-M" Then
+    '            accom = "Hotel"
+    '            subj = "VRC Vacations - Multi Destination Package Confirmation"
+    '            body = body & "Congratulations on purchasing your getaway with Vacation Reservation Center!  Are you packed yet?  We’re not kidding.  We know you’re anxious to get away to spend quality time with your loved ones.  That’s why our Travel Specialists are standing by to answer any questions you may have and get your reservation confirmed."
+    '        ElseIf UCase(pkgName) = "CZAR-LV" Then
+    '            accom = "Hotel"
+    '            subj = "VRC Vacations – Las Vegas Package Confirmation"
+    '            body = body & "Congratulations on purchasing your exciting vacation to Las Vegas, Nevada! Are you packed yet? We’re not kidding. We know you’re anxious to experience the charms of Las Vegas. That’s why our Travel Specialists are standing by.  Simply call 866-651-0261 from Monday thru Friday 9 – 8 and Saturday 9 – 1 E.S.T. to reserve your vacation."
+    '        ElseIf UCase(pkgName) = "CZAR-O" Then
+    '            accom = "Hotel"
+    '            subj = "VRC Vacations – Orlando Package Confirmation"
+    '            body = body & "Congratulations on purchasing your exciting vacation to Orlando, Florida!  Are you packed yet? We’re not kidding. We know you’re anxious to experience the charms of Orlando. That’s why our Travel Specialists are standing by.  Simply call 866-651-0261 from Monday thru Friday 9 – 8 and Saturday 9 – 1 E.S.T. to reserve your vacation."
+    '        ElseIf UCase(pkgName) = "CZAR-W" or UCase(pkgName) = "CZAR2" Then
+    '            accom = "Resort"
+    '            subj = "VRC Vacations – Williamsburg Package Confirmation"
+    '            body = body & "Congratulations on purchasing your exciting vacation to Williamsburg, Virginia! Are you packed yet? We’re not kidding. We know you’re anxious to experience the charms of Williamsburg. That’s why our Travel Specialists are standing by.  Simply call 866-651-0261 from Monday thru Friday 9 – 8 and Saturday 9 – 1 E.S.T. to reserve your vacation."
+    '        ElseIf UCase(pkgName) = "CZAR-GOLF" then
+    '            subj = "VRC Vacations – Williamsburg Golf Package Confirmation"
+    '            body = body & "Congratulations on purchasing your golf getaway with Vacation Reservation Center!  Are you packed yet?  We’re not kidding.  We know you’re anxious to get away to spend quality time with your loved ones.  That’s why our Travel Specialists are standing by to answer any questions you may have and get your reservation confirmed."
+    '        Else
+    '            If UCase(pkgName) = "CZAR-WB" or UCase(pkgName) = "CZAR-WB3" or UCase(pkgName) = "CZAR-GCB" or UCase(pkgName) = "CZAR-RQWB" or UCase(pkgName) = "CZAR-RQWB3" then
+    '                subj = "VRC Vacations – Branson Package Confirmation"
+    '            ElseIf UCase(pkgName) = "CZAR-WG" or UCase(pkgName) = "CZAR-WG3" or UCase(pkgName) = "CZAR-GCTN" or UCase(pkgName) = "CZAR-RQWG" or UCase(pkgName) = "CZAR-RQWG3"  then
+    '                subj = "VRC Vacations – Gatlinburg Package Confirmation"
+    '            ElseIf Ucase(pkgName) = "CZAR-WLV" or UCase(pkgName) = "CZAR-WLV3" or UCase(pkgName) = "CZAR-RQWLV" or UCase(pkgName) = "CZAR-RQWLV3"  then
+    '                subj = "VRC Vacations – Las Vegas Package Confirmation"
+    '            ElseIf UCase(pkgname) = "CZAR-WM" or UCase(pkgName) = "CZAR-WM3" or UCase(pkgName) = "CZAR-RQWM" or UCase(pkgName) = "CZAR-RQWM3"  then
+    '                subj = "VRC Vacations – Miami Package Confirmation"
+    '            ElseIf Ucase(pkgName) = "CZAR-WO" or UCase(pkgName) = "CZAR-WO3" or UCase(pkgName) = "CZAR-RQWO" or UCase(pkgName) = "CZAR-RQWO3"  then
+    '                subj = "VRC Vacations – Orlando Package Confirmation"
+    '            ElseIf Ucase(pkgName) = "CZAR-WMB" or UCase(pkgName) = "CZAR-WMB3" or UCase(pkgName) = "CZAR-RQWMB" or UCase(pkgName) = "CZAR-RQWMB3"  then
+    '                subj = "VRC Vacations – Myrtle Beach Package Confirmation"
+    '            End If
+    '            body = body & "Congratulations on purchasing your getaway with Vacation Reservation Center!  Are you packed yet?  We’re not kidding.  We know you’re anxious to get away to spend quality time with your loved ones.  That’s why our Travel Specialists are standing by to answer any questions you may have and get your reservation confirmed."  
+    '        End If
+    '        body = body & "</span><br><br>"
+    '        If UCase(pkgName) = "CZAR-M" Then
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">"
+    '            body = body & "Simply call 877-557-3529 from Monday thru Friday 9am – 8pm (EST) or Saturday 9am – 1pm (EST) to reserve your getaway."
+    '            body = body & "</span><br><br>"
+    '        ElseIf uCase(pkgName) <> "CZAR-LV" and uCase(pkgName) <> "CZAR-O"  or uCase(pkgName) <> "CZAR-W" or UCase(pkgName) = "CZAR2" then
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">"
+    '            body = body & "Simply call 866-651-0261 from Monday thru Friday 9am – 8pm (EST) or Saturday 9am – 1pm (EST) to reserve your getaway."
+    '            body = body & "</span><br><br>"            
+    '        End If
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">TRAVEL TIPS:</span><br>"
+    '        body = body & "<span style=" & Chr(39) & "font-size:11.0pt;font-family:Symbol" & Chr(39) & ">·</span>"
+    '        If uCase(pkgName) = "CZAR-M" Then
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can book you now. Just call 877-557-3529 to reserve your travel dates.</span><br>" 
+    '        ElseIf uCase(pkgName) = "CZAR-LV" or uCase(pkgName) = "CZAR-O"  or uCase(pkgName) = "CZAR-W" or UCase(pkgName) = "CZAR2" then
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can book you now. Just call the toll free number to reserve your vacation.</span><br>" 
+    '        Else
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We can book you now. Just call 866-651-0261 to reserve your vacation.</span><br>" 
+    '        End If
+    '        body = body & "<span style=" & Chr(39) & "font-size:11.0pt;font-family:Symbol" & Chr(39) & ">·</span>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have 12 months to book your vacation and 15 months to travel. Start planning today!</span><br>" 
+    '        body = body & "<span style=" & Chr(39) & "font-size:11.0pt;font-family:Symbol" & Chr(39) & ">·</span>"
+    '        If uCASE(pkgName) = "CZAR-M" Then
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You will receive your bonus gift after attending a 90 – 120 minute sales presentation during your first visit; you are under no obligation to purchase.  This gift is our way of saying thanks for your time and is yours to keep.</span><br>" 
+    '        ElseIf uCase(pkgName) = "CZAR-LV" or uCase(pkgName) = "CZAR-O"  or uCase(pkgName) = "CZAR-W"  or UCase(pkgName) = "CZAR2" then
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You will receive your bonus gifts after attending a 90 – 120 minute sales presentation during your visit; you are under no obligation to purchase.  These gifts are our way of saying thanks for your time and are yours to keep.</span><br>" 
+    '        Else
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You will receive your bonus gift after attending a 90 – 120 minute sales presentation during your visit; you are under no obligation to purchase.  This gift is our way of saying thanks for your time and is yours to keep.</span><br>" 
+    '        End If
+    '        body = body & "<br>"
+    '        body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Thank you for choosing to vacation with Vacation Reservation Center(VRC). Your package details are below. We look forward to making your vacation dreams come true!</span></p>" 
+    '        body = body & "<br><br>"
+    '        body = body & "<table>"
+    '        If UCase(pkgName) = "CZAR-M" Then
+    '            body = body & "<tr><td  width = 400 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>ORLANDO PACKAGE DETAILS</b></span><br>"
+    '            body = body & "<br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3-Day/2-Night Weekend Hotel Stay</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Or 4-Day/3-Night Weekday Hotel Stay</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Plus a $50 Visa Incentive Gift Card</span></td>"
+    '            body = body & "<td  width = 400 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>BONUS GETAWAY:</b></span><br>"
+    '            body = body & "<br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Your choice to any one of the 7 destinations below:</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3-Day/2-Night Weekend Hotel Stay</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">OR 4-Day/3-Night Weekday Hotel Stay*</span><br>"
+    '            body = body & "<br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Destinations include: Murrells Inlet, SC; New Orleans, LA;</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Portland, ME; Branson, MO; Banner Elk, NC; Charleston, SC;</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Atlantic Beach, NC.;</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">*New Orleans stay does not include additional night for</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">weekday arrival</span></td></tr>"
+    '        elseif UCase(pkgName) = "CZAR-WB" or UCase(pkgName) = "CZAR-WB3" or UCase(pkgName) = "CZAR-GCB" or UCase(pkgName) = "CZAR-RQWB" or UCase(pkgName) = "CZAR-RQWB3" then
+    '            body = body & "<tr><td width = 800 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>BRANSON PACKAGE DETAILS</b></span><br>"
+    '            body = body & "<br>"
+    '            If UCASE(pkgName) = "CZAR-WB" or UCase(pkgName) = "CZAR-GCB" or UCase(pkgName) = "CZAR-RQWB" Then
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3-Day/2-Night Hotel/Resort Stay</span><br>"
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Sunday - Tuesday night check in will receive additional night free</span><br>"
+    '                If UCase(pkgName) = "CZAR-GCB" then
+    '                    body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">$50 Visa</span><br>"
+    '                End If
+    '            Else
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">4-Day/3-Night Weekend Hotel/Resort Stay</span><br>"
+    '            End If
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3 Night Cruise – choice of 3 exciting cruise destinations</span><br></td></tr>"
+    '          elseif UCase(pkgName) = "CZAR-WG" or UCase(pkgName) = "CZAR-WG3" or UCase(pkgName) = "CZAR-GCTN" or UCase(pkgName) = "CZAR-RQWG" or UCase(pkgName) = "CZAR-RQWG3"  Then
+    '            body = body & "<tr><td width = 800 valign = top>"
+    '            If UCase(pkgName) = "CZAR-GCTN" Then
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>SMOKY MOUNTAIN PACKAGE DETAILS</b></span><br>"
+    '            Else
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>GATLINBURG PACKAGE DETAILS</b></span><br>"
+    '            End If
+    '            body = body & "<br>"
+    '            If UCASE(pkgName) = "CZAR-WG" or UCase(pkgName) = "CZAR-GCTN" or UCase(pkgName) = "CZAR-RQWG" Then
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3-Day/2-Night Hotel/Resort Stay</span><br>"
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Sunday - Tuesday night check in will receive additional night free</span><br>"
+    '                If UCase(pkgName) = "CZAR-GCTN" then
+    '                    body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">$50 Visa</span><br>"
+    '                End If
+    '            Else
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">4-Day/3-Night Weekend Hotel/Resort Stay</span><br>"
+    '            End If
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3 Night Cruise – choice of 3 exciting cruise destinations</span><br></td></tr>"
+    '        elseif UCase(pkgName) = "CZAR-WLV" or UCase(pkgName) = "CZAR-WLV3" or UCase(pkgName) = "CZAR-RQWLV" or UCase(pkgName) = "CZAR-RQWLV3"  then
+    '            body = body & "<tr><td width = 800 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>LAS VEGAS PACKAGE DETAILS</b></span><br>"
+    '            body = body & "<br>"    
+    '            If UCASE(pkgName) = "CZAR-WLV" or UCase(pkgName) = "CZAR-RQWLV" Then
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3-Day/2-Night Hotel/Resort Stay</span><br>"
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Sunday - Tuesday night check in will receive additional night free</span><br>"
+    '            Else
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">4-Day/3-Night Weekend Hotel/Resort Stay</span><br>"
+    '            End If
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3 Night Cruise – choice of 3 exciting cruise destinations</span><br></td></tr>"
+    '        elseif UCase(pkgName) = "CZAR-WM" or UCase(pkgName) = "CZAR-WM3" or UCase(pkgName) = "CZAR-RQWM" or UCase(pkgName) = "CZAR-RQWM3"  Then
+    '            body = body & "<tr><td width = 800 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>MIAMI PACKAGE DETAILS</b></span><br>"
+    '            body = body & "<br>"    
+    '            If UCASE(pkgName) = "CZAR-WM" or UCase(pkgName) = "CZAR-RQWM" Then
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3-Day/2-Night Hotel/Resort Stay</span><br>"
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Sunday - Tuesday night check in will receive additional night free</span><br>"
+    '            Else
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">4-Day/3-Night Weekend Hotel/Resort Stay</span><br>"
+    '            End If
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3 Night Cruise – choice of 3 exciting cruise destinations</span><br></td></tr>"
+    '        elseif UCase(pkgName) = "CZAR-WMB" or UCase(pkgName) = "CZAR-WMB3" or UCase(pkgName) = "CZAR-RQWMB" or UCase(pkgName) = "CZAR-RQWMB3"  Then
+    '            body = body & "<tr><td width = 800 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>MYRTLE BEACH PACKAGE DETAILS</b></span><br>"
+    '            body = body & "<br>"    
+    '            If UCASE(pkgName) = "CZAR-WMB" or UCase(pkgName) = "CZAR-RQWMB" Then
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3-Day/2-Night Hotel/Resort Stay</span><br>"
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Sunday - Tuesday night check in will receive additional night free</span><br>"
+    '            Else
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">4-Day/3-Night Weekend Hotel/Resort Stay</span><br>"
+    '            End If
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3 Night Cruise – choice of 3 exciting cruise destinations</span><br></td></tr>"
+    '        elseif UCase(pkgName) = "CZAR-WO" or UCase(pkgName) = "CZAR-WO3" or UCase(pkgName) = "CZAR-RQWO" or UCase(pkgName) = "CZAR-RQWO3" then
+    '            body = body & "<tr><td width = 800 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>ORLANDO PACKAGE DETAILS</b></span><br>"
+    '            body = body & "<br>"    
+    '            If UCASE(pkgName) = "CZAR-WO" or UCase(pkgName) = "CZAR-RQWO" Then
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3-Day/2-Night Hotel/Resort Stay</span><br>"
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Sunday - Tuesday night check in will receive additional night free</span><br>"
+    '            Else
+    '                body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">4-Day/3-Night Weekend Hotel/Resort Stay</span><br>"
+    '            End If
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3 Night Cruise – choice of 3 exciting cruise destinations</span><br></td></tr>"
+    '        elseif UCase(pkgName) = "CZAR-GOLF" Then
+    '            body = body & "<tr><td width = 800 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b>WILLIAMSBURG GOLF PACKAGE DETAILS</b></span><br>"
+    '            body = body & "<br>"    
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">4-Day/3-Night Hotel/Resort Stay</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Your choice of 2 Attraction Tickets or Dining Certificate</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Up to 4 Rounds of Golf per day (pay cart fee only)</span><br></td></tr>"
+    '        else
+    '            body = body & "<tr><td  width = 400 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">PACKAGE DETAILS</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Your Choice:</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3 - Day/2 - Night Weekend " & accom & "Stay</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Or 4 - Day/3 - Night Weekday " & accom & " Stay</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Plus a $100 Visa Incentive Gift Card</span></td>"
+    '            body = body & "<td  width = 400 valign = top>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">YOUR BONUS GIFTS</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Your Choice:</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">3 Night Cruise for 2 Adults to</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">the Bahamas or Mexico</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">(you only pay taxes or port fees)</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">OR additional Land Bonus Vacation</span></td></tr>"
+    '        end if
+    '        body = body & "</table>"
+    '        body = body & "<br>"
+    '        If UCase(pkgName) = "CZAR-M" then
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">We hope you enjoy your visit, and look forward to your arrival!</span><br><br><br>"
+    ''body = body & "<img src = " & Chr(10) & "http://vendors.kingscreekplantation.com/vendors/test.net/images/kcplogo.bmp" & chr(10) & "><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b><i>VRC Reservations Team</b></i></span><br>"
+    '            body = body & "<br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:9.0pt;" & Chr(10) & ">Details of Participation</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:9.0pt;" & Chr(10) & ">This promotion is sponsored by Vacation Reservation Center, the developer/seller (“VRC”), in order to introduce you to vacation clubs. Everyone over the age of 28 is welcome to visit our Resort sales office and purchase; however, in order to participate in this offer you must meet these requirements. If you do not meet the requirements below you will not be eligible to receive any gifts or accommodations in connection with this offer. If you do not meet these requirements, but have received gifts or accommodations, you will be charged the verifiable retail value for such gifts and accommodations, plus all applicable taxes, less any payments made by you. In order to participate in this offer, you must be 28 years of age or older, have a gross annual income of $50,000.00 or more and be creditworthy. You must have a valid major credit card bearing a Visa, MasterCard, American Express, or Discover logo. Debit cards will not be accepted.  If you do not meet these qualifications you will not be eligible for any gifts, premiums or promotional items offered in exchange for participation in this promotion.  “To be eligible, you must be married or cohabitating and you must travel with your spouse/cohabitant.”</span></p>"
+    '        Elseif uCase(pkgName) = "CZAR-LV" or uCase(pkgName) = "CZAR-O"  or uCase(pkgName) = "CZAR-W" or UCase(pkgName) = "CZAR2" then
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">Happy Travels,</span><br><br><br>"
+    ''body = body & "<img src = " & Chr(10) & "http://vendors.kingscreekplantation.com/vendors/test.net/images/kcplogo.bmp" & chr(10) & "><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">VRC Reservation Team</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">866-651-0261</span><br>"
+    '            body = body & "<br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:9.0pt;" & Chr(10) & ">Details of Participation</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:9.0pt;" & Chr(10) & ">This promotion is sponsored by Vacation Reservation Center, the developer/seller (“VRC”), in order to introduce you to vacation ownership. Everyone over the age of 25 is welcome to visit our Resort sales office and purchase; however, in order to participate in this offer you must meet these requirements. If you do not meet the requirements below you will not be eligible to receive any gifts or accommodations in connection with this offer. If you do not meet these requirements, but have received gifts or accommodations, you will be charged the verifiable retail value for such gifts and accommodations, plus all applicable taxes, less any payments made by you. In order to participate in this offer, you must be 25 years of age or older, have a gross annual income of $50,000.00 or more and be creditworthy .You must have a valid major credit card bearing a Visa, MasterCard, American Express, or Discover logo. Debit cards will not be accepted.  To be eligible, you must be a single female, or, if married or cohabitating, you must travel with your spouse/cohabitant.  If you do not meet these qualifications you will not be eligible for any gifts, premiums or promotional items offered in exchange for participation in this promotion.</span></p>"
+    '        ElseIf uCase(pkgName) = "CZAR-GCB" or uCase(pkgName) = "CZAR-GCTN" THen
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">We hope you enjoy your visit, and look forward to your arrival!</span><br><br><br>"
+    ''body = body & "<img src = " & Chr(10) & "http://vendors.kingscreekplantation.com/vendors/test.net/images/kcplogo.bmp" & chr(10) & "><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b><i>VRC Reservations Team</b></i></span><br>"
+    '            body = body & "<br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:9.0pt;" & Chr(10) & ">Details of Participation</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:9.0pt;" & Chr(10) & ">This promotion is sponsored by Vacation Reservation Center, the developer/seller (“VRC”), in order to introduce you to vacation clubs. Everyone over the age of 28 is welcome to visit our Resort sales office and purchase; however, in order to participate in this offer you must meet these requirements. If you do not meet the requirements below you will not be eligible to receive any gifts or accommodations in connection with this offer. If you do not meet these requirements, but have received gifts or accommodations, you will be charged the verifiable retail value for such gifts and accommodations, plus all applicable taxes, less any payments made by you. In order to participate in this offer, you must be 28 years of age or older, have a gross annual income of $50,000.00 or more and be creditworthy. You must have a valid major credit card bearing a Visa, MasterCard, American Express, or Discover logo. Debit cards will not be accepted.  To be eligible, you must be married or cohabitating, and you must travel with your spouse/cohabitant. Single females are eligible to attend if they meet all other qualifications, but single men are not eligible to receive a promotional offer.  If you do not meet these qualifications you will not be eligible for any gifts, premiums or promotional items offered in exchange for participation in this promotion. </span></p>"
+    '        Else
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & ">We hope you enjoy your visit, and look forward to your arrival!</span><br><br><br>"
+    ''body = body & "<img src = " & Chr(10) & "http://vendors.kingscreekplantation.com/vendors/test.net/images/kcplogo.bmp" & chr(10) & "><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:11.0pt;" & Chr(10) & "><b><i>VRC Reservations Team</b></i></span><br>"
+    '            body = body & "<br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:9.0pt;" & Chr(10) & ">Details of Participation</span><br>"
+    '            body = body & "<span style=" & Chr(10) & "font-size:9.0pt;" & Chr(10) & ">This promotion is sponsored by Vacation Reservation Center, the developer/seller (“VRC”), in order to introduce you to vacation clubs. Everyone over the age of 28 is welcome to visit our Resort sales office and purchase; however, in order to participate in this offer you must meet these requirements. If you do not meet the requirements below you will not be eligible to receive any gifts or accommodations in connection with this offer. If you do not meet these requirements, but have received gifts or accommodations, you will be charged the verifiable retail value for such gifts and accommodations, plus all applicable taxes, less any payments made by you. In order to participate in this offer, you must be 28 years of age or older, have a gross annual income of $50,000.00 or more and be creditworthy. You must have a valid major credit card bearing a Visa, MasterCard, American Express, or Discover logo. Debit cards will not be accepted.  If you do not meet these qualifications you will not be eligible for any gifts, premiums or promotional items offered in exchange for participation in this promotion.  “To be eligible, you must be married or cohabitating and you must travel with your spouse/cohabitant.”</span></p>"
+    '        End If
+    '        body = body & "</body></html>"
+
+
+    'Const cdoDSNDefault = 0 'None
+    'Const cdoDSNNever = 1 'None
+    'Const cdoDSNFailure = 2 'Failure
+    'Const cdoDSNSuccess = 4 'Success
+    'Const cdoDSNDelay = 8 'Delay
+    'Const cdoDSNSuccessFailOrDelay = 14 'Success, failure or delay
+
+
+    'Dim ObjSendMail
+    'Dim iConf
+    'Dim Flds
+
+    '     Set ObjSendMail = Server.CreateObject("CDO.Message")
+    '     Set iConf = CreateObject("CDO.Configuration")
+    '     Set Flds = iConf.Fields
+
+    '     Flds("http://schemas.microsoft.com/cdo/configuration/sendusing") = 1
+
+    ''**** Path below may need to be changed if it is not correct
+    ''Flds("http://schemas.microsoft.com/cdo/configuration/smtpserverpickupdirectory") = "c:\inetpub\mailroot\pickup"
+    '     Flds.Update
+
+    '     Set ObjSendMail.Configuration = iConf
+    '     ObjSendMail.To = emailAddy '"someone@someone.net"
+    '     ObjSendMail.Subject = subj
+    '     ObjSendMail.From =  "reservations@vrcvacations.com"
+
+    '' we are sending a text email.. simply switch the comments around to send an html email instead
+    '     ObjSendMail.HTMLBody = body '"this is the body"
+    ''ObjSendMail.TextBody = "this is the body"
+
+    ''objMessage.AddAttachment "c:\temp\readme.txt"
+
+    '     ObjSendMail.DSNOptions = cdoDSNSuccessFailOrDelay
+    '     ObjSendMail.Send
+
+    '     Set ObjSendMail = Nothing
+    '    End If
+
+    Protected Sub DropDownList1_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles DropDownList1.SelectedIndexChanged
+        If TestCalendar1.dateSelected <> "0" Then
+            TestCalendar1.Select_Range(TestCalendar1.dateSelected, DropDownList1.SelectedValue)
+        End If
+    End Sub
+
+    Protected Sub Button3_Click(sender As Object, e As System.EventArgs) Handles Button3.Click
+        Dim ldap As New LdapAuthentication("LDAP://DC=kcp,DC=local")
+        'Response.Write("HI")
+        '        Response.Write(ldap.Get_Groups("MBenton"))
+        Response.Write(ldap.get_Email("CDow"))
+        Dim email As String = ldap.get_Email("CDow")
+        Dim index As Integer = email.IndexOf("@") + 1
+        Dim oCombo As New clsComboItems
+        Response.Write(index & " - " & Right(email, email.Length - index) & " - " & oCombo.Lookup_ID("EmailDomain", Right(email, email.Length - index)))
+
+    End Sub
+
+    Protected Sub Button4_Click(sender As Object, e As System.EventArgs) Handles Button4.Click
+        Dim x As String
+        Dim opros As New clsProspect
+        opros.Prospect_ID = 15144714
+        opros.Load()
+        'x = System.DBNull.Value
+        'opros.BirthDate = ""
+        opros.BirthDate = System.DateTime.Now.ToShortDateString
+        opros.TypeID = 1
+        opros.Save()
+        Response.Write(opros.Error_Message)
+        opros = Nothing
+        'Response.Write(x)
+    End Sub
+
+    Protected Sub Button5_Click(sender As Object, e As System.EventArgs) Handles Button5.Click
+        Dim oCombo As New clsComboItems
+        oCombo.ID = 0
+        oCombo.Load()
+        Response.Write(oCombo.Error_Message & " - " & oCombo.Comboitem)
+        oCombo = Nothing
+    End Sub
+
+    Protected Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        'Response.Write((New System.Web.Script.Serialization.JavaScriptSerializer).Deserialize(Of String)(TextBox3.Text))
+        'Dim ol As New LeadProgram.LeadProgramSoapClient
+        TextBox3.Text = Get_Config("Test")
+        Literal2.Text = Get_Config("Test")
+
+        '        test.InnerHtml = (New System.Web.Script.Serialization.JavaScriptSerializer).Deserialize(Of String)(Server.HtmlEncode(TextBox3.Text))
+    End Sub
+
+    Public Function Get_Config(ByVal device As String) As String
+        Dim config As String = ""
+        Dim ocfg As New Config
+        Dim dvc As New device
+        Dim files As New files
+        Dim videos As New videos
+        Dim videourl As New videourl
+        Dim images As New images
+        Dim image As New clsimages
+        Dim html As New html
+        Dim oLead As New clsLeadProgram
+        Dim oLeadDev As New clsLeadProgram2Device
+        Dim oLeadHTML As New clsLeadProgram2HTML
+        Dim oLeadImg As New clsLeadProgram2Image
+        Dim oLeadLoc As New clsLeadProgram2Location
+        Dim oCombo As New clsComboItems
+        Dim progID As Integer = oLeadDev.get_Program_ID(device)
+        If progID > 0 Then
+            oLead.LeadProgramID = progID
+            oLead.Load()
+            oLeadLoc.ID = oLeadLoc.get_Active_Location(progID)
+            oLeadLoc.Load()
+            ocfg.location = oCombo.Lookup_ComboItem(oLeadLoc.LocationID)
+            ocfg.pictureinterval = oLead.PictureInterval
+            ocfg.usevideo = (Not (oLead.UsePictures)).ToString
+            ocfg.usepictures = oLead.UsePictures.ToString
+            ocfg.url = "http://asus_tablet/handler.ashx"
+            dvc.model = ""
+            dvc.platform = ""
+            dvc.uuid = ""
+            ocfg.device = dvc
+            'files
+            'videos
+            Dim ds As New DataSet
+            ds = oLeadImg.get_URLS(progID, oLeadLoc.LocationID, 0)
+
+            If ds.Tables.Count = 0 Then
+                videos.count = 0
+            Else
+                videos.count = ds.Tables("URLS").Rows.Count.ToString
+            End If
+            If videos.count = 0 Then
+                videourl.videourl = ""
+                videos.videourls(0) = videourl
+            Else
+                For i = 0 To ds.Tables(0).Rows.Count
+                    ReDim Preserve videos.videourls(i)
+                    videourl = New videourl
+                    If validate_URL(ds.Tables("URLS").Rows(i).Item("URL")) Then
+                        videourl.videourl = ds.Tables("URLS").Rows(i).Item("URL")
+                    Else
+                        videourl.videourl = ""
+                    End If
+                    videos.videourls(i) = videourl
+                Next i
+            End If
+            files.videos = videos
+            ocfg.files = files
+            ds.Clear()
+            'images
+            ds = oLeadImg.get_URLS(progID, oLeadLoc.LocationID, 1)
+            images.count = ds.Tables("URLS").Rows.Count
+
+            If images.count = 0 Then
+                image.image = ""
+                images.images(0) = image
+            Else
+                For i = 0 To ds.Tables("URLS").Rows.Count - 1
+                    ReDim Preserve images.images(i)
+                    image = New clsimages
+                    If validate_URL(ds.Tables("URLS").Rows(i).Item("URL")) Then
+                        image.image = ds.Tables("URLS").Rows(i).Item("URL")
+                    Else
+                        image.image = ""
+                    End If
+                    images.images(i) = image
+                Next i
+            End If
+            files.images = images
+            ocfg.files = files
+            ds.Clear()
+            ocfg.exe = oLead.exeScript
+            ocfg.exetimer = oLead.exetimer
+            'javascript
+            Dim sPath As String = oLeadHTML.get_Path(progID, 0, 0, 0)
+            ocfg.validscript = get_File_Content(sPath)
+            ocfg.screensaver = oLead.screensaver
+            ocfg.screentimer = oLead.screentimer
+            ocfg.termstimer = oLead.termstimer
+            ocfg.registration = "1"
+            ocfg.version = CStr(oLeadLoc.Version)
+            'html
+            sPath = oLeadHTML.get_Path(progID, 1, 0, 0)
+            If sPath <> "" Then
+                html.html = Server.HtmlEncode(get_File_Content(sPath))
+            Else
+                html.html = ""
+            End If
+            'sidebar
+            sPath = oLeadHTML.get_Path(progID, 1, 1, 0)
+            If sPath <> "" Then
+                html.sidebar = Server.HtmlEncode(get_File_Content(sPath))
+            Else
+                html.sidebar = ""
+            End If
+            'terms
+            sPath = oLeadHTML.get_Path(progID, 1, 0, 1)
+            If sPath <> "" Then
+                html.terms = Server.HtmlEncode(get_File_Content(sPath))
+            Else
+                html.terms = ""
+            End If
+            ocfg.html = html
+            config = (New System.Web.Script.Serialization.JavaScriptSerializer).Serialize(ocfg)
+
+        End If
+            Return config
+    End Function
+
+    Private Function validate_URL(ByVal urlString As String) As Boolean
+
+        Dim req As System.Net.WebRequest
+        Dim res As System.Net.WebResponse
+        req = System.Net.WebRequest.Create(urlString)
+        Try
+            res = req.GetResponse
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+
+    End Function
+
+    Private Function get_File_Content(ByVal spath As String) As String
+        Dim txt As String = ""
+        If validate_URL(spath) Then
+            Try
+                Dim client As System.Net.WebClient = New System.Net.WebClient()
+                Using sr As New StreamReader(client.OpenRead(spath))
+                    Dim line As String
+                    line = sr.ReadToEnd()
+                    Return line
+                End Using
+            Catch ex As Exception
+                Return ""
+            End Try
+        End If
+        Return txt
+    End Function
+    Private Class Config
+        Public location As String
+        Public pictureinterval As String
+        Public usevideo As String
+        Public usepictures As String
+        Public url As String
+        Public device As device
+        Public files As files
+        Public exe As String
+        Public exetimer As String
+        Public validscript As String
+        Public screensaver As String
+        Public screentimer As String
+        Public termstimer As String
+        Public registration As String
+        Public version As String
+        Public html As html
+    End Class
+
+    Private Class device
+        Public model As String
+        Public platform As String
+        Public uuid As String
+    End Class
+
+    Private Class files
+        Public videos As videos
+        Public images As images
+    End Class
+
+    Private Class videos
+        Public count As String
+        Public videourls(0) As videourl
+    End Class
+
+    Private Class videourl
+        Public videourl As String
+    End Class
+
+    Public Class images
+        Public count As String
+        Public images(0) As clsimages
+    End Class
+
+    Public Class clsimages
+        Public image As String
+    End Class
+
+    Public Class html
+        Public html As String
+        Public sidebar As String
+        Public terms As String
+    End Class
+
+    Protected Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        Dim s As New String(Literal2.Text)
+        TextBox3.Text = (New System.Web.Script.Serialization.JavaScriptSerializer).Deserialize(Of String)(s)
+
+        '        TextBox3.Text = get_File_Content("http://vendors.kingscreekplantation.com/vendors/LeadProgram/LeadProgramMain-RM.html")
+    End Sub
+
+    Protected Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Dim cn As New SqlClient.SqlConnection(Resources.Resource.cns)
+        Dim cm As New SqlClient.SqlCommand("Select top 100 * from t_Prospect where prospectid in (select top 100 prospectid from t_Tour where prospectid > 0 order by tourid desc)", cn)
+        cn.Open()
+        Dim dr As SqlClient.SqlDataReader = cm.ExecuteReader
+        Dim xlWB As New ClosedXML.Excel.XLWorkbook
+        Dim ws As ClosedXML.Excel.IXLWorksheet = xlWB.Worksheets.Add("Owners")
+        Dim row As Integer = 1
+        While dr.Read
+            If row = 1 Then
+                For col = 1 To dr.VisibleFieldCount
+                    ws.Cell(row, col).SetValue(dr.GetName(col - 1))
+                Next
+                row += 1
+            End If
+            For col = 1 To dr.VisibleFieldCount
+                ws.Cell(row, col).SetValue(dr.Item(col - 1))
+            Next
+            row += 1
+        End While
+        dr.Close()
+        cm.CommandText = "Select top 100 * from t_Tour order by tourid desc"
+        dr = cm.ExecuteReader
+        ws = xlWB.Worksheets.Add("Tours")
+        row = 1
+        While dr.Read
+            If row = 1 Then
+                For col = 1 To dr.VisibleFieldCount
+                    ws.Cell(row, col).SetValue(dr.GetName(col - 1))
+                Next
+                row += 1
+            End If
+            For col = 1 To dr.VisibleFieldCount
+                ws.Cell(row, col).SetValue(dr.Item(col - 1))
+            Next
+            row += 1
+        End While
+        dr.Close()
+
+        Dim res As HttpResponse = Response
+        res.Clear()
+        res.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        res.AddHeader("content-disposition", "attachment;filename=""Test.xlsx""")
+        Using mem As New MemoryStream
+            xlWB.SaveAs(mem)
+            mem.WriteTo(res.OutputStream)
+            mem.Close()
+        End Using
+        cn.Close()
+        cn = Nothing
+        cm = Nothing
+        dr = Nothing
+        res.End()
+    End Sub
+End Class

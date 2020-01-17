@@ -1,0 +1,47 @@
+<html>
+
+<head>
+<title>Sales Inventory by Type and Date</title>
+<script language=javascript src = "../../../scripts/ajaxrequest.js"></script>
+<script language=javascript src = "../../../scripts/scw.js"></script>
+<script language = javascript src = "scripts/salesbytypeanddate.js"></script>
+<meta name="Microsoft Theme" content="none, default">
+<meta name="Microsoft Border" content="none, default">
+</head>
+
+<body>
+<form onsubmit = "run_report();return false;">
+	<table>
+		<tr>
+			<td>Inventory Type:</td>
+			<td>
+				<select name = invtype>
+					<option value = ALL_EXCEL>All (Excel)</option>
+					<option value = COTTAGE>Cottage</option>
+					<option value = TOWNES>Townes</option>
+					<option value = ESTATES>Estates</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Start Date:</td>
+			<td>
+				<input type = "text" name = "sdate" readonly onclick = "scwShow(this,this);">
+			</td>
+		</tr>
+		<tr>
+			<td>End Date:</td>
+			<td>
+				<input type = "text" name = "edate" readonly onclick = "scwShow(this,this);">
+			</td>
+		</tr>
+		<tr>
+			<td colspan = 2><input type = submit value = "Run Report"></td>
+		</tr>
+	</table>	
+</form>
+<div id = report></div>
+
+</body>
+
+</html>

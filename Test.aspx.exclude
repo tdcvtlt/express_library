@@ -1,0 +1,53 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/crms.master" AutoEventWireup="false" CodeFile="Test.aspx.vb" Inherits="Test" ValidateRequest="false" %>
+<%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
+<%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
+<%@ Register src="controls/TestCalendar.ascx" tagname="TestCalendar" tagprefix="uc1" %>
+<%@ Register src="controls/SyncDateField.ascx" tagname="SyncDateField" tagprefix="uc2" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <asp:Button ID="Button4" runat="server" Text="Button" />
+
+    <asp:DropDownList ID="DropDownList2" runat="server">
+    </asp:DropDownList><asp:Button ID="Button3" runat="server" Text="Button" />
+    <br />
+    <br />
+
+    <br />
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+    <ContentTemplate>
+        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack ="true">
+        <asp:ListItem>1</asp:ListItem>
+        <asp:ListItem>2</asp:ListItem>
+        <asp:ListItem>3</asp:ListItem>
+        <asp:ListItem>4</asp:ListItem>
+        <asp:ListItem>5</asp:ListItem>
+    </asp:DropDownList>
+    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+    <asp:Button ID="Button1" runat="server" Text="Button" />
+    <asp:Button ID="Button2" runat="server" Text="Email" />
+        
+        <br />
+    <uc1:TestCalendar ID="TestCalendar1" runat="server" /> 
+
+    </ContentTemplate>
+    </asp:UpdatePanel>
+    <br />
+    <asp:Button ID="Button5" runat="server" Text="Button" />
+
+    <asp:Literal ID="Literal1" runat="server"></asp:Literal>
+
+    <asp:TextBox ID="TextBox3" runat="server" Height="141px" TextMode="MultiLine" Width="848px"></asp:TextBox>
+ 
+    <asp:Button ID="Button6" runat="server" Text="Button" />
+    <asp:Button ID="Button7" runat="server" Text="Button" />
+    <br />
+    <div id ="test" runat="server"></div>
+    <asp:Literal ID="Literal2" runat="server"></asp:Literal>
+    <br />
+    <br />
+    Test query to excel
+    <asp:Button ID="Button8" runat="server" Text="Button" />
+</asp:Content>
+

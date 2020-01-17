@@ -1,0 +1,96 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Eagle Strike Fantasy Leader Board</title>
+
+    <link rel="stylesheet" href="../styles/bootstrap-3.3.5/css/bootstrap.min.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../styles/leaderboard.css">
+    <link rel="stylesheet" href="../styles/flexslider.css" type="text/css" media="screen" />
+
+
+    <script src="../scripts/jquery-1.9.1.min.js"></script>
+    <script src="../scripts/modernizr.js"></script>
+    <script src="../scripts/jquery.scrollbox.js"></script>
+    <script src="../scripts/md5.js"></script>
+    <script src="../scripts/leaderboard.js"></script>
+</head>
+
+<body background="images/BACKGROUND.jpg">
+    <div class="clearfix">
+        <div class='leaderboard col-sm-8'>
+
+            <div class="clearfix">
+                <div class="col-sm-6">
+                    <iframe onload="alert(document.body.text);" src="http://www.eaglestrikefantasy.com/model/getLeaderboardData.php"></iframe>
+                </div>
+
+                <div class="col-sm-6">
+                    
+                </div>
+            </div>
+
+
+            <div class="leaderboard-header-row row">
+                <ul>
+                    <li>
+                        <span class="place-header">POSITION</span><span class="name-header">PLAYER NAME</span><span class="entry-header">ENTRY ID</span><span class="location-header">LOCATION</span><span class="prize-header">CURRENT PRIZE</span><span class="count-header">TOTAL POINTS</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="scroll-content" class="content scroll-text">
+            </div>
+        </div>
+
+        <div class='advertisement col-sm-4'>
+            
+        </div>
+
+
+    </div>
+
+    <div class="ticker row">
+        <div class="marquee-hider">
+            <marquee id="the-ticker">Player scores coming soon!</marquee>
+        </div>
+    </div>
+
+
+    <script defer src="../scripts/jquery.flexslider.js"></script>
+
+    <script>
+            $(window).load(function(){
+                $('.flexslider').flexslider({
+                        animation: "slide",
+                        animationLoop: true,
+                        randomize: true,
+                        pauseOnAction: false,
+                        pauseInvisible: false,
+                        controlNav: false,
+                        directionNav: false,
+                        //itemWidth: 210,
+                        //itemMargin: 5,
+                        pausePlay: false,
+                        start: function(slider){
+                            $('body').removeClass('loading');
+                        }
+                });
+            });
+
+
+            //$(function () {
+            //    $('#scroll-content').scrollbox({
+            //        linear: true,
+            //        step: 1,
+            //        delay: 0,
+            //        startDelay: 4,
+            //        speed: 20,
+            //        onMouseOverPause: false
+            //    });
+            //});
+    </script>
+</body>
+</html>

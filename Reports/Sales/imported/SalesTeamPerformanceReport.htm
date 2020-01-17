@@ -1,0 +1,38 @@
+<html>
+
+<head>
+<title>Sales Team Performance</title>
+<script language = "javascript" src = "scripts/salesteamperformancereport.js"></script>
+<script language = "javascript" src = "../../../scripts/ajaxRequest.js"></script>
+<script language = "javascript" src = "../../../scripts/scw.js"></script>
+<meta name="Microsoft Theme" content="none, default">
+<meta name="Microsoft Border" content="none, default">
+</head>
+
+<body>
+<form onsubmit ="Run_Report();return false;">
+	<table>
+		<tr>
+			<td>Team:</td>
+			<td><select name = "group"><option value = 0>All</option></select></td>
+		</tr>
+		<tr>
+			<td>Start Date:</td>
+			<td><input type = text readonly name = "sdate" onclick = "scwShow(this,this);"></td>
+		</tr>
+		<tr>
+			<td>End Date:</td>
+			<td><input type = text readonly name = "edate" onclick = "scwShow(this,this);"></td>
+		</tr>
+		<tr>
+			<td colspan=2>
+				<input type = submit value = "Run Report">
+				<input type = button value = "Printable Version" disabled=true name="printable" onclick ="Printable();">
+			</td>
+		</tr>
+	</table>
+	<div id = report></div>
+</form>
+</body>
+
+</html>

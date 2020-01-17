@@ -1,0 +1,15 @@
+﻿Select * from (SELECT a.TourID, a.TourDate, (SELECT COMBOITEM FROM T_COMBOITEMS WHERE COMBOITEMID =  a.TourTime) AS 'TourTime', c.Name, 
+b.DateCreated, d.FirstName, d.LastName, e.UserName, 
+a.CampaignID FROM t_Tour a LEFT OUTER JOIN 
+(SELECT * FROM t_Event WHERE type LIKE 'create%' AND 
+(subtype <> 'Premium' OR subtype IS NULL)) b 
+ON a.TourID = b.keyvalue and b.keyfield = 'TourID' INNER JOIN t_Campaign c ON 
+a.CampaignID = c.CampaignID INNER JOIN t_Prospect d ON a.ProspectID = d.ProspectID 
+LEFT OUTER JOIN t_Personnel e ON b.CreatedByID = e.PersonnelID 
+WHERE a.CampaignID in (5420) and 
+(a.SubTypeID NOT IN (SELECT comboitemid FROM t_ComboItems x inner join t_combos y on x.comboid = y.comboid 
+WHERE comboname = 'TourSubType' AND comboitem LIKE '%Exit%')) 
+OR (a.SubTypeID IS NULL)) cc 
+where DateCreated between '{0}' 
+and '{1}' and campaignid in ({2})
+order by datecreated

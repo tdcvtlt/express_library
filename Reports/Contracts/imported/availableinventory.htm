@@ -1,0 +1,21 @@
+<html><head><title>Available Inventory</title><script language = "javascript" src="../../../scripts/ajaxRequest.js"></script>
+<script language = "javascript" src="../../../scripts/xp_progress.js"></script>
+<script language="javascript">
+	function Run_Report(){
+		var req = new ajaxRequest();
+		req.setCallBackFunc(function(){Show_Report(req);});
+		req.doPost("modules/availableinventory.asp","");
+		document.getElementById("report").innerHTML = "Loading... Please Wait";
+		bar1.showBar();
+	}
+	
+	function Show_Report(req){
+		document.getElementById("report").innerHTML = req.responseText;
+		bar1.hideBar();
+	}
+</script>
+
+</head><body onload = "Run_Report();"><input type="button" value="Printable Version" name="B1" onclick ="var mWin = window.open(); mWin.document.write(document.getElementById('report').innerHTML);"> <div id=report></div><script type="text/javascript">
+		var bar1= createBar(300,15,'white',1,'black','blue',85,7,3,"");
+	</script>
+</body></html>

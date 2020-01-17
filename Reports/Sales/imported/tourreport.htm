@@ -1,0 +1,28 @@
+<html>
+
+<head>
+<title>Tour Report</title>
+<script language="javascript" src = "../../../scripts/ajaxrequest.js"></script>
+<script language="javascript" src = "../../../scripts/scw.js"></script>
+<script language="javascript" src = "scripts/tourreport.js"></script>
+<meta name="Microsoft Theme" content="none, default">
+<meta name="Microsoft Border" content="none, default">
+</head>
+
+<body>
+	<form onsubmit="Report();return false;">
+		<table>
+			<tr>
+				<td>Date: </td>
+				<td><input name = "sdate" value = "" readonly onclick = "scwShow(this,this);"></td>
+			</tr>
+			<tr>
+				<td colspan=2><input type = "submit" value = "Run Report"></td>
+			</tr>
+		</table>
+		<div id = "status" style = "display:none;"><img src = "../../../images/progressbar.gif" width="32" height="32"></div>
+		<div id = "report"></div>
+	</form>
+</body>
+
+</html>

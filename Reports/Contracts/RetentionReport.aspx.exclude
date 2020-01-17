@@ -1,0 +1,67 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/crms.master" AutoEventWireup="false" CodeFile="RetentionReport.aspx.vb" Inherits="Reports_Contracts_RetentionReport" %>
+
+<%@ Register Assembly="CrystalDecisions.Web, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+<%@ Register src="../../controls/DateField.ascx" tagname="DateField" tagprefix="dtc" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">    
+
+<div id="container">
+<div id="criteria">
+    <table style="border-collapse:collapse;">
+        <tr>
+            <td>Start Date:</td>
+            <td><dtc:DateField ID="SDATE" runat="server" /></td>
+        </tr>
+        <tr>
+            <td>End Date:</td>
+            <td><dtc:DateField ID="EDATE" runat="server" /></td>
+        </tr>
+        <tr><td colspan="2">&nbsp;</td></tr>
+        <tr>
+            <td><asp:Button ID="RunReport" Text="Run Report" runat="server" /></td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>    
+</div>
+<br />
+
+
+
+<br />
+<div id="errorDV"></div>
+
+<div id="ReportViewer">
+    <CR:CrystalReportViewer ID="CrystalViewer" AutoDataBind="true" runat="server" />
+</div>
+
+</div>
+
+
+
+
+
+<script src="../../scripts/jquery-1.7.1.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $("#criteria input[name$='RunReport']").click(function () {
+        if ($("input[name$='$SDATE$txtDate']").val() == "") {            
+            $("#errorDV").html("<br/><br/><strong>Start Date Value Missing.</strong>");
+            return false;
+        } else if ($("input[name$='$EDATE$txtDate']").val() == "") {
+
+            $("#errorDV").html("<br/><br/><strong>End Date Value Missing.</strong>");
+            return false;
+        }
+    });
+
+
+
+</script>
+
+</asp:Content>
+

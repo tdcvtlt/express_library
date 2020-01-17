@@ -1,0 +1,10 @@
+﻿Select z.*, y.ComboItem as tourstatus from 
+(Select a.*, b.Name from 
+(Select t.tourid, t.statusid, t.tourtime, t.tourdate, 
+p.FirstName, p.lastname, t.CampaignID from t_Tour t 
+inner join t_Prospect p on t.prospectid = p.prospectid where 
+tourdate BETWEEN '{0}' AND '{1}' and tourLocationid IN ({2}) 
+and T.subtypeid <> '17179') a inner join 
+t_Campaign b on a.CampaignID = b.CampaignID) z 
+inner join t_ComboItems y on z.statusid = y.comboitemid 
+where z.name <> 'Outfield' order by z.TourDate, z.Name, z.tourid

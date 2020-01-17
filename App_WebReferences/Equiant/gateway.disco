@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="https://api.equiant.com/webservices/gateway.asmx?wsdl" docRef="https://api.equiant.com/webservices/gateway.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="https://api.equiant.com/webservices/gateway.asmx" xmlns:q1="http://www.equiant.com/" binding="q1:GatewaySoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="https://api.equiant.com/webservices/gateway.asmx" xmlns:q2="http://www.equiant.com/" binding="q2:GatewaySoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

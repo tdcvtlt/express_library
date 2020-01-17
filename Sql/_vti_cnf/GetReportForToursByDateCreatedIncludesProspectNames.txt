@@ -1,0 +1,11 @@
+vti_encoding:SR|utf8-nl
+vti_author:SR|KCP\\TNguyen
+vti_modifiedby:SR|KCP\\TNguyen
+vti_timelastmodified:TR|09 Apr 2012 16:43:15 -0000
+vti_timecreated:TR|05 Apr 2012 23:24:49 -0000
+vti_lineageid:SR|{2AC17102-C461-49D2-92B7-47EBEA2C1503}
+vti_extenderversion:SR|5.0.2.6790
+vti_backlinkinfo:VX|
+vti_nexttolasttimemodified:TW|06 Apr 2012 00:27:52 -0000
+vti_cacheddtm:TX|09 Apr 2012 16:43:15 -0000
+vti_filesize:IR|900

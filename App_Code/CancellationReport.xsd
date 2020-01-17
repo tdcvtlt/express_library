@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CancellationReport" targetNamespace="http://tempuri.org/CancellationReport.xsd" xmlns:mstns="http://tempuri.org/CancellationReport.xsd" xmlns="http://tempuri.org/CancellationReport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="CancellationReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="CancellationReport" msprop:Generator_UserDSName="CancellationReport">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="CXLS" msprop:Generator_TableClassName="CXLSDataTable" msprop:Generator_TableVarName="tableCXLS" msprop:Generator_TablePropName="CXLS" msprop:Generator_RowDeletingName="CXLSRowDeleting" msprop:Generator_RowChangingName="CXLSRowChanging" msprop:Generator_RowEvHandlerName="CXLSRowChangeEventHandler" msprop:Generator_RowDeletedName="CXLSRowDeleted" msprop:Generator_UserTableName="CXLS" msprop:Generator_RowChangedName="CXLSRowChanged" msprop:Generator_RowEvArgName="CXLSRowChangeEvent" msprop:Generator_RowClassName="CXLSRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ContractID" msprop:Generator_ColumnVarNameInTable="columnContractID" msprop:Generator_ColumnPropNameInRow="ContractID" msprop:Generator_ColumnPropNameInTable="ContractIDColumn" msprop:Generator_UserColumnName="ContractID" type="xs:string" minOccurs="0" />
+              <xs:element name="KCP" msprop:Generator_ColumnVarNameInTable="columnKCP" msprop:Generator_ColumnPropNameInRow="KCP" msprop:Generator_ColumnPropNameInTable="KCPColumn" msprop:Generator_UserColumnName="KCP" type="xs:string" minOccurs="0" />
+              <xs:element name="ContractDate" msprop:Generator_ColumnVarNameInTable="columnContractDate" msprop:Generator_ColumnPropNameInRow="ContractDate" msprop:Generator_ColumnPropNameInTable="ContractDateColumn" msprop:Generator_UserColumnName="ContractDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="CancellationDate" msprop:Generator_ColumnVarNameInTable="columnCancellationDate" msprop:Generator_ColumnPropNameInRow="CancellationDate" msprop:Generator_ColumnPropNameInTable="CancellationDateColumn" msprop:Generator_UserColumnName="CancellationDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="FirstName" msprop:Generator_ColumnVarNameInTable="columnFirstName" msprop:Generator_ColumnPropNameInRow="FirstName" msprop:Generator_ColumnPropNameInTable="FirstNameColumn" msprop:Generator_UserColumnName="FirstName" type="xs:string" minOccurs="0" />
+              <xs:element name="Lastname" msprop:Generator_ColumnVarNameInTable="columnLastname" msprop:Generator_ColumnPropNameInRow="Lastname" msprop:Generator_ColumnPropNameInTable="LastnameColumn" msprop:Generator_UserColumnName="Lastname" type="xs:string" minOccurs="0" />
+              <xs:element name="SalesPrice" msprop:Generator_ColumnVarNameInTable="columnSalesPrice" msprop:Generator_ColumnPropNameInRow="SalesPrice" msprop:Generator_ColumnPropNameInTable="SalesPriceColumn" msprop:Generator_UserColumnName="SalesPrice" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MortgageBalance" msprop:Generator_ColumnVarNameInTable="columnMortgageBalance" msprop:Generator_ColumnPropNameInRow="MortgageBalance" msprop:Generator_ColumnPropNameInTable="MortgageBalanceColumn" msprop:Generator_UserColumnName="MortgageBalance" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SubStatus" msprop:Generator_ColumnVarNameInTable="columnSubStatus" msprop:Generator_ColumnPropNameInRow="SubStatus" msprop:Generator_ColumnPropNameInTable="SubStatusColumn" msprop:Generator_UserColumnName="SubStatus" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

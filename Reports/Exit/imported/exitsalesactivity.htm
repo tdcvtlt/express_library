@@ -1,0 +1,24 @@
+<html><head><title>Exit Sales Activity</title>
+<script language="javascript" src = "../../../scripts/general.js"></script>
+<script language="javascript" src = "../../../scripts/ajaxRequest.js"></script>
+<script language="javascript" src = "scripts/exitsalesactivity.js"></script>
+<script language="javascript" src = "../../../scripts/scw.js"></script>
+<meta name="Microsoft Theme" content="none, default">
+<meta name="Microsoft Border" content="none, default">
+</head><body>
+
+<form method="POST" action="../../../_vti_bin/shtml.dll/Reports/Exit/imported/exitsalesactivity.htm" 
+    onSubmit="return false;" 
+    webbot-action="--WEBBOT-SELF--">
+    <!--webbot bot="SaveResults" U-File="../../_private/form_results.csv" S-Format="TEXT/CSV" S-Label-Fields="TRUE" startspan -->
+    <input TYPE="hidden" NAME="VTI-GROUP" VALUE="0"><!--webbot bot="SaveResults" endspan i-checksum="57636" -->
+    <p>&nbsp;</p>
+    <table border="0"  id="table1"><tr><td>Location:</td><td><p><select size="1" name="location">
+    <option selected value="KCP">KCP</option><option value="Ric">Richmond</option></select></p></td></tr>
+    <tr><td>Start Date:</td><td><input type="text" name="startdate" size="20" readonly onclick = "scwShow(this,this);"></td></tr>
+    <tr><td>End Date:</td><td><input type="text" name="enddate" size="20" readonly onclick = "scwShow(this,this);"></td></tr>
+    <tr><td colspan="2"><input type="button" value="Run Report" name="B1" onclick = "Run_Report();"></td></tr>
+    </table><br><div id = "report"></div>
+</form>
+</body>
+</html>

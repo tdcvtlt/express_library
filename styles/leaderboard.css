@@ -1,0 +1,396 @@
+﻿/* CSS - Shea Parker */
+
+/********* FONTS *********/
+@font-face {
+font-family: BebasNeue;
+src: url("../fonts/BebasNeue Regular.otf") format("opentype");
+}
+
+@font-face {
+font-family: BebasNeue;
+font-weight: bold;
+src: url("../fonts/BebasNeue Bold.otf") format("opentype");
+}
+
+
+/********* BASE **********/
+*, *:before, *:after {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body,html {
+    min-height:100%;
+    font-family: BebasNeue;
+}
+
+body{
+    
+}
+
+.reset-pass-form{
+    border:5px solid #CCC;
+    color: #FFFFFF;
+    background: rgba(40,40,40,0.75);
+}
+
+.btn{
+    background-color: #F4D338;
+    border-color: #DAAE29;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active,
+.btn.active{
+    background-color: #F4D338;
+    border-color: #DAAE29;
+}
+
+#main-prize-amount-field{
+    color: #66cc00;
+}
+
+.leaderboard {
+    position:relative;
+    display: block;
+    float: left;
+    width:69%;
+    height:70%;
+    /*max-width:960px;*/
+    min-width:400px;
+    min-height:600px;
+    /*margin: 10px auto 0 auto;*/
+    padding: 10px;
+    border:5px solid #CCC;
+    font-family: BebasNeue;
+}
+
+.leaderboard h1{
+    text-align: left;
+    text-transform: uppercase;
+    margin: 0px 0px;
+    padding:0;
+    background: -webkit-linear-gradient(#F4D338, #DAAE29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color:  #DAAE29;
+    font-family: BebasNeue;
+    font-size: 750%;
+    font-weight: bolder;
+}
+
+.leaderboard h2{
+    text-align: right;
+    text-transform: uppercase;
+    margin: 2px;
+    padding:0;
+    font-size: 350%;
+    font-family: BebasNeue;
+    font-weight: bolder;
+}
+
+.leaderboard h2 small{
+    font-size: 50%;
+    font-family: BebasNeue;
+    font-weight: bolder;
+    color: #FFFFFF;
+    vertical-align: middle;
+}
+
+.logo{
+}
+
+.logo img {
+    width: 225px;
+}
+
+.game-type{
+    color: #FFFFFF;
+    float: right;
+}
+
+.prize-amount{
+    color: #FFFFFF;
+}
+
+.contest{
+    background: -webkit-linear-gradient(#F4D338, #DAAE29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color:  #DAAE29;
+}
+
+.content {
+    position:relative;
+    width:95%;
+    margin:3px auto 0 auto;
+    min-width:300px;
+}
+
+.leaderboard-header-row {
+    position:relative;
+    width:95%;
+    margin:3px auto 0 auto;
+    min-width:300px;
+}
+
+.leaderboard-header-row ul{
+    margin:0;
+    padding:0;
+    list-style: none;
+    
+    background: rgba(40,40,40,0.75);
+}
+
+.leaderboard-header-row ul li{
+    position: relative;
+    color:#FFF;
+    font-family: BebasNeue, helvetica;
+    padding: 0px 10px;
+    border-bottom: 1px solid #555;
+    font-size: 175%;
+}
+
+.leaderboard-header-row ul li:last-child{
+    border-bottom:none;
+}
+
+.content ul{
+    margin:0;
+    padding:0;
+    list-style: none;
+    
+    background: rgba(40,40,40,0.75);
+}
+
+.content ul li{
+    position: relative;
+    color:#FFF;
+    font-family: BebasNeue, helvetica;
+    padding: 1px 10px;
+    border-bottom: 1px solid #555;
+    font-size: 275%;
+}
+
+.content ul li:last-child{
+    border-bottom:none;
+}
+
+.place{
+    display:inline-block;
+    font-weight:bold;
+    padding:0% 2% 0% 0%;
+    width: 8%;
+}
+
+.place-header{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    padding:0% 2% 0% 0%;
+    width: 8%;
+}
+
+.name{
+    display:inline-block;
+    font-weight:bold;
+    color:#F5CF50;
+    width: 20%;
+}
+
+.name-header{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    color:#F5CF50;
+    width: 20%;
+}
+
+.location{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    text-overflow: ellipsis;
+    width: 24%;
+}
+
+.location-header{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    text-overflow: ellipsis;
+    width: 24%;
+}
+
+.entry{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    text-overflow: ellipsis;
+    width: 12%;
+}
+
+.entry-header{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    text-overflow: ellipsis;
+    width: 12%;
+}
+
+.count{
+    /*display:inline-block;
+    float:right;
+    color:#FFFFFF;
+    font-weight:bold;*/
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    text-overflow: ellipsis;
+    width: 18%;
+}
+
+.count-header{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    text-overflow: ellipsis;
+    width: 18%;
+}
+
+.prize{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    text-overflow: ellipsis;
+    width: 18%;
+}
+
+.prize-header{
+    text-align: center;
+    display:inline-block;
+    font-weight:bold;
+    text-overflow: ellipsis;
+    width: 18%;
+}
+
+/********* TICKER STUFF *************/
+.ticker{
+    display: block;
+    width: 100%;
+    background-color: #000000;
+    margin-left: 0px;
+    position: absolute;
+    bottom: 0;
+
+}
+
+.ticker img{
+    display: inline;
+    margin-left: -7px;
+    z-index: 10;
+    position:relative;
+    width: 4%;
+}
+
+.ticker marquee{
+    background-color: #FFFFFF;
+    width: 89%;
+    margin-left: -7px;
+    /*z-index: -10;*/
+    position:relative;
+    vertical-align: middle;
+    
+    font-size: 175%;
+}
+
+.marquee-hider{
+    overflow: hidden;
+    display: inline;
+    width: 20%;
+    color: #000000;
+    font-weight: bolder;
+}
+
+/********* ADVERTISEMENT AREA *******/
+.advertisement {
+    display: block;
+    position:relative;
+    float: right;
+    width:26%;
+    height:70%;
+
+    /*max-width:960px;*/
+    min-width: 575px;
+    min-height: 600px;
+
+        margin: 0px 0px 0px 0px; 
+        padding: 0px;
+
+    border:5px solid #CCC;
+}
+
+
+/********* SCROLL BOX ***********/
+.scroll-text {
+  height: 696px;
+  overflow: hidden;
+}
+.scroll-text ul {
+  overflow: hidden;
+}
+
+
+
+
+/********* BLING **********/
+.content ul{
+    border-radius: 20px;
+}
+
+.animate {
+    -moz-animation: flashIt 0.2s ease 1;
+    -webkit-animation: flashIt 0.2s ease 1;
+    animation: flashIt 0.2s ease 1;
+}
+
+.animate .countold{
+    -moz-animation: spinIt 0.3s ease 1;
+    -webkit-animation: spinIt 0.3s ease 1;
+    animation: spinIt 0.3s ease 1;
+}
+
+
+@-moz-keyframes flashIt {
+    100% { opacity: 0; background-color: #FFF;}
+}
+@-webkit-keyframes flashIt {
+    100% { opacity: 0; background-color: #FFF;}
+}
+@keyframes flashIt {
+    100% { opacity: 0; }
+}
+
+@-moz-keyframes spinIt {
+    20% {-moz-transform: rotate(-10deg)}
+    40% {-moz-transform: rotate(10deg)}
+    60% {-moz-transform: rotate(-10deg)}
+    80% {-moz-transform: rotate(10deg)}
+    100% {-moz-transform: rotate(-10deg)}
+}
+@-webkit-keyframes spinIt {
+    20% {-webkit-transform: rotate(-10deg)}
+    40% {-webkit-transform: rotate(10deg)}
+    60% {-webkit-transform: rotate(-10deg)}
+    80% {-webkit-transform: rotate(10deg)}
+    100% {-webkit-transform: rotate(-10deg)}
+}
+@keyframes spinIt {
+     20% {transform: rotate(-10deg)}
+     40% {transform: rotate(10deg)}
+     60% {transform: rotate(-10deg)}
+     80% {transform: rotate(10deg)}
+     100% {transform: rotate(-10deg)}
+ }

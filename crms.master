@@ -1,0 +1,81 @@
+﻿<%@ Master Language="VB" CodeFile="crms.master.vb" Inherits="crms"  %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>CRMS</title>
+    <link type="text/css" rel="Stylesheet" href="~/styles/master.css" />
+    <link type="text/css" rel="Stylesheet" href="~/styles/style.css" />
+    <link type="text/css" rel="Stylesheet" href="~/styles/CustomStyle.css" />
+    <link type="text/css" rel="Stylesheet" href="~/styles/TooltipCurvedBorders.css" />
+    
+    <script type="text/javascript" language="javascript" src = "/scripts/master.js"></script>
+    
+    <script type="text/javascript" language="javascript" src = "/scripts/pop_modal.js"></script>
+    <script type="text/javascript" language="javascript" src = "/scripts/ajaxRequest.js"></script>
+    <%--<script type="text/javascript" language="javascript" src = "<%=request.applicationpath%>/scripts/jquery-1.7.1-vsdoc.js"></script>--%>
+    <script type="text/javascript" language="javascript" src = "/scripts/jquery-1.9.1.min.js"></script>
+    <%--<script type="text/javascript" language="javascript" src = "<%=request.applicationpath%>/scripts/jquery-1.7.1.js"></script>--%>
+    <%--<script type="text/javascript" language="javascript" src = "<%=request.applicationpath%>/scripts/scw.js"></script>--%>    
+
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    
+    
+</head>
+<body>
+    <form id="form1" runat="server" >
+    <table width="100%" cellspacing="0px"><tr><td colspan="2">
+
+    <div id="logo" class="logo"  style="background-color:#C7E3D7;">
+        <center><%=Me.Page.Title.ToUpper%></center>
+        &nbsp;<div id="welcome" class="welcome">
+            <%If Session.Item("UserID") <> "" Then%>
+                Welcome <%=Session.Item("FirstName") & " " & Session.Item("LastName")%><asp:ScriptManager 
+                ID="ScriptManager1" runat="server">
+            </asp:ScriptManager>
+            
+            <asp:DropDownList ID="ddUsers" runat="server" AutoPostBack="True" 
+                Visible="False">
+            </asp:DropDownList>
+            
+            <br />
+                <!--Your SID: <%=Session("UserID")%><br />
+                Groups: <%=Session("Groups")%><br />
+                LDAP: <%=Session("LDAP")%><br />-->
+                <a runat = "server" href="~/Logon.aspx">Log out</a>
+            <%End If%>
+        </div>
+    </div>
+    
+    </td></tr>
+    
+        <tr>
+            <td valign="top"><asp:UpdatePanel ID="upMenu" runat="server"><ContentTemplate>
+            <div id="menu" class="menu" style="background-color:#C7E3D7;">
+                <asp:TreeView ID="TreeView1" runat="server" DataSourceID="SiteMapDataSource1" PopulateNodesFromClient = "false"
+                    ExpandDepth="1">
+                    
+                </asp:TreeView>
+                <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" />
+                
+                
+                </div></ContentTemplate></asp:UpdatePanel>
+            </td>
+        
+            <td valign="top" style="width:90%;">
+            <div id="main" class="main" >
+        
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+            </td>
+        </tr>
+    </table>
+    
+    
+    </form>
+</body>
+</html>

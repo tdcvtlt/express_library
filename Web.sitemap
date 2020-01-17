@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="default.aspx" title="Home"  description="Home">
+      <siteMapNode url="~/Payroll/TimeClock.aspx" title="TimeClock" description="TimeClock" />
+    <siteMapNode url="" title="Accounting"  description="Accounting" >
+    	<siteMapNode url="~/accounting/financialtransactioncodes.aspx" title="Financial Transaction Codes" description="Financial Transaction Codes" />
+    	<siteMapNode url="~/Accounting/masterinventorylist.aspx" title="Master Inventory List" description="Master Inventory List"/>
+    	<siteMapNode url="~/Accounting/purchaserequests.aspx" title="Purchase Requests" description="Purchase Requests"/>
+        <siteMapNode url="~/Accounting/Funding.aspx" title="Funding" description ="Funding" />
+        <siteMapNode url="~/Accounting/RefundRequests.aspx" title="Refund Requests" description ="RefundRequests" />
+        <siteMapNode url="~/Accounting/CCApprovals.aspx" title="Credit Card Approvals" description ="CCApprovals" />
+        <siteMapNode url="~/General/PAPage.aspx" title="PreAuth Page" description ="PreAuth" />
+        <siteMapNode url="~/Accounting/CCLookup.aspx" title="Credit Card Lookup" description ="CC Lookup" />
+    	<siteMapNode url="~/wizards/accounting/assessmentwizard.aspx" title="Assessment Wizard" description="Assessment Wizard"/>
+    	<siteMapNode url ="~/Accounting/maintenancefeecodes.aspx" title ="Maintenance Fee Codes" description="Maintenance Fee Codes" />
+	<siteMapNode url ="~/Accounting/createafcfile.aspx" title ="AFC Maintenance Fee File" description="Create AFC Maintenance Fee File" />
+	<siteMapNode url ="~/Accounting/createequiantConversionfile.aspx" title ="Equiant Conversion File" description="Create Equiant Conversion File" />
+<siteMapNode url ="~/Accounting/createequiantfile.aspx" title ="Equiant Funding File" description="Create Equiant Funding File" />
+<siteMapNode url ="~/Accounting/createequiantbillingfile.aspx" title ="Equiant ReDeed File" description="Create Equiant ReDeed File" />
+	<siteMapNode url ="~/Accounting/createequiantmffile.aspx" title ="Equiant Maintenance Fee File" description="Create Equiant Maintenance Fee File" />
+<siteMapNode url ="~/Accounting/createequiantlffile.aspx" title ="Equiant Late Fee File" description="Create Equiant Late Fee File" />
+      <siteMapNode url ="~/Accounting/DoNotSellListOverRide.aspx" title ="Do Not Sell List OverRide Codes" description="Do Not Sell List OverRide Codes" />
+
+    </siteMapNode>
+    <siteMapNode url="~/marketing/prospects.aspx" title="Prospects"  description="Prospects" />
+    <siteMapNode url="~/marketing/contracts.aspx" title="Contracts" description="Contracts" >
+      <siteMapNode url="~/wizards/contracts/contractwizard.aspx" title="Contract Wizard" description ="Contract Wizard" />
+      <siteMapNode url="" title="ReDeeds" description ="ReDeeds" >
+        <siteMapNode url="~/general/ReDeeds.aspx" title="List" description="List" />
+        <siteMapNode url="~/wizards/contracts/redeedwiz.aspx" title="New" description ="New" />
+      </siteMapNode>
+        <siteMapNode url="~/marketing/Usages.aspx" title ="Usages" description ="Usages" />
+      <siteMapNode url="~/general/EditDefaultPersonnel.aspx" title ="Default Contract Personnel" description="Default Personnel" />
+      <siteMapNode url="~/General/ContractPAPage.aspx" title="PreAuth Page" description ="PreAuth" />
+        <siteMapNode url="~/marketing/Overviews.aspx" title="Combined Overview" description= "OverView" />
+        <siteMapNode url="~/marketing/OverviewsAuto.aspx" title="Automated Combined Overview" description= "OverViewAuto" />
+       <siteMapNode url="~/points/pointsassessment.aspx" title="Points Assessment" description= "Points Assesssment" />
+    </siteMapNode>
+    <siteMapNode url="~/marketing/mortgages.aspx" title="Mortgages" description="Mortgages" />
+     <siteMapNode url ="~/marketing/tours.aspx" title= "Tours" description ="Tours">
+         <siteMapNode url="~/wizards/todaystours.aspx" title="Check-In Wizard" description ="Check-In Wizard" />
+         <siteMapNode url="~/wizards/exitTours.aspx" title="Exit Tours" description ="Exit Tours" />
+         <siteMapNode url="~/Marketing/Checks.aspx" title="Checks" description="Checks" />
+       <siteMapNode url="~/wizards/VacationClubTours.aspx" title ="Vacation Club Tours" description="VacationClubTours" />
+     </siteMapNode>
+     <siteMapNode url="~/marketing/packageissued.aspx" title="Packages" description="Packages" />
+    
+    <siteMapNode url="~/marketing/reservations.aspx" title ="Reservations" description ="Reservations">
+    <siteMapNode url="~/marketing/ResWaitList.aspx" title="Reservation Waitlist" description ="ResWaitlist" />
+    <siteMapNode url="~/marketing/processbookings.aspx" title="Resorts Exchange" description="Resorts Exchange"></siteMapNode>
+    <siteMapNode url="~/marketing/BookingEmailsManager.aspx" title="Resort Email Manager" description="Resort Email Manager"></siteMapNode>
+    <siteMapNode url="~/marketing/FlatworldList.aspx" title="FlatWorld List" description="FlatWorld List"></siteMapNode>
+    <siteMapNode url="~/marketing/reservationconfirmationcall.aspx" title="Confirmation Calls" description=""></siteMapNode>
+    <siteMapNode url="~/wizards/Reservations/Default.aspx" title="Reservation Wizard" description=""></siteMapNode>
+      
+    </siteMapNode>
+<siteMapNode url="" title="Maintenance" description="Maintenance">
+	<siteMapNode url="~/maintenance/dashboard.aspx" title="Dashboard" description="Dashboard" />
+	<siteMapNode url="~/maintenance/quickchecks.aspx" title="Quick Checks" description="Quick Checks" />
+	<siteMapNode url="~/maintenance/refurbs.aspx" title="Refurbs" description="Refurbs" />
+</siteMapNode>	
+    <siteMapNode url="" title="Property Management" description="Property Management">
+      <siteMapNode url="~/marketing/rooms.aspx" title ="Rooms" description ="Rooms">
+            <siteMapNode url="~/PropertyManagement/bulkroom2rep.aspx" title = "Assign Tech" description ="Assign Tech" />
+    </siteMapNode>
+      <siteMapNode url="~/marketing/Units.aspx" title ="Units" description ="Units" />
+      <siteMapNode url="~/PropertyManagement/InventoryAllocation.aspx" title ="Inventory Allocation" description ="InventoryAllocation" />
+      <siteMapNode url="~/PropertyManagement/RoomInventoryAllocation.aspx" title ="Room Inventory Allocation" description ="InitialAllocation" />
+        <siteMapNode url="~/PropertyManagement/SpareRoomAllocation.aspx" title ="Spare Room Allocation" description ="SpareAllocation" />
+        <siteMapNode url="~/PropertyManagement/QuickCheckAvail.aspx" title ="Quick Check Availability" description ="QuickCheck" />
+        <siteMapNode url="~/PropertyManagement/RoomUsage.aspx" title ="Room Usage" description ="RoomUsage" />
+        <siteMapNode url="~/PropertyManagement/OutOfService.aspx" title ="In/Out of Service" description ="ServiceAllocation" />
+        <siteMapNode url="~/PropertyManagement/Banking.aspx" title ="Banking" description ="Banking" />
+        <siteMapNode url="~/PropertyManagement/BulkBankWizard.aspx" title ="Bulk Bank Wizard" description ="BulkBankWizard" />
+        <siteMapNode url="~/frontdesk/resortoverview.aspx" title ="Resort Overview" description ="ResortOverview" />
+        <siteMapNode url="~/frontdesk/ConciergeReport.aspx" title ="OPC-OS Concierge Report" description ="Concierge Report" />
+        <siteMapNode url="~/Maintenance/Request.aspx" title ="Maintenance Requests" description= "MaintRequests">
+            <siteMapNode url="~/Maintenance/FDWorkOrderEntry.aspx" title = "FD Work Order Entry" description ="FDRequests" />
+        </siteMapNode>
+      <siteMapNode url="~/PropertyManagement/roommatrix.aspx" title ="Room Matrix" description ="RoomMatrix" /> 
+     <siteMapNode url="~/PropertyManagement/roommatrix-full.aspx" title ="Room Matrix (Full Month)" description ="RoomMatrix" />
+      <siteMapNode url="~/PropertyManagement/RentalPoolLimits.aspx" title ="Rental Pool Limits" description ="RentalPoolLimits" />
+      <siteMapNode url="~/maintenance/items2track.aspx" title="Preventive Maintenance">
+        <siteMapNode url ="~/maintenance/pmbuilding.aspx" title = "PM Area Setup"></siteMapNode>   
+        <siteMapNode url ="~/reports/maintenance/pmschedules.aspx" title ="PM Schedules"></siteMapNode>
+        <siteMapNode url ="~/maintenance/pmTeams.aspx" title ="PM Teams"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="~/PropertyManagement/RegCards.aspx" title ="Registration Cards" description ="RegCards" />
+      <siteMapNode url="~/PropertyManagement/ResCheckIns.aspx" title ="Contact Check-Ins" description ="Contact Check-Ins" />
+
+<siteMapNode url="~/PropertyManagement/Projects/Projects.aspx" title="Projects" description = "Projects">
+	<siteMapNode url="~/PropertyManagement/Projects/Areas.aspx" title="Project Areas" description="Project Areas" />
+</siteMapNode>
+    </siteMapNode>
+    
+    <siteMapNode url="" title="Reports" description="Reports">
+      <siteMapNode url="~/Reports/reports.aspx?c=accounting" title="Accounting" description="Accounting Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=contracts" title="Contracts" description="Contracts Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=customerservice" title="Customer Service" description="Customer Service Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=exit" title="Exit" description="Exit Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=frontdesk" title="Front Desk" description="Front Desk Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=hr" title="Human Resources" description="HR Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=Legal" title="Legal" description="Legal Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=marketing" title="Marketing" description="Marketing Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=maintenance" title="Maintenance" description="Maintenance Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=mis" title="MIS" description="MIS Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=ownerservices" title="Owner Services" description="Owner Services Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=rentals" title="Rentals" description="Rental Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=reservations" title="Reservations" description="Reservations Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=sales" title="Sales" description="Sales Related Reports" />
+      <siteMapNode url="~/Reports/reports.aspx?c=tours" title="Tours" description="Tour Related Reports" />
+ 
+    </siteMapNode>
+    <siteMapNode url="" title="Personnel" description="Personnel">
+      <siteMapNode url="~/security/departments.aspx" title="Departments" description="Departments" />
+      <siteMapNode url="~/security/Personnel.aspx" title="Users" description="Users" />
+        <siteMapNode url="~/Payroll/MissedPunches.aspx" title ="Missed Punches" description="MissedPunches" />
+        <siteMapNode url="~/security/PersonnelGroups.aspx" title="Personnel Groups" description ="PersonnelGroups" />
+      <siteMapNode url="~/security/JobPostings.aspx" title="Job Postings" description ="Job Postings" />
+      <siteMapNode url="~/general/employement.aspx" title="Test Online App" description ="Test Online App" />
+    </siteMapNode>
+      <siteMapNode url="" title="Add-Ins" description ="Add-Ins">
+          <siteMapNode url ="~/Add-Ins/MultiContractNote.aspx" title ="Multi-Contract Note" description ="MultiConNote" />
+          <siteMapNode url ="~/Add-Ins/MultiContractRestrictor.aspx" title ="Multi-Contract Restrictor" description ="MultiRestrictNote" />
+          <siteMapNode url ="~/Add-Ins/MultiContractExhibit.aspx" title ="Multi-Contract Exhibit" description ="MultiConExhibit" />
+          <siteMapNode url ="~/Add-Ins/MultiContractInvoice.aspx" title ="Multi-Contract Invoice" description ="MultiConInvoice" />
+          <siteMapNode url ="~/Add-Ins/MultiReservationInvoice.aspx" title ="Multi-Reservation Invoice" description ="MultiResInvoice" />
+          <siteMapNode url ="~/Add-Ins/MultiContractFunding.aspx" title ="Multi-Contract Funding" description ="MultiConFunding" />
+          <siteMapNode url ="~/Add-Ins/MultiContractPolicyNumber.aspx" title ="Multi-Contract Title Policy" description ="Multi-Contract Title Policy Number" />
+          <siteMapNode url ="~/Add-Ins/VendorCheckPayout.aspx" title ="Vendor Check Payout" description ="VendorCheckPayout" />
+          <siteMapNode url ="~/Add-Ins/BadDebtsAdjustment.aspx" title ="Bad Debts Adjustment" description ="Bad Debts Adjustment" />
+        <siteMapNode url="~/Add-Ins/CheckByPhone.aspx" title="Create/Edit Check By Phone" description="Create Check By Phone" />
+        <siteMapNode url="~/Add-Ins/MultiContractStatusUpdate.aspx" title ="Multi-Contract Status Update" description="MultiConStatus"/>
+	<siteMapNode url="~/Wizards/Accounting/CancellationWiz.aspx" title ="Cancellation Wizard" description="Cancellation Wizard"/>
+      </siteMapNode>
+      <siteMapNode url="" title ="WorkOrders" description ="WorkOrders">
+          <siteMapNode url="~/mis/editWorkOrder.aspx?WorkOrderID=0" title="Create Work Order" description="New Work Order"></siteMapNode>
+          <siteMapNode url="~/mis/workorders.aspx" title="List" description="List Work Orders"></siteMapNode>
+          <siteMapNode url="~/mis/Myworkorders.aspx" title="My Work Orders" description="Dept Work Orders"></siteMapNode>
+          <siteMapNode url="~/mis/Deptworkorders.aspx" title="Dept Work Orders" description="Dept Work Orders"></siteMapNode>
+          <siteMapNode url="~/mis/ITSecRequests.aspx" title="Security Requests" description="Security Requests"></siteMapNode>
+      </siteMapNode>
+    <siteMapNode url="" title="Setup" description="Setup Area">
+      <siteMapNode url="~/setup/Accommodations.aspx" title="Accommodations" description="Package List">
+        <siteMapNode url="~/setup/AccomCheckInLocations.aspx" title="Accommodation Check-In Locations" description="AccomCheckInLocations"></siteMapNode>
+      </siteMapNode>
+	<siteMapNode url="~/accounting/equiantsetup.aspx" title="Equiant Transaction Mapping" description="Equiant Setup"></siteMapNode>
+	<siteMapNode url="~/setup/ManageNoteTemplates.aspx" title="Manage Note Templates" description="Manage Note Templates"></siteMapNode>
+      <siteMapNode url="" title="Kiosks" description="Kiosk Settings">
+        <siteMapNode url="~/setup/kiosks/kiosks.aspx" title="Kiosks" description="Kiosk Settings"></siteMapNode>
+        <siteMapNode url="~/setup/kiosks/Configurations.aspx" title="Configurations" description="Kiosk Configurations"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Lead Management" description="Lead Management">
+        <siteMapNode url="~/leadmanagement/leads.aspx" title="Leads" description="Leads"></siteMapNode>
+        <siteMapNode url="~/leadmanagement/leadtemplates.aspx" title="Lead Import Templates" description="Lead Import Templates"></siteMapNode>
+        <siteMapNode url="~/leadmanagement/LeadLists.aspx" title="Manage Lead Lists" description="Manage Lead Lists"></siteMapNode>
+        <siteMapNode url="~/leadmanagement/LeadPrograms.aspx" title="Lead Programs" description="Manage Lead Programs"></siteMapNode>
+        <siteMapNode url="~/leadmanagement/LeadProgramEntryForms.aspx" title="Lead Program Entry Forms" description="Manage Lead Program Entry Forms"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Letters" description="Letter Setup">
+        <siteMapNode url="~/setup/letters/letters.aspx" title="Letters" description="Letters"></siteMapNode>
+        <siteMapNode url="~/setup/letters/letterTypes.aspx" title="Letter Types" description="Letter Types"></siteMapNode>
+        <siteMapNode url="~/setup/letters/letterTagStyles.aspx" title="Letter Tag Styles" description="Letter Tag Styles"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Online" description="Public Site Settings">
+        <siteMapNode url="~/online/calendarevents.aspx" description="Calendar Events" title="Calendar Events"></siteMapNode>
+        <siteMapNode url="~/online/OwnerFAQs.aspx" description="Owner FAQs" title="Owner FAQs"></siteMapNode>
+        <siteMapNode url="~/online/SEOTools.aspx" description="SEO Tools" title="SEO Tools"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="~/marketing/campaigns.aspx" title="Campaigns" description="Campaigns"/>
+      <siteMapNode url="~/setup/comboitems.aspx" title="ComboItems" description="ComboItems" />
+      <siteMapNode url="~/setup/printers/printers.aspx" title="Printers" description="Printer Polling Setup"></siteMapNode>
+      <siteMapNode url="~/marketing/premiums.aspx" title="Premiums" description="Premiums"/>
+      <siteMapNode url="~/setup/PremiumBundles.aspx" title="Premium Bundles" description="Premium Bundles"></siteMapNode>
+      <siteMapNode url="~/setup/combineprospects.aspx" title="Combine Prospects" description="Combine Prospects"/>
+      <siteMapNode url="~/setup/EditVendorSalesLocation.aspx" title="Edit Vendor's Sales Locations" description="Combine Prospects"/>
+      <siteMapNode url="~/general/GiftCards.aspx" title="Gift Card Allocation" description="Gift Card Allocation"/>
+      <siteMapNode url="~/setup/PackageLookup.aspx" title="Package List" description="Package List"></siteMapNode>
+      <siteMapNode url="~/setup/PackageLetters.aspx" title="Package Letters" description="Package Letters"></siteMapNode>
+      <siteMapNode url="~/setup/ReservationLetters.aspx" title="Reservation Confirmation Letters" description="Reservation Confirmation Letters"></siteMapNode>
+      <siteMapNode url="~/setup/TourLetters.aspx" title="Tour Confirmation Letters" description="Tour Confirmation Letters"></siteMapNode>
+      <siteMapNode url="~/setup/RateTables.aspx" title="RateTables" description="RateTables">
+      <siteMapNode url="~/setup/RateTableRates.aspx" title="RateTable Rates" description="RateTable Rates"></siteMapNode>
+      <siteMapNode url="~/setup/RateTableHolidays.aspx" title="RateTable Holidays" description="RateTable Holidays"></siteMapNode>
+      </siteMapNode>  
+      <siteMapNode url="~/setup/AutomatedPrintConfirmationLetters.aspx" title="CZar Letters Batch Print" description="CZar Letters Batch Print"></siteMapNode>
+      <siteMapNode url="~/setup/TourWaveLimits.aspx" title="Set Wave Limits" description="Set Wave Limits"></siteMapNode>
+      <siteMapNode url="~/setup/GolfCourses.aspx" title="Golf Courses" description="Golf Courses"></siteMapNode>
+    </siteMapNode>
+    
+
+    <siteMapNode url="" title="Manuals" description="Manuals">
+      <siteMapNode url="~/add-ins/OS TRAINING MANUAL - Final 11-15-13.pdf" title="Owner Services" description="Owner Services Manuals">
+      </siteMapNode>
+      <siteMapNode url="~/add-ins/CZAR QUALIFICATIONS.xlsx" title="CZar Qualifications" description="CZar Qualifications (Excel 2008+)">
+      </siteMapNode>
+    </siteMapNode>
+    <siteMapNode url="~/marketing/dnc.aspx" title="Internal Do Not Call" description="Do Not Call" />
+   </siteMapNode>
+</siteMap>

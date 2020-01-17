@@ -1,0 +1,262 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/crms.master" AutoEventWireup="false" CodeFile="EnterBooking.aspx.vb" Inherits="marketing_EnterBooking" %>
+<%@ Register Src="~/controls/DateField.ascx" TagName="DateField" TagPrefix="kcp" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+
+    <h1>
+        <asp:Label runat="server" ID="lblVendorName"></asp:Label>        
+    </h1>
+
+    <asp:UpdatePanel runat="server" ID="updatePanel1" UpdateMode="Conditional">
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="ddlCampaigns" EventName="TextChanged" />            
+        </Triggers>
+        <ContentTemplate>
+            <div>
+            <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3">
+                        <fieldset>
+                            <legend>Leads</legend>
+                                <asp:RadioButtonList runat="server" ID="rblChooseLead" RepeatLayout="Flow" AutoPostBack="true" RepeatDirection="Horizontal">
+                                    <asp:ListItem Text="&nbsp;New Lead" Value="new_lead" style="padding-right:20px;"></asp:ListItem>
+                                    <asp:ListItem Text="&nbsp;Existing Lead" Value="existing_lead" Selected="True"></asp:ListItem>
+                                </asp:RadioButtonList>
+                            
+                        </fieldset>
+                        
+                    </td>                    
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Campaign</span>                        
+                    </td>
+                    <td>
+                        <span>
+                            <asp:DropDownList runat="server" ID="ddlCampaigns" AutoPostBack="true">                                
+                              </asp:DropDownList>
+                        </span>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>Lead ID</span></td>
+                    <td colspan="3"><span><asp:TextBox runat="server" ID="txtLeadID" AutoPostBack="true"></asp:TextBox></span></td>
+                </tr>                    
+                <tr>
+                    <td>
+                        <span>Phone 1:</span>
+                    </td>
+                    <td>
+                        <span><asp:TextBox runat="server" ID="txtPhone1" AutoPostBack="false"></asp:TextBox></span>
+                    </td>
+                   <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>First Name</span>
+                    </td>
+                    <td>
+                         <span><asp:TextBox runat="server" ID="txtFirstName"></asp:TextBox></span>
+                    </td>
+                    <td>
+                         <span>Last Name</span>
+                    </td>
+                    <td>
+                        <span><asp:TextBox runat="server" ID="txtLastName"></asp:TextBox></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Spouse First</span>
+                    </td>
+                    <td>
+                        <span><asp:TextBox runat="server" ID="txtSpouseFirst"></asp:TextBox></span>
+                    </td>
+                    <td>
+                         <span>Spouse Last</span>
+                    </td>
+                    <td>
+                        <span><asp:TextBox runat="server" ID="txtSpouseLast"></asp:TextBox></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Street Address</span>
+                    </td>
+                    <td>
+                        <span><asp:TextBox runat="server" ID="txtAddress"></asp:TextBox></span>
+                   </td>
+                   <td>
+                        <span>Email</span>
+                   </td>
+                   <td>
+                        <span><asp:TextBox runat="server" ID="txtEmail"></asp:TextBox></span>
+                   </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>City</span>
+                    </td>
+                    <td>
+                         <span><asp:TextBox runat="server" ID="txtCity"></asp:TextBox></span>
+                    </td>
+                    <td>
+                        <span>State</span>
+                    </td>
+                    <td>                        
+                        <asp:DropDownList runat="server" ID="ddlState" AppendDataBoundItems="true">
+                            <asp:ListItem Value="0" Text="(empty)"></asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
+                </tr>    
+                <tr>
+                     <td>
+                        <span>Postal Code</span>
+                    </td>
+                    <td>
+                        <span><asp:TextBox runat="server" ID="txtPostalCode"></asp:TextBox></span>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>            
+                <tr>
+                    <td>
+                        <span>Marital Status</span>
+                    </td>
+                    <td>
+                        <span><asp:DropDownList runat="server" ID="ddlMarital" AppendDataBoundItems="true">
+                                <asp:ListItem Value="0" Text="(empty)"></asp:ListItem>
+                              </asp:DropDownList></span>
+                    </td><td>
+
+                    </td><td>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Phone 2:</span>
+                    </td>
+                    <td>
+                        <span><asp:TextBox runat="server" ID="txtPhone2"></asp:TextBox></span>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Tour Date</span>
+                    </td>
+                    <td>
+                        <kcp:DateField runat="server" ID="dfTourDate" />
+                    </td>
+                    <td>
+                        <span>Tour Location</span>
+                    </td>
+                    <td>
+                       <p>
+                           <asp:DropDownList runat="server" ID="ddlTourLocation"></asp:DropDownList>
+                       </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Wave</span>
+                    </td>
+                    <td>
+                        <span>
+                            <asp:DropDownList runat="server" ID="ddlWave"></asp:DropDownList>
+                        </span>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+            </div>
+        <div>
+
+        
+        <h2>Premiums</h2>       
+            <asp:GridView ID="gv1" runat="server" DataKeyNames="premiumID" AutoGenerateColumns="false">
+                <Columns>
+                    <asp:TemplateField HeaderText="Select">
+                        <ItemTemplate>
+                            <asp:CheckBox ID="cbPremiumSelect" runat="server" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="premiumName" HeaderText="Premium Name" />
+                    <asp:TemplateField HeaderText="Qty">
+                        <ItemTemplate>
+                            <asp:DropDownList runat="server" ID="ddlQty">                                
+                                <asp:ListItem>1</asp:ListItem>
+                                <asp:ListItem>2</asp:ListItem>
+                                <asp:ListItem>3</asp:ListItem>
+                                <asp:ListItem>4</asp:ListItem>
+                                <asp:ListItem>5</asp:ListItem>
+                                <asp:ListItem>6</asp:ListItem>
+                                <asp:ListItem>7</asp:ListItem>
+                                <asp:ListItem>8</asp:ListItem>
+                                <asp:ListItem>9</asp:ListItem>                                
+                            </asp:DropDownList>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
+        <asp:Label runat="server" ID="label1"></asp:Label>
+       
+        </div>
+        
+            <br />
+    <table>
+        <tr>
+            <td><asp:Label runat="server" ID="lblOPC">OPC Rep:</asp:Label></td>
+            <td>
+                 <span>
+                    <asp:DropDownList runat="server" ID="ddlOpcRep"></asp:DropDownList>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td><asp:Label runat="server" ID="lblBookingLocation">Booking Location:</asp:Label></td>
+            <td>
+                 <span>
+                    <asp:DropDownList runat="server" ID="ddlBookingLocation"></asp:DropDownList>
+                </span>
+            </td>
+        </tr>
+    </table>
+                    
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+    
+    <div>
+        
+        <br />
+        <asp:Button runat="server" ID="btnSubmit" Text="Submit" />
+    </div>
+    
+</asp:Content>
+

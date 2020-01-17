@@ -1,0 +1,31 @@
+<html>
+
+<head>
+<title>Campaign Efficiency</title>
+<script language="javascript" src = "scripts/campaign_efficiency.js"></script>
+<script language="javascript" src = "../../../scripts/ajaxrequest.js"></script>
+<script language="javascript" src = "../../../scripts/scw.js"></script>
+</head>
+
+<body>
+<form onsubmit="Run_Report();return false;">
+	<table>
+		<tr>
+			<td>Start Date:</td>
+			<td><input type="text" name = "sdate" onclick = "scwShow(this,this);" readonly></td>
+		</tr>
+		<tr>
+			<td>End Date:</td>
+			<td><input type="text" name = "edate" onclick = "scwShow(this,this);" readonly></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value = "Run Report" name = "sub_button"></td>
+		</tr>
+		
+	</table>
+	<div id = "status" style="display:none;"><img src = "../../../images/progressbar.gif" width="32" height="32"></div>
+	<div id = "report"></div>
+</form>
+</body>
+
+</html>

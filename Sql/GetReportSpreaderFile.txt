@@ -1,0 +1,22 @@
+﻿SELECT t_Contract.ContractID, t_Contract.ContractNumber as KCP#,cs.comboitem as Status,
+cst.SaleType, P.LastName, P.FirstName, 
+P.SpouseLastName + ', ' + P.SPOUSEFIRSTNAME as [Co-Owner], 
+t_Mortgage.SalesPrice as [Sales Price], t_Mortgage.DPTotal as [Total Down], 
+t_Mortgage.SalesPrice - t_Mortgage.DPTotal as [Face Value], 
+t_Mortgage.TotalFinanced As [Amount on Note], 
+t_Unit.Name + '/' + cast(t_SalesInventory.Week as varchar) as UnitWeek, f.frequency as Frequency, 
+t_Contract.ContractDate as [Contract Date],v_ContractUserFields.DeedOfTrustInstrumentNumber, 
+v_ContractUserFields.DeedRecDate, v_ContractUserFields.ConveyanceType, 
+v_ContractUserFields.ConveyanceRecDate, v_ContractUserFields.DOTRecDate   
+	 			FROM   ((((((t_Contract t_Contract   
+	 				LEFT OUTER JOIN t_SoldInventory t_SoldInventory ON t_SoldInventory.ContractID = t_Contract.ContractID)   
+	 					LEFT OUTER JOIN t_SalesInventory t_SalesInventory ON t_SoldInventory.SalesInventoryID = t_SalesInventory.SalesInventoryID)   
+	 						INNER JOIN t_Mortgage t_Mortgage ON t_Contract.ContractID = t_Mortgage.ContractID)   
+	 							INNER JOIN t_Prospect P ON t_Contract.ProspectID = P.ProspectID ) 
+	 						INNER JOIN v_ContractUserFields v_ContractUserFields ON t_Contract.ContractID = v_ContractUserFields.ContractID))   
+	 					LEFT OUTER JOIN t_Frequency f on f.frequencyid = t_Contract.frequencyid  
+	 				LEFT OUTER JOIN t_Unit t_Unit ON t_SalesInventory.UnitID = t_Unit.UnitID   
+	 				LEFT OUTER JOIN t_Comboitems cs on cs.comboitemid = t_Contract.statusid  
+	 				LEFT OUTER JOIN v_ContractInventory cst on cst.contractid = t_Contract.contractid  
+	 			WHERE  v_ContractUserFields.ExhibitNumber = '{0}'  
+	   ORDER BY t_Contract.ContractNumber 

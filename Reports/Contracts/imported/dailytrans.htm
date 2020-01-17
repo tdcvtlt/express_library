@@ -1,0 +1,8 @@
+<html><head><meta http-equiv="Content-Language" content="en-us"><title>Daily Trans</title><script language="javascript" src = "../../../scripts/general.js"></script>
+<script language="javascript" src = "../../../scripts/ajaxRequest.js"></script>
+<script language="javascript" src = "scripts/dailytrans.js"></script>
+<script language="javascript" src = "../../../scripts/scw.js"></script>
+<meta name="Microsoft Theme" content="none, default">
+<meta name="Microsoft Border" content="none, default">
+</head><body><p><br>&nbsp;</p><form onSubmit="return false;" ><input TYPE="hidden" NAME="VTI-GROUP" VALUE="0">
+<table border="0"  id="table1"><tr><td>Location:</td><td><p><select size="1" name="location"><option selected value="KCP">KCP</option><option value="Ric">Richmond</option></select></p></td></tr><tr><td>Start Date:</td><td><input type="text" name="startdate" size="20" readonly onclick = "scwShow(this,this);"></td></tr><tr><td>End Date:</td><td><input type="text" name="enddate" size="20" readonly onclick = "scwShow(this,this);"></td></tr><tr><td colspan="2"><input type="button" value="Run Report" name="B1" onclick = "Run_Report();"><input type="button" value="Printable Version" name="B1" onclick ="var mWin = window.open(); mWin.document.write(document.getElementById('report').innerHTML);"></td></tr></table><br><div id = "report"></div></form></body></html>

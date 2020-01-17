@@ -1,0 +1,761 @@
+﻿Imports System.Text.RegularExpressions
+Imports System.Data
+Imports System.Data.SqlClient
+
+Partial Class marketing_EnterBooking
+    Inherits System.Web.UI.Page
+
+    Private enterBooking As New clsEnterBooking()
+    Private vendor2Personnel As New clsVendor2Personnel()
+    Private lead As New clsLeads()
+    Private m_TourID As Int32 = 0
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+        If CheckSecurity("Vendor", "Hide Booking Location", , , CType(Session("user"), User).PersonnelID) Then
+            lblBookingLocation.Visible = False
+            ddlBookingLocation.Visible = False
+        End If
+        If CheckSecurity("Vendor", "Hide OPC Rep", , , CType(Session("user"), User).PersonnelID) Then
+            lblOPC.Visible = False
+            ddlOpcRep.Visible = False
+        End If
+        vendor2Personnel.PersonnelID = CType(Session("user"), User).PersonnelID
+        enterBooking.VendorID = CType(Session("user"), User).ActiveVendor
+
+        'If enterBooking.VendorID <= 0 Then Response.Redirect("../default.aspx")
+        enterBooking.VendorID = 34
+
+        Dim vendor = New clsVendor()
+        vendor.VendorID = enterBooking.VendorID
+        vendor.Load()
+        lblVendorName.Text = "Vendor: " & vendor.Vendor
+
+        If IsPostBack = False Then
+
+            ddlCampaigns.DataSource = enterBooking.Campaigns
+            ddlCampaigns.DataValueField = "Expression1"
+            ddlCampaigns.DataTextField = "name"
+            ddlCampaigns.DataBind()
+
+            rblChooseLead_SelectedIndexChanged(Nothing, EventArgs.Empty)
+
+            With New clsComboItems
+                ddlMarital.DataSource = .Load_ComboItems("maritalstatus")
+                ddlMarital.DataTextField = "comboitem"
+                ddlMarital.DataValueField = "comboitemid"
+                ddlMarital.DataBind()
+
+                ddlState.DataSource = .Load_ComboItems("state")
+                ddlState.DataTextField = "comboitem"
+                ddlState.DataValueField = "comboitemid"
+                ddlState.DataBind()
+            End With
+
+            ddlWave.DataSource = enterBooking.TourTimes
+            ddlWave.DataValueField = "comboitemid"
+            ddlWave.DataTextField = "description"
+            ddlWave.DataBind()
+
+            ddlTourLocation.DataSource = enterBooking.TourLocations
+            ddlTourLocation.DataTextField = "comboitem"
+            ddlTourLocation.DataValueField = "comboitemid"
+            ddlTourLocation.DataBind()
+
+            ddlBookingLocation.DataSource = enterBooking.BookingLocations
+            ddlBookingLocation.DataTextField = "location"
+            ddlBookingLocation.DataValueField = "saleslocationid"
+            ddlBookingLocation.DataBind()
+
+            ddlOpcRep.DataSource = enterBooking.OPCReps
+            ddlOpcRep.DataTextField = "rep"
+            ddlOpcRep.DataValueField = "personnelid"
+            ddlOpcRep.DataBind()
+        End If
+    End Sub
+
+    Private Sub ET()
+        'send an email confirmation after creating a tour for CZAR
+        Dim vendor = New clsVendor()
+        vendor.VendorID = enterBooking.VendorID
+        vendor.Load()
+
+
+        If String.IsNullOrEmpty(vendor.Vendor) = False Then
+            If vendor.Vendor.Trim().ToLower() = "Czar".ToLower() Then
+
+                If ddlCampaigns.SelectedItem.Text.ToLower() = "Montclair-DYD".ToLower() Then
+
+
+
+                    Dim address = New clsEmail().Get_Primary_Email(15165437)
+
+
+                    If String.IsNullOrEmpty(address) = False Then
+
+                        Dim email As clsEnterBooking.IEmail = New clsEnterBooking.CZarEmail()
+                        AddHandler email.EmailCompleted, AddressOf EmailCompleted
+                        AddHandler email.EmailFailed, AddressOf EmailFailed
+
+
+
+                        Dim campaignID As Int32 = ddlCampaigns.SelectedItem.Value.Substring(ddlCampaigns.SelectedItem.Value.IndexOf(";") + 1)
+                        Dim tourLocationID As Int32 = ddlTourLocation.SelectedItem.Value
+
+                        Response.Write(campaignID & " " & tourLocationID & " - " & 29292)
+
+                        email.Email(1528376, tourLocationID, campaignID, address.Trim())
+
+                    End If
+                End If
+            End If
+        End If
+    End Sub
+    Protected Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
+        Dim prospect As New clsProspect()
+        Dim prospect_id As Int32 = 0, address_id As Int32 = 0, phone_id As Int32 = 0, tour_id As Int32 = 0, lead_id As Int32 = 0
+        Dim isOwner As Boolean = False, twl_message = String.Empty
+
+        If rblChooseLead.SelectedValue = "new_lead" Then
+            If CheckSecurity("PackageEntry", "NewLeads", , , CType(Session("user"), User).PersonnelID) = False Then
+                ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('You do not have permission to create leads.');", True)
+                Return
+            End If
+        Else
+            lead_id = txtLeadID.Attributes("LEAD_ID")
+            If lead_id = 0 Then
+                ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('Either Lead ID is missing or invalid.');", True)
+                Return
+            End If
+        End If
+
+        If String.IsNullOrEmpty(txtLeadID.Attributes("IS_OWNER")) Then
+            isOwner = False
+        Else
+            isOwner = CType(txtLeadID.Attributes("IS_OWNER"), Boolean)
+        End If
+
+        If isOwner = False Then
+            If String.IsNullOrEmpty(txtPhone1.Text.Trim()) Then
+                ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('Phone 1 is missing.');", True)
+                Return
+            End If
+
+            If String.IsNullOrEmpty(txtFirstName.Text.Trim()) Then
+                ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('First name is missing.');", True)
+                Return
+            End If
+
+            If String.IsNullOrEmpty(txtLastName.Text.Trim()) Then
+                ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('Last name is missing.');", True)
+                Return
+            End If
+
+            If String.IsNullOrEmpty(dfTourDate.Selected_Date) Then
+                ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('Tour Date is missing.');", True)
+                Return
+            End If
+        End If
+
+        Dim emailAddress = txtEmail.Text.Trim()
+
+        If String.IsNullOrEmpty(emailAddress) = False Then
+            If emailAddress.Length > 0 Then
+                Dim emailExpression As New Regex("^[_a-z0-9-]+(.[a-z0-9-]+)@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$", RegexOptions.IgnoreCase)
+                If emailExpression.IsMatch(emailAddress) = False Then
+                    ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('Not a valid email address.');", True)
+                    Return
+                End If
+            End If
+        End If
+
+        If rblChooseLead.SelectedValue = "existing_lead" Then
+
+            If Not (IsNumeric(txtLeadID.Text)) Then
+                ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('Lead ID contains only numbers.');", True)
+                Return
+            End If
+
+            twl_message = TourWaveLimit_Reached()
+            If twl_message.Length > 0 Then
+                TourWaveLimit_Alert(twl_message)
+                Return
+            End If
+
+            prospect_id = txtLeadID.Attributes("PROSPECT_ID")
+
+            With prospect
+                If isOwner = False Then
+                    .UserID = CType(Session("user"), User).PersonnelID
+                    .Prospect_ID = prospect_id
+                    .Load()
+                    .First_Name = txtFirstName.Text.Trim()
+                    .Last_Name = txtLastName.Text.Trim()
+                    .SpouseFirstName = txtSpouseFirst.Text.Trim()
+                    .SpouseLastName = txtSpouseLast.Text.Trim()
+                    .MaritalStatusID = IIf(ddlMarital.SelectedItem.Text.Equals("(empty)") = False, ddlMarital.SelectedValue, 0)
+
+                    Dim source = String.Empty, email = String.Empty
+
+                    With New clsLeads()
+                        .LeadID = lead_id
+                        .Load()
+                        email = .EmailAddress
+                        source = .Source.Trim()
+                    End With
+
+                    .SourceID = New clsComboItems().Lookup_ID("ProspectSource", source)
+                    .Save()
+                    prospect_id = .Prospect_ID
+
+                    If emailAddress.Length > 0 Or String.IsNullOrEmpty(email) = False Then
+
+                        With New clsEmail()
+                            .EmailID = 0
+                            .Load()
+                            .ProspectID = prospect_id
+                            .IsActive = True
+                            .IsPrimary = True
+                            .Email = IIf(emailAddress.Length > 0, emailAddress.Trim(), email)
+                            .UserID = CType(Session("User"), User).PersonnelID
+                            .Save()
+                        End With
+
+                    End If
+
+                End If
+
+                With New clsLeads()
+                    .LeadID = lead_id
+                    .Load()
+                    .ProspectID = prospect_id
+                    .Save()
+                End With
+            End With
+
+            address_id = txtLeadID.Attributes("ADDRESS_ID")
+            If isOwner = False Then Address_Save(prospect_id, address_id)
+
+            Dim phoneID As Integer = txtLeadID.Attributes("PHONE_ID")
+            If phoneID > 0 And txtPhone1.Text.Trim() > 6 Then Phone_Save(prospect_id, txtPhone1.Text, phoneID)
+            If txtPhone2.Text.Trim().Length > 6 Then Phone_Save(prospect_id, txtPhone2.Text, 0)
+
+            tour_id = Tour_Save(prospect_id)
+            Premiums_Save(tour_id)
+            Rep2Tour_Save(tour_id)
+
+            m_TourID = tour_id
+
+            ddlCampaigns_TextChanged(Nothing, EventArgs.Empty)
+            Form_Clear()
+            txtLeadID.Text = ""
+        End If
+
+
+        If rblChooseLead.SelectedValue = "new_lead" Then
+
+            twl_message = TourWaveLimit_Reached()
+            If twl_message.Length > 0 Then
+                TourWaveLimit_Alert(twl_message)
+                Return
+            End If
+
+            prospect_id = Create_Update_Prospect(0)
+            If prospect_id = 0 Then Return
+            Lead_Save(prospect_id)
+            Address_Save(prospect_id, 0)
+
+            Dim phoneID As Integer = txtLeadID.Attributes("PHONE_ID")
+            If phoneID > 0 And txtPhone1.Text.Trim() > 6 Then
+                Phone_Save(prospect_id, txtPhone1.Text, phoneID)
+            Else
+                Phone_Save(prospect_id, txtPhone1.Text, 0)
+            End If
+
+            If txtPhone2.Text.Trim().Length > 6 Then Phone_Save(prospect_id, txtPhone2.Text, 0)
+
+            tour_id = Tour_Save(prospect_id)
+            Premiums_Save(tour_id)
+
+            m_TourID = tour_id
+
+            ddlCampaigns_TextChanged(Nothing, EventArgs.Empty)
+            Form_Clear()
+            txtLeadID.Text = String.Empty
+            txtPhone1.Text = String.Empty
+
+        End If
+
+
+
+        'send an email confirmation after creating a tour for CZAR
+        Dim vendor = New clsVendor()
+        vendor.VendorID = enterBooking.VendorID
+        vendor.Load()
+
+        If String.IsNullOrEmpty(vendor.Vendor) = False Then
+            If vendor.Vendor.Trim().ToLower() = "Czar".ToLower() Then
+
+                If ddlCampaigns.SelectedItem.Text.ToLower() = "Montclair-DYD".ToLower() Then
+
+                    Dim address = New clsEmail().Get_Primary_Email(prospect_id)
+
+                    If String.IsNullOrEmpty(address) = False Then
+
+                        Dim email As clsEnterBooking.IEmail = New clsEnterBooking.CZarEmail()
+                        AddHandler email.EmailCompleted, AddressOf EmailCompleted
+                        AddHandler email.EmailFailed, AddressOf EmailFailed
+
+                        Dim campaignID As Int32 = ddlCampaigns.SelectedItem.Value.Substring(ddlCampaigns.SelectedItem.Value.IndexOf(";") + 1)
+                        Dim tourLocationID As Int32 = ddlTourLocation.SelectedItem.Value
+
+                        email.Email(m_TourID, tourLocationID, campaignID, address.Trim())
+
+                    End If
+                End If
+
+            Else
+                ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, "window.alert('New Tour ID # " & m_TourID & "');", True)
+            End If
+        End If
+
+
+
+    End Sub
+
+    Private Sub EmailCompleted(address As String)
+        ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, String.Format("window.alert('New TourID = {0}\n\nThe confirmation letter was successfully sent to {1}.');", m_TourID, address), True)
+    End Sub
+    Private Sub EmailFailed(address As String)
+        ClientScript.RegisterClientScriptBlock(Me.GetType(), DateTime.Now.ToLongTimeString, String.Format("window.alert('New TourID = {0}\n\nThe confirmation letter sent to {1} failed.');", m_TourID, address), True)
+    End Sub
+
+    Protected Sub ddlCampaigns_TextChanged(sender As Object, e As EventArgs) Handles ddlCampaigns.TextChanged
+        If ddlCampaigns.Items.Count > 0 Then
+            gv1.DataSource = enterBooking.GetPremiumsByCampaign(ddlCampaigns.SelectedItem.Value.Substring(0, ddlCampaigns.SelectedItem.Value.IndexOf(";")))
+            gv1.DataBind()
+        End If
+    End Sub
+
+    Protected Sub txtLeadID_TextChanged(sender As Object, e As EventArgs) Handles txtLeadID.TextChanged
+
+        Form_Clear()
+        With lead
+            Dim lead_id As Integer = 0
+            If Integer.TryParse(txtLeadID.Text.Trim(), lead_id) = False Then Return
+            .LeadID = enterBooking.SearchByLeadID(txtLeadID.Text.Trim())
+
+            If .LeadID = 0 Then
+                txtLeadID.Text = String.Empty
+                txtLeadID.Focus()
+                Return
+            End If
+
+            .Load()
+
+            Dim prospect = New clsProspect()
+            Dim byPhoneRow As DataRow = Nothing
+
+            If .PhoneNumber.Trim().Length > 0 Then
+                byPhoneRow = enterBooking.SearchByPhone(.PhoneNumber.Trim())
+            End If
+
+            txtLeadID.Attributes.Add("LEAD_ID", .LeadID)
+
+            If .ProspectID > 0 Then
+                prospect.Prospect_ID = .ProspectID
+                prospect.Load()
+                Prospect_Fill(prospect)
+
+            ElseIf Not byPhoneRow Is Nothing Then
+                prospect.Prospect_ID = byPhoneRow("prospectid").ToString()
+                prospect.Load()
+                Prospect_Fill(prospect)
+
+            Else
+                txtLeadID.Attributes.Add("IS_OWNER", "False")
+                Lead_Fill(lead)
+            End If
+
+            If .ProspectID > 0 Then
+                txtLeadID.Attributes.Add("PROSPECT_ID", prospect.Prospect_ID)
+                If enterBooking.IsOwner(.ProspectID) Then
+                    txtLeadID.Attributes.Add("IS_OWNER", "True")
+                    Input_Disable()
+                Else
+                    txtLeadID.Attributes.Add("IS_OWNER", "False")
+                End If
+            End If
+        End With
+    End Sub
+
+    Private Sub Form_Clear()
+
+        dfTourDate.Selected_Date = String.Empty
+
+        ddlState.ClearSelection()
+        ddlMarital.ClearSelection()
+        ddlMarital.Enabled = True
+        ddlState.Enabled = True
+
+        txtFirstName.Text = ""
+        txtFirstName.Enabled = True
+
+        txtLastName.Text = ""
+        txtLastName.Enabled = True
+
+        txtSpouseFirst.Text = ""
+        txtSpouseFirst.Enabled = True
+
+        txtSpouseLast.Text = ""
+        txtSpouseLast.Enabled = True
+
+        txtEmail.Text = ""
+
+        If rblChooseLead.SelectedValue = "existing_lead" Then
+            txtPhone1.Text = ""
+        End If
+        txtPhone1.Enabled = True
+
+        txtPhone2.Text = ""
+
+        txtAddress.Text = ""
+        txtAddress.Enabled = True
+
+        txtCity.Text = ""
+        txtCity.Enabled = True
+
+        txtPostalCode.Text = ""
+        txtPostalCode.Enabled = True
+
+        txtLeadID.Enabled = True
+
+        If rblChooseLead.SelectedValue = "new_lead" Then
+            txtLeadID.Enabled = False
+        End If
+
+        txtLeadID.Attributes.Remove("PROSPECT_ID")
+        txtLeadID.Attributes.Remove("ADDRESS_ID")
+        txtLeadID.Attributes.Remove("PHONE_ID")
+        txtLeadID.Attributes.Remove("LEAD_ID")
+        txtLeadID.Attributes.Remove("IS_OWNER")
+    End Sub
+
+    Private Sub Prospect_Fill(p As clsProspect)
+
+        txtFirstName.Text = p.First_Name
+        txtLastName.Text = p.Last_Name
+        txtSpouseFirst.Text = p.SpouseFirstName
+        txtSpouseLast.Text = p.SpouseLastName
+        ddlMarital.SelectedIndex = ddlMarital.Items.IndexOf(ddlMarital.Items.FindByValue(p.MaritalStatusID.ToString()))
+
+        If rblChooseLead.SelectedValue = "new_lead" Then Return
+
+        Dim addr = New clsAddress()
+        addr.ProspectID = p.Prospect_ID
+        Address_Fill(addr)
+
+        Dim phn = New clsPhone()
+        phn.ProspectID = p.Prospect_ID
+        Phone_Fill(phn)
+    End Sub
+
+    Private Sub Phone_Fill(p As clsPhone)
+        With p
+            Dim ds = .List()
+            Dim dv As DataView = CType(ds.Select(DataSourceSelectArguments.Empty), DataView)
+            If dv.Count > 0 Then
+                Dim dvr = dv.Table.Rows.OfType(Of DataRow).First()
+                Try
+                    txtPhone1.Text = dvr("number").trim()
+                    txtLeadID.Attributes.Add("PHONE_ID", dvr("ID"))
+                Catch ex As Exception
+                    txtPhone2.Text = ex.Message
+                End Try
+            End If
+        End With
+    End Sub
+
+    Private Sub Address_Fill(addr As clsAddress)
+        Try
+            Dim addrDataView As DataView = Nothing
+            Dim addrDataRow As DataRow
+
+            Dim addrDataSource = addr.List()
+
+            addrDataView = CType(addrDataSource.Select(DataSourceSelectArguments.Empty), DataView)
+
+            If addrDataView.Count > 0 Then
+                addrDataRow = addrDataView.Table.Rows.OfType(Of DataRow).First()
+
+                txtPostalCode.Text = addrDataRow("Zip").ToString().Trim()
+                txtAddress.Text = addrDataRow("Address1").ToString().Trim()
+                txtCity.Text = addrDataRow("City").ToString().Trim()
+
+                ddlState.SelectedIndex = ddlState.Items.IndexOf(ddlState.Items.FindByText(addrDataRow("State").ToString().Trim()))
+
+                txtLeadID.Attributes.Add("ADDRESS_ID", addrDataRow("ID").ToString().Trim())
+            Else
+                txtLeadID.Attributes.Add("ADDRESS_ID", -1)
+            End If
+        Catch ex As Exception
+            txtPhone2.Text = ex.Message
+        End Try
+    End Sub
+
+    Private Sub Lead_Fill(l As clsLeads)
+
+        txtFirstName.Text = l.FirstName
+        txtLastName.Text = l.LastName
+        txtSpouseFirst.Text = l.SpouseName
+        txtSpouseLast.Text = l.SpouseName
+
+        If Not ddlMarital.Items.FindByText(l.MaritalStatus) Is Nothing Then
+            ddlMarital.Items.FindByText(l.MaritalStatus).Selected = True
+        End If
+
+        txtPostalCode.Text = l.PostalCode
+        txtAddress.Text = l.Address1
+        txtCity.Text = l.City
+        txtPhone1.Text = l.PhoneNumber.Trim()
+        txtEmail.Text = l.EmailAddress
+
+        If Not ddlState.Items.FindByText(l.State) Is Nothing Then
+            ddlState.Items.FindByText(l.State).Selected = True
+        End If
+    End Sub
+
+    Private Sub Input_Disable()
+        txtFirstName.Enabled = False
+        txtLastName.Enabled = False
+        txtSpouseFirst.Enabled = False
+        txtSpouseLast.Enabled = False
+        txtAddress.Enabled = False
+        txtCity.Enabled = False
+        txtPostalCode.Enabled = False
+        ddlMarital.Enabled = False
+        ddlState.Enabled = False
+    End Sub
+
+
+
+    Protected Sub Page_PreRender(sender As Object, e As EventArgs) Handles Me.PreRender
+        'refresh premium gridview on page load
+        If IsPostBack = False Then ddlCampaigns_TextChanged(Nothing, EventArgs.Empty)
+    End Sub
+
+    Protected Sub rblChooseLead_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblChooseLead.SelectedIndexChanged
+        Form_Clear()
+
+        txtLeadID.Enabled = False
+        txtLeadID.Text = String.Empty
+
+        txtPhone1.Text = String.Empty
+        txtPhone1.AutoPostBack = False
+        ddlBookingLocation.Enabled = True
+
+        If rblChooseLead.SelectedValue = "new_lead" Then
+            ddlBookingLocation.Enabled = False
+            txtPhone1.AutoPostBack = True
+            txtPhone1.Focus()
+        Else
+            txtLeadID.Focus()
+            txtLeadID.Enabled = True
+        End If
+    End Sub
+
+    Private Function TourWaveLimit_Reached() As String
+        Dim message = String.Empty
+        With New clsTour
+            .TourDate = dfTourDate.Selected_Date
+            .TourLocationID = ddlTourLocation.SelectedItem.Value
+            .TourTime = ddlWave.SelectedItem.Value
+            .CampaignID = ddlCampaigns.SelectedItem.Value.Substring(ddlCampaigns.SelectedItem.Value.IndexOf(";") + 1)
+            .StatusID = New clsComboItems().Lookup_ID("tourstatus", "booked")
+            .BookingDate = DateTime.Now
+
+            If String.IsNullOrEmpty(.TourDate) = False And _
+                .CampaignID > 0 And .TourTime > 0 And (New clsComboItems).Lookup_ComboItem(.StatusID) = "Booked" _
+                And .TourLocationID > 0 Then
+
+                Dim twl = New clsTourWaveLimits()
+                Try
+                    Dim ret_c = twl.IsLimitReached(twl.GetCampaignTypeID(.CampaignID), _
+                                                .TourTime, .TourDate, .TourDate, .TourLocationID)
+
+                    If ret_c = Integer.MinValue Then
+                        message = "alert('Tour Wave/Date unavailable. Please choose another!');"
+                    ElseIf ret_c < 1 Then
+                        message = "alert('The maximum limit set for the wave has been reached. Please choose another!');"
+                    Else
+                        message = String.Empty
+                    End If
+                Catch ex As Exception
+                    Response.Write(ex.Message)
+                End Try
+            Else
+                message = String.Empty
+            End If
+        End With
+        Return message
+    End Function
+
+    Private Sub TourWaveLimit_Alert(message As String)
+        ClientScript.RegisterClientScriptBlock(Me.GetType, DateTime.Now.ToLongTimeString(), message, True)
+    End Sub
+
+    Private Function Create_Update_Prospect(ByVal ProsID As Integer, Optional ReferringProsID As Integer = 0) As Integer
+        Dim oPros As New clsProspect
+        With oPros
+            .Prospect_ID = ProsID
+            .Load()
+            If .isOwner Then
+                .Prospect_ID = 0
+                .Load()
+            End If
+            .LocationID = 1
+            .First_Name = txtFirstName.Text
+            .Last_Name = txtLastName.Text
+            .SpouseFirstName = txtSpouseFirst.Text.Trim()
+            .SpouseLastName = txtSpouseLast.Text.Trim()
+            .MaritalStatusID = ddlMarital.SelectedValue
+            .ReferringProspectID = ReferringProsID
+            .UserID = CType(Session("User"), User).PersonnelID
+            .Save()
+        End With
+        Return oPros.Prospect_ID
+    End Function
+
+    Private Function Phone_Save(prospectID As Integer, phoneNumber As String, Optional phoneID As Integer = 0) As Integer
+        With New clsPhone
+            .PhoneID = phoneID
+            .Load()
+            .UserID = CType(Session("user"), User).PersonnelID
+            .Number = phoneNumber.Trim()
+            .ProspectID = prospectID
+            .Active = IIf(.PhoneID = 0, True, .Active)
+            .Save()
+        End With
+        Return 0
+    End Function
+
+    Private Function Address_Save(prospectID As Integer, Optional addressID As Integer = 0) As Integer
+        With New clsAddress
+            .AddressID = addressID
+            .Load()
+            .Address1 = txtAddress.Text.Trim()
+            .City = txtCity.Text.Trim()
+            .StateID = New clsComboItems().Lookup_ID("state", ddlState.SelectedItem.Text)
+            .ActiveFlag = IIf(.AddressID = 0, True, .ActiveFlag)
+            .PostalCode = txtPostalCode.Text.Trim()
+            .ProspectID = prospectID
+            .Save()
+        End With
+        Return 0
+    End Function
+
+    Private Function Lead_Save(prospectID As Integer) As Integer
+        'Insert into leads table and get a new leadid the source will be the vendor
+        Dim oLead As New clsLeads
+        oLead.LeadID = 0
+        oLead.Load()
+        oLead.Address1 = txtAddress.Text
+        oLead.City = txtCity.Text
+        oLead.DrawingID = 0
+        oLead.FirstName = txtFirstName.Text
+        oLead.LastName = txtLastName.Text
+        oLead.MaritalStatus = ddlMarital.SelectedItem.Text
+        oLead.PhoneNumber = txtPhone1.Text
+        oLead.PostalCode = txtPostalCode.Text
+        oLead.ProspectID = prospectID
+        oLead.Qualified = 0
+        oLead.Source = "Vendor"
+        oLead.VendorID = IIf(CType(Session("User"), User).ActiveVendor = 0, CType(Session("User"), User).VendorMenu, CType(Session("User"), User).ActiveVendor)
+        oLead.Save()
+        Return 0
+    End Function
+
+    Private Function Tour_Save(prospectID As Integer) As Integer
+        With New clsTour
+            .UserID = CType(Session("user"), User).PersonnelID
+            .ProspectID = prospectID
+            .TourDate = dfTourDate.Selected_Date
+            .TourLocationID = ddlTourLocation.SelectedItem.Value
+            .TourTime = ddlWave.SelectedItem.Value
+            .CampaignID = ddlCampaigns.SelectedItem.Value.Substring(ddlCampaigns.SelectedItem.Value.IndexOf(";") + 1)
+            .StatusID = New clsComboItems().Lookup_ID("tourstatus", "booked")
+            .BookingDate = DateTime.Now
+
+            Dim ds As SqlDataSource = New clsVendor().List_Vendors
+            Dim dv As DataView = CType(ds.Select(DataSourceSelectArguments.Empty), DataView)
+            If dv.OfType(Of DataRowView).Where(Function(x) x("vendor").ToString().ToLower().Equals("up4orce")).Count > 0 Then
+                .TypeID = New clsComboItems().Lookup_ID("TourType", "DYD")
+            End If
+
+            .Save()
+            Return .TourID
+        End With
+    End Function
+
+    Private Function Rep2Tour_Save(tourID As Integer) As Integer
+        With New clsVendorRep2Tour
+            .UserID = CType(Session("user"), User).PersonnelID
+            .TourID = tourID
+            .SaleLocID = IIf(ddlBookingLocation.Items.Count > 0 And ddlBookingLocation.Visible = True, ddlBookingLocation.SelectedValue, -1)
+            .UserID = IIf(ddlOpcRep.Items.Count > 0 And ddlOpcRep.Visible, ddlOpcRep.SelectedItem.Value, -1)
+            .DateCreated = DateTime.Now
+            .Save()
+        End With
+        Return 0
+    End Function
+
+    Private Function Premiums_Save(tourID As Integer) As Integer
+        For Each gvRow As GridViewRow In gv1.Rows
+            Dim cb = DirectCast(gvRow.Cells(0).FindControl("cbPremiumSelect"), CheckBox)
+            Dim dd = DirectCast(gvRow.Cells(2).FindControl("ddlQty"), DropDownList)
+            If cb.Checked Then
+
+                With New clsPremiumIssued()
+                    .UserID = CType(Session("user"), User).PersonnelID
+                    .PremiumID = gv1.DataKeys(gvRow.RowIndex).Value
+                    .KeyField = "Tourid".ToUpper()
+                    .KeyValue = tourID
+                    .DateCreated = DateTime.Now
+                    .QtyAssigned = dd.SelectedItem.Text
+                    .StatusID = New clsComboItems().Lookup_ID("PremiumStatus", "Not Issued")
+
+                    Dim m As New clsPremium()
+                    m.PremiumID = gv1.DataKeys(gvRow.RowIndex).Value
+                    m.Load()
+                    .CostEA = m.Cost
+                    .Save()
+                End With
+            End If
+        Next
+        Return 0
+    End Function
+
+
+    Protected Sub txtPhone1_TextChanged(sender As Object, e As System.EventArgs) Handles txtPhone1.TextChanged
+        Dim oPros As New clsProspect
+        Dim oPhone As New clsPhone
+
+        Form_Clear()
+        oPros.Prospect_ID = oPhone.Lookup_ProspectID(txtPhone1.Text.Trim())
+        If oPros.Prospect_ID > 0 Then
+            oPros.Load()
+            Prospect_Fill(oPros)
+            txtLeadID.Attributes.Add("PROSPECT_ID", oPros.Prospect_ID)
+            txtLeadID.Attributes.Add("IS_OWNER", IIf(oPros.isOwner, True, False))
+
+            Dim oAdd = New clsAddress()
+            oAdd.AddressID = oAdd.Get_Address_ID(oPros.Prospect_ID)
+            oAdd.Load()
+            Address_Fill(oAdd)
+
+            oPhone.PhoneID = oPhone.Get_Primary_Phone(oPros.Prospect_ID)
+            oPhone.Load()
+            Phone_Fill(oPhone)
+        End If
+    End Sub
+End Class

@@ -1,0 +1,3611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.equiant.com/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.equiant.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.equiant.com/">
+      <s:element name="IsValidAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsValidAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsValidAccountResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Credentials" type="tns:Credentials" />
+      <s:complexType name="Credentials">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="IsValidIvrAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsValidIvrAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsValidIvrAccountResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByPhone">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchByPhoneResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchByPhoneResult" type="tns:ArrayOfAnyType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAnyType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Common">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentTypeDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaymentType" type="tns:PaymentTypes" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaymentStatus" type="tns:PaymentStatus" />
+          <s:element minOccurs="0" maxOccurs="1" name="User" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccountType" type="tns:AccountTypes" />
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Currency" type="tns:Currency" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaymentDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EntryDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="InternetCodeType" type="tns:InternetCodes" />
+          <s:element minOccurs="1" maxOccurs="1" name="SetupDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="SetupBy" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastDebitDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastDeclineDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastDeclineReason" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DisabledReason" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RestrictReason" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CanUnrestrict" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PaymentTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="SP" />
+          <s:enumeration value="OTSP" />
+          <s:enumeration value="IP" />
+          <s:enumeration value="PP" />
+          <s:enumeration value="CC" />
+          <s:enumeration value="OTCC" />
+          <s:enumeration value="PTP" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PaymentStatus">
+        <s:restriction base="s:string">
+          <s:enumeration value="A" />
+          <s:enumeration value="H" />
+          <s:enumeration value="X" />
+          <s:enumeration value="C" />
+          <s:enumeration value="D" />
+          <s:enumeration value="I" />
+          <s:enumeration value="M" />
+          <s:enumeration value="R" />
+          <s:enumeration value="S" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AccountTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="LOAN" />
+          <s:enumeration value="PBS" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="Currency">
+        <s:restriction base="s:string">
+          <s:enumeration value="USD" />
+          <s:enumeration value="CDN" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="InternetCodes">
+        <s:restriction base="s:string">
+          <s:enumeration value="CNS" />
+          <s:enumeration value="CLI" />
+          <s:enumeration value="IVR" />
+          <s:enumeration value="OTHER" />
+          <s:enumeration value="NCL" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Check">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Common">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="BankAccountNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RoutingNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ConfirmationNumber" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CheckNumber" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="isACH" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="ACHType" type="tns:ACHTypes" />
+              <s:element minOccurs="1" maxOccurs="1" name="CheckType" type="tns:CheckTypes" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="ACHTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="WEB" />
+          <s:enumeration value="TELS" />
+          <s:enumeration value="TELR" />
+          <s:enumeration value="PPD" />
+          <s:enumeration value="NA" />
+          <s:enumeration value="ARC" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="CheckTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="C" />
+          <s:enumeration value="S" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="CreditCard">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Common">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="IsDebit" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Authorization" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ConfirmationNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CardNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ExpirationMonth" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ExpirationYear" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CardType" type="tns:CreditCardTypes" />
+              <s:element minOccurs="0" maxOccurs="1" name="TransactionReference" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="CreditCardTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="Visa" />
+          <s:enumeration value="Mastercard" />
+          <s:enumeration value="AmericanExpress" />
+          <s:enumeration value="Discover" />
+          <s:enumeration value="JCB" />
+          <s:enumeration value="Invalid" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SystemStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SystemStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SystemStatusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoanInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Loan">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LastActiveYear" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NextPaymentDueDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="BringCurrent" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="CPAT" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccruedInterest" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PerDiem" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastApplyAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PriorActiveYear" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrincipalBalance" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="LateCharges" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="InterestCalcMethodDesc" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastApplyDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastApplyCodeDesc" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="YearToDateInterest" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PriorYearToDateInterest" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="InterestRate" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PayoffAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PayoffThroughDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="PartialPaymentAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="ImpoundAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="SalePrice" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="OriginalDownPayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="OriginalLoanAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="EquityBalance" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Term" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RemainingTerm" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Lender" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="InterestCalcMethod" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DaysDelinquent" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="InterestBalance" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="UnappliedBalance" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaturityDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="DispositionCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DispositionCodeDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ActiveDisposition" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Client" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentMethod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Week" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Settings" type="tns:ServiceSettings" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ServiceSettings">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Fees" type="tns:Fee" />
+          <s:element minOccurs="0" maxOccurs="1" name="CategoryCodes" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AllowPaymentsReason" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MerchantMessage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AchTypes" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CreditCardTypes" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AllowPayments" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="AllowACH" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="AllowCheck" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="AllowCreditCard" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreditCardAuthsRequired" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="MerchantId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreditCardAuthDays" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxRegularPayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxPRCRPayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxOTCCPayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxOTSPpayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurePay" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ServiceFee" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AutoCreditCard" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SurePayOnAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="AutoCreditCardOnAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="MinSurePayPayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="MinCreditCardPayment" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="AutoPaidAhead" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="PostDateDays" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="AutoCCDaysOfMonth" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurePayDaysOfMonth" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CreditCardBank" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurePayBank" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExtraPaymentType" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExtraPaymentTypeDescription" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExtraPaymentTypeMinAmount" type="tns:ArrayOfDouble" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExtraPaymentTypeMaxAmount" type="tns:ArrayOfDouble" />
+          <s:element minOccurs="0" maxOccurs="1" name="GatewayFields" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="GatewayValues" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Fee">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Consumer" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="IVR" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="OTCC" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="OTSP" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="IP" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Client" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDouble">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="double" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LoanInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoanInformationResult" type="tns:Loan" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoanSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoanSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoanSettingsResult" type="tns:ServiceSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoanTransactionsYearsList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoanTransactionsYearsListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoanTransactionsYearsListResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoanTransactionDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LoanTransaction">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OriginalAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaidPrincipal" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaidInterest" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaidLateCharge" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="ImpoundPaid" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="OtherPaid" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Unapplied" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="LateChargeBalance" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrincipalBalance" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="NumberOfPayments" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NextDueDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Source" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaymentID" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceInformation" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AhID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Owner" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionAmount" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfLoanTransaction">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="LoanTransaction" nillable="true" type="tns:LoanTransaction" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LoanTransactionDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoanTransactionDetailsResult" type="tns:ArrayOfLoanTransaction" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertLoanAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Disposition" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Lender" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SalePrice" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClosingCosts" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DownPayment" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EquityAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LoanAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentFrequency" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CPA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="InterestRate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="InterestCalcMethod" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LoanTerm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstPaymentDueDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TermsDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TermsAmortize" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ImpoundCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ImpoundAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SaleDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="InterestDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LateChargeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitTract" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="WeekLot" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="PreviousServicerID" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="UniqueID" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="UpgradedFromID" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="EquityComputeDate" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentMethod" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="MiddleInit" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="SSN" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="DateOfBirth" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="FICO" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="FicoDate" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="BniScore" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="BniScoreDate" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="AddrLine" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="GoodAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneType" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="Email" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailType" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailDocumentFlag" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="Xref" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="Points" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ActionCode" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="RoutingNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IsChecking" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SurePayNextDebitDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardExpMM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardExpYY" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardNextDebitDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OnSurePayCPA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OffSurePayCPA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OnSurePayInterestRate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OffSurePayInterestRate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OnCreditCardCPA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OffCreditCardCPA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OnCreditCardInterestRate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OffCreditCardInterestRate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TeaserRate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TeaserAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="customCode" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="customValue" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertLoanAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertLoanAccountResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AccountClass">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Info">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccountID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LoanClientID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BillClientID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Group" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Project" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LenderCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LoanDisposition" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BillDisposition" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClassCodes" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DocClientID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DocLenderCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DocDisposition" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AccountClassResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountClassResult" type="tns:Info" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AccountInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PersonalInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Person" type="tns:ArrayOfPerson" />
+          <s:element minOccurs="0" maxOccurs="1" name="Phone" type="tns:ArrayOfCommunication" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="tns:ArrayOfCommunication" />
+          <s:element minOccurs="1" maxOccurs="1" name="GoodAddress" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPerson">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Person" nillable="true" type="tns:Person" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Person">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCommunication">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Communication" nillable="true" type="tns:Communication" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Communication">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="EmailStatements" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AccountInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountInformationResult" type="tns:PersonalInformation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AccountCommunicationList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:CommunicationTypes" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="CommunicationTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="Phones" />
+          <s:enumeration value="Emails" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="AccountCommunicationListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountCommunicationListResult" type="tns:ArrayOfCommunication" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AccountNames">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AccountNamesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNamesResult" type="tns:ArrayOfPerson" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CountryList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CountryListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CountryListResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StateList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DictionaryEntry">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Key" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDictionaryEntry">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DictionaryEntry" type="tns:DictionaryEntry" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="StateListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StateListResult" type="tns:ArrayOfDictionaryEntry" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProvinceList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProvinceListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ProvinceListResult" type="tns:ArrayOfDictionaryEntry" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ManageAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address3" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ManageAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ManageAddressResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EmailTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EmailTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmailTypesResult" type="tns:ArrayOfCommunication" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertPhoneNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertPhoneNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertPhoneNumberResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemovePhoneNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemovePhoneNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemovePhoneNumberResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePhoneNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePhoneNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdatePhoneNumberResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertEmailAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="EmailStatements" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertEmailAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertEmailAddressResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveEmailAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveEmailAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveEmailAddressResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateEmailAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="EmailStatements" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateEmailAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateEmailAddressResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PhoneTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PhoneTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneTypesResult" type="tns:ArrayOfCommunication" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Sequence" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NoteTypes">
+        <s:complexType />
+      </s:element>
+      <s:element name="NoteTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NoteTypesResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NoteCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NoteCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="NoteCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Notes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Position" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Note">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfNote">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Note" nillable="true" type="tns:Note" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="NotesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NotesResult" type="tns:ArrayOfNote" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertNote">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Note" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TypeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="User" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertNoteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertNoteResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCustomDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetCustomData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomCode" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomValue" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetCustomDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetCustomDataResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ClientID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="QuestionID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Response" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Lender" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertResponseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertResponseResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActionCodes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Filter" type="tns:CodeSet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="CodeSet">
+        <s:restriction base="s:string">
+          <s:enumeration value="Curr" />
+          <s:enumeration value="Hist" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ActionCode">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ActionID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="System" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Note" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="BeginDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReviewDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfActionCode">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ActionCode" nillable="true" type="tns:ActionCode" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetActionCodesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActionCodesResult" type="tns:ArrayOfActionCode" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertActionCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountSystem" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:StatusCodes" />
+            <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="BeginDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ReviewDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="StatusCodes">
+        <s:restriction base="s:string">
+          <s:enumeration value="A" />
+          <s:enumeration value="H" />
+          <s:enumeration value="C" />
+          <s:enumeration value="X" />
+          <s:enumeration value="F" />
+          <s:enumeration value="U" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="InsertActionCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertActionCodeResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateActionCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountSystem" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:StatusCodes" />
+            <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="BeginDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ReviewDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateActionCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateActionCodeResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOtherAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="OtherAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Class" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LoanDisposition" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LoanBringCurrent" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="BillingDisposition" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillingPastDue" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillingBringCurrent" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="TotalPoints" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfOtherAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="OtherAccount" nillable="true" type="tns:OtherAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetOtherAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOtherAccountsResult" type="tns:ArrayOfOtherAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingInformation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Billing">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PaymentAmount" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentFreq" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastApplyCodeDesc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentFreqDesc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LateChargeCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LateChargeDesc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DispositionCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DispositionCodeDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ActiveDisposition" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Client" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentMethod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Week" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalDue" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentDue" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FutureRateAmount" nillable="true" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastApplyAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PastDue" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="DaysDelinquent" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="LateChargeDue" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FinanceChargeDue" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FinanceChargeRate" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PerDiem" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FutureRateDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastApplyDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="NextStatementDueDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentBilledDueDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="NextBillDueDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Settings" type="tns:ServiceSettings" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BillingInformationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillingInformationResult" type="tns:Billing" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillingSettingsResult" type="tns:ServiceSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingTransactionsYearsList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingTransactionsYearsListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillingTransactionsYearsListResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingTransactionDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BillingTransaction">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceInformation" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaymentID" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DueDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalDueAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentBilledAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PastDueAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="LateChargeAmount" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="FinanceChargeBalance" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourceCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CategoryDescriptions">
+            <s:complexType>
+              <s:sequence>
+                <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+          <s:element minOccurs="0" maxOccurs="1" name="Owner" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfBillingTransaction">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BillingTransaction" nillable="true" type="tns:BillingTransaction" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BillingTransactionDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillingTransactionDetailsResult" type="tns:ArrayOfBillingTransaction" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingCategoryBalanceHistory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingCategoryBalanceHistoryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillingCategoryBalanceHistoryResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingCategoryBalanceHeaders">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingCategoryBalanceHeadersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillingCategoryBalanceHeadersResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertBillingAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Disposition" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="MiddleInit" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="SSN" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="AddrLine1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AddrLine2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AddrLine3" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneTypes" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitTract" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="WeekLot" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentFrequency" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BillingMethod" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LateChargeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OldID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SetupDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MemberID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UseYear" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RoutingNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IsChecking" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DateOfBirth" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="UniqueID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Email" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailTypes" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailDocumentFlag" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="FICO" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="SaleDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransferFlag" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Points" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FicoDate" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardExpMM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardExpYY" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ActionCode" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="GoodAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MiscClientDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomType" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomValue" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertBillingAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertBillingAccountResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessCreditCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CC" type="tns:CreditCard" />
+            <s:element minOccurs="1" maxOccurs="1" name="TestProcess" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessCreditCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProcessCreditCardResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessAutoCreditCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CC" type="tns:CreditCard" />
+            <s:element minOccurs="1" maxOccurs="1" name="TestProcess" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessAutoCreditCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProcessAutoCreditCardResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Check" type="tns:Check" />
+            <s:element minOccurs="1" maxOccurs="1" name="TestProcess" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProcessCheckResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessACH">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Check" type="tns:Check" />
+            <s:element minOccurs="1" maxOccurs="1" name="TestProcess" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessACHResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProcessACHResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PendingPayments">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PendingPaymentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PendingPaymentsResult" type="tns:ArrayOfAnyType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Payment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="PaymentID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PaymentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentResult" type="tns:ArrayOfAnyType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateRoutingNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RoutingNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateRoutingNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidateRoutingNumberResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateCreditCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateCreditCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidateCreditCardResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindCreditCardType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreditCardNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindCreditCardTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="FindCreditCardTypeResult" type="tns:CreditCardTypes" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatements">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StatementHistory">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="User" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VSN" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CancelBy" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CancelDate" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Statement">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:StatementHistory">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="DataRecordID" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ClientID" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfStatement">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Statement" nillable="true" type="tns:Statement" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetStatementsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatementsResult" type="tns:ArrayOfStatement" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatementLink">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="RecordID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ClientID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatementLinkResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatementLinkResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCampaignAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CampaignID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TimeZoneOffset" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Account">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ListId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TimeZone" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Time" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Delinquency" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Priority" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Period" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Collector" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Attempts" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastWrkDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="WorkState" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Account" nillable="true" type="tns:Account" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCampaignAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCampaignAccountsResult" type="tns:ArrayOfAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNextCampaignAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CampaignID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TimeZoneOffset" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Manage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ListId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Reminder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="System" type="tns:SystemCode" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="SystemCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="LOAN" />
+          <s:enumeration value="PBS" />
+          <s:enumeration value="A" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetNextCampaignAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNextCampaignAccountResult" type="tns:Manage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetExitCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountSystem" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Comment" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccessGroup" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TimeZoneOffset" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetExitCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetExitCodeResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="IsValidAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:IsValidAccount" />
+  </wsdl:message>
+  <wsdl:message name="IsValidAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:IsValidAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsValidAccountCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="IsValidIvrAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:IsValidIvrAccount" />
+  </wsdl:message>
+  <wsdl:message name="IsValidIvrAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:IsValidIvrAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsValidIvrAccountCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="SearchByPhoneSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchByPhone" />
+  </wsdl:message>
+  <wsdl:message name="SearchByPhoneSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchByPhoneResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchByPhoneCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="SystemStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:SystemStatus" />
+  </wsdl:message>
+  <wsdl:message name="SystemStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:SystemStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="SystemStatusCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="LoanInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:LoanInformation" />
+  </wsdl:message>
+  <wsdl:message name="LoanInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:LoanInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoanInformationCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="LoanSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:LoanSettings" />
+  </wsdl:message>
+  <wsdl:message name="LoanSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:LoanSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoanSettingsCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="LoanTransactionsYearsListSoapIn">
+    <wsdl:part name="parameters" element="tns:LoanTransactionsYearsList" />
+  </wsdl:message>
+  <wsdl:message name="LoanTransactionsYearsListSoapOut">
+    <wsdl:part name="parameters" element="tns:LoanTransactionsYearsListResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoanTransactionsYearsListCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="LoanTransactionDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:LoanTransactionDetails" />
+  </wsdl:message>
+  <wsdl:message name="LoanTransactionDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:LoanTransactionDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoanTransactionDetailsCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="InsertLoanAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertLoanAccount" />
+  </wsdl:message>
+  <wsdl:message name="InsertLoanAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertLoanAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertLoanAccountCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="AccountClassSoapIn">
+    <wsdl:part name="parameters" element="tns:AccountClass" />
+  </wsdl:message>
+  <wsdl:message name="AccountClassSoapOut">
+    <wsdl:part name="parameters" element="tns:AccountClassResponse" />
+  </wsdl:message>
+  <wsdl:message name="AccountClassCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="AccountInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:AccountInformation" />
+  </wsdl:message>
+  <wsdl:message name="AccountInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:AccountInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="AccountInformationCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="AccountCommunicationListSoapIn">
+    <wsdl:part name="parameters" element="tns:AccountCommunicationList" />
+  </wsdl:message>
+  <wsdl:message name="AccountCommunicationListSoapOut">
+    <wsdl:part name="parameters" element="tns:AccountCommunicationListResponse" />
+  </wsdl:message>
+  <wsdl:message name="AccountCommunicationListCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="AccountNamesSoapIn">
+    <wsdl:part name="parameters" element="tns:AccountNames" />
+  </wsdl:message>
+  <wsdl:message name="AccountNamesSoapOut">
+    <wsdl:part name="parameters" element="tns:AccountNamesResponse" />
+  </wsdl:message>
+  <wsdl:message name="AccountNamesCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="CountryListSoapIn">
+    <wsdl:part name="parameters" element="tns:CountryList" />
+  </wsdl:message>
+  <wsdl:message name="CountryListSoapOut">
+    <wsdl:part name="parameters" element="tns:CountryListResponse" />
+  </wsdl:message>
+  <wsdl:message name="CountryListCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="StateListSoapIn">
+    <wsdl:part name="parameters" element="tns:StateList" />
+  </wsdl:message>
+  <wsdl:message name="StateListSoapOut">
+    <wsdl:part name="parameters" element="tns:StateListResponse" />
+  </wsdl:message>
+  <wsdl:message name="StateListCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="ProvinceListSoapIn">
+    <wsdl:part name="parameters" element="tns:ProvinceList" />
+  </wsdl:message>
+  <wsdl:message name="ProvinceListSoapOut">
+    <wsdl:part name="parameters" element="tns:ProvinceListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProvinceListCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="ManageAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:ManageAddress" />
+  </wsdl:message>
+  <wsdl:message name="ManageAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:ManageAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="ManageAddressCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="EmailTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:EmailTypes" />
+  </wsdl:message>
+  <wsdl:message name="EmailTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:EmailTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="EmailTypesCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="InsertPhoneNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertPhoneNumber" />
+  </wsdl:message>
+  <wsdl:message name="InsertPhoneNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertPhoneNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertPhoneNumberCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="RemovePhoneNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:RemovePhoneNumber" />
+  </wsdl:message>
+  <wsdl:message name="RemovePhoneNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:RemovePhoneNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemovePhoneNumberCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePhoneNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdatePhoneNumber" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePhoneNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdatePhoneNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePhoneNumberCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="InsertEmailAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertEmailAddress" />
+  </wsdl:message>
+  <wsdl:message name="InsertEmailAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertEmailAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertEmailAddressCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="RemoveEmailAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveEmailAddress" />
+  </wsdl:message>
+  <wsdl:message name="RemoveEmailAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveEmailAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveEmailAddressCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="UpdateEmailAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateEmailAddress" />
+  </wsdl:message>
+  <wsdl:message name="UpdateEmailAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateEmailAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateEmailAddressCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="PhoneTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:PhoneTypes" />
+  </wsdl:message>
+  <wsdl:message name="PhoneTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:PhoneTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="PhoneTypesCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="InsertNameSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertName" />
+  </wsdl:message>
+  <wsdl:message name="InsertNameSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertNameCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="RemoveNameSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveName" />
+  </wsdl:message>
+  <wsdl:message name="RemoveNameSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveNameCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="UpdateNameSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateName" />
+  </wsdl:message>
+  <wsdl:message name="UpdateNameSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateNameCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="NoteTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:NoteTypes" />
+  </wsdl:message>
+  <wsdl:message name="NoteTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:NoteTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="NoteTypesCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="NoteCountSoapIn">
+    <wsdl:part name="parameters" element="tns:NoteCount" />
+  </wsdl:message>
+  <wsdl:message name="NoteCountSoapOut">
+    <wsdl:part name="parameters" element="tns:NoteCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="NoteCountCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="NotesSoapIn">
+    <wsdl:part name="parameters" element="tns:Notes" />
+  </wsdl:message>
+  <wsdl:message name="NotesSoapOut">
+    <wsdl:part name="parameters" element="tns:NotesResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotesCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="InsertNoteSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertNote" />
+  </wsdl:message>
+  <wsdl:message name="InsertNoteSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertNoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertNoteCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCustomData" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCustomDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomDataCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="SetCustomDataSoapIn">
+    <wsdl:part name="parameters" element="tns:SetCustomData" />
+  </wsdl:message>
+  <wsdl:message name="SetCustomDataSoapOut">
+    <wsdl:part name="parameters" element="tns:SetCustomDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetCustomDataCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="InsertResponseSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertResponseSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertResponseCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="GetActionCodesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActionCodes" />
+  </wsdl:message>
+  <wsdl:message name="GetActionCodesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActionCodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActionCodesCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="InsertActionCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertActionCode" />
+  </wsdl:message>
+  <wsdl:message name="InsertActionCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertActionCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertActionCodeCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="UpdateActionCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateActionCode" />
+  </wsdl:message>
+  <wsdl:message name="UpdateActionCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateActionCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateActionCodeCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="GetOtherAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOtherAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetOtherAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOtherAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOtherAccountsCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="BillingInformationSoapIn">
+    <wsdl:part name="parameters" element="tns:BillingInformation" />
+  </wsdl:message>
+  <wsdl:message name="BillingInformationSoapOut">
+    <wsdl:part name="parameters" element="tns:BillingInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="BillingInformationCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="BillingSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:BillingSettings" />
+  </wsdl:message>
+  <wsdl:message name="BillingSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:BillingSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="BillingSettingsCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="BillingTransactionsYearsListSoapIn">
+    <wsdl:part name="parameters" element="tns:BillingTransactionsYearsList" />
+  </wsdl:message>
+  <wsdl:message name="BillingTransactionsYearsListSoapOut">
+    <wsdl:part name="parameters" element="tns:BillingTransactionsYearsListResponse" />
+  </wsdl:message>
+  <wsdl:message name="BillingTransactionsYearsListCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="BillingTransactionDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:BillingTransactionDetails" />
+  </wsdl:message>
+  <wsdl:message name="BillingTransactionDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:BillingTransactionDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="BillingTransactionDetailsCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="BillingCategoryBalanceHistorySoapIn">
+    <wsdl:part name="parameters" element="tns:BillingCategoryBalanceHistory" />
+  </wsdl:message>
+  <wsdl:message name="BillingCategoryBalanceHistorySoapOut">
+    <wsdl:part name="parameters" element="tns:BillingCategoryBalanceHistoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="BillingCategoryBalanceHistoryCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="BillingCategoryBalanceHeadersSoapIn">
+    <wsdl:part name="parameters" element="tns:BillingCategoryBalanceHeaders" />
+  </wsdl:message>
+  <wsdl:message name="BillingCategoryBalanceHeadersSoapOut">
+    <wsdl:part name="parameters" element="tns:BillingCategoryBalanceHeadersResponse" />
+  </wsdl:message>
+  <wsdl:message name="BillingCategoryBalanceHeadersCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="InsertBillingAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertBillingAccount" />
+  </wsdl:message>
+  <wsdl:message name="InsertBillingAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertBillingAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertBillingAccountCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="ProcessCreditCardSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcessCreditCard" />
+  </wsdl:message>
+  <wsdl:message name="ProcessCreditCardSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcessCreditCardResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcessCreditCardCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="ProcessAutoCreditCardSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcessAutoCreditCard" />
+  </wsdl:message>
+  <wsdl:message name="ProcessAutoCreditCardSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcessAutoCreditCardResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcessAutoCreditCardCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="ProcessCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcessCheck" />
+  </wsdl:message>
+  <wsdl:message name="ProcessCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcessCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcessCheckCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="ProcessACHSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcessACH" />
+  </wsdl:message>
+  <wsdl:message name="ProcessACHSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcessACHResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcessACHCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="PendingPaymentsSoapIn">
+    <wsdl:part name="parameters" element="tns:PendingPayments" />
+  </wsdl:message>
+  <wsdl:message name="PendingPaymentsSoapOut">
+    <wsdl:part name="parameters" element="tns:PendingPaymentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="PendingPaymentsCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="PaymentSoapIn">
+    <wsdl:part name="parameters" element="tns:Payment" />
+  </wsdl:message>
+  <wsdl:message name="PaymentSoapOut">
+    <wsdl:part name="parameters" element="tns:PaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="PaymentCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="ValidateRoutingNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidateRoutingNumber" />
+  </wsdl:message>
+  <wsdl:message name="ValidateRoutingNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidateRoutingNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValidateRoutingNumberCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="ValidateCreditCardSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidateCreditCard" />
+  </wsdl:message>
+  <wsdl:message name="ValidateCreditCardSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidateCreditCardResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValidateCreditCardCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="FindCreditCardTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:FindCreditCardType" />
+  </wsdl:message>
+  <wsdl:message name="FindCreditCardTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:FindCreditCardTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="FindCreditCardTypeCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="GetStatementsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatements" />
+  </wsdl:message>
+  <wsdl:message name="GetStatementsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatementsCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="GetStatementLinkSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatementLink" />
+  </wsdl:message>
+  <wsdl:message name="GetStatementLinkSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatementLinkResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatementLinkCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCampaignAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCampaignAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCampaignAccountsCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="GetNextCampaignAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNextCampaignAccount" />
+  </wsdl:message>
+  <wsdl:message name="GetNextCampaignAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNextCampaignAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNextCampaignAccountCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:message name="SetExitCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:SetExitCode" />
+  </wsdl:message>
+  <wsdl:message name="SetExitCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:SetExitCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetExitCodeCredentials">
+    <wsdl:part name="Credentials" element="tns:Credentials" />
+  </wsdl:message>
+  <wsdl:portType name="GatewaySoap">
+    <wsdl:operation name="IsValidAccount">
+      <wsdl:input message="tns:IsValidAccountSoapIn" />
+      <wsdl:output message="tns:IsValidAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsValidIvrAccount">
+      <wsdl:input message="tns:IsValidIvrAccountSoapIn" />
+      <wsdl:output message="tns:IsValidIvrAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchByPhone">
+      <wsdl:input message="tns:SearchByPhoneSoapIn" />
+      <wsdl:output message="tns:SearchByPhoneSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SystemStatus">
+      <wsdl:input message="tns:SystemStatusSoapIn" />
+      <wsdl:output message="tns:SystemStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoanInformation">
+      <wsdl:input message="tns:LoanInformationSoapIn" />
+      <wsdl:output message="tns:LoanInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoanSettings">
+      <wsdl:input message="tns:LoanSettingsSoapIn" />
+      <wsdl:output message="tns:LoanSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoanTransactionsYearsList">
+      <wsdl:input message="tns:LoanTransactionsYearsListSoapIn" />
+      <wsdl:output message="tns:LoanTransactionsYearsListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoanTransactionDetails">
+      <wsdl:input message="tns:LoanTransactionDetailsSoapIn" />
+      <wsdl:output message="tns:LoanTransactionDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertLoanAccount">
+      <wsdl:input message="tns:InsertLoanAccountSoapIn" />
+      <wsdl:output message="tns:InsertLoanAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AccountClass">
+      <wsdl:input message="tns:AccountClassSoapIn" />
+      <wsdl:output message="tns:AccountClassSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AccountInformation">
+      <wsdl:input message="tns:AccountInformationSoapIn" />
+      <wsdl:output message="tns:AccountInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AccountCommunicationList">
+      <wsdl:input message="tns:AccountCommunicationListSoapIn" />
+      <wsdl:output message="tns:AccountCommunicationListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AccountNames">
+      <wsdl:input message="tns:AccountNamesSoapIn" />
+      <wsdl:output message="tns:AccountNamesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CountryList">
+      <wsdl:input message="tns:CountryListSoapIn" />
+      <wsdl:output message="tns:CountryListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StateList">
+      <wsdl:input message="tns:StateListSoapIn" />
+      <wsdl:output message="tns:StateListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProvinceList">
+      <wsdl:input message="tns:ProvinceListSoapIn" />
+      <wsdl:output message="tns:ProvinceListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ManageAddress">
+      <wsdl:input message="tns:ManageAddressSoapIn" />
+      <wsdl:output message="tns:ManageAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EmailTypes">
+      <wsdl:input message="tns:EmailTypesSoapIn" />
+      <wsdl:output message="tns:EmailTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertPhoneNumber">
+      <wsdl:input message="tns:InsertPhoneNumberSoapIn" />
+      <wsdl:output message="tns:InsertPhoneNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemovePhoneNumber">
+      <wsdl:input message="tns:RemovePhoneNumberSoapIn" />
+      <wsdl:output message="tns:RemovePhoneNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePhoneNumber">
+      <wsdl:input message="tns:UpdatePhoneNumberSoapIn" />
+      <wsdl:output message="tns:UpdatePhoneNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmailAddress">
+      <wsdl:input message="tns:InsertEmailAddressSoapIn" />
+      <wsdl:output message="tns:InsertEmailAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveEmailAddress">
+      <wsdl:input message="tns:RemoveEmailAddressSoapIn" />
+      <wsdl:output message="tns:RemoveEmailAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEmailAddress">
+      <wsdl:input message="tns:UpdateEmailAddressSoapIn" />
+      <wsdl:output message="tns:UpdateEmailAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PhoneTypes">
+      <wsdl:input message="tns:PhoneTypesSoapIn" />
+      <wsdl:output message="tns:PhoneTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertName">
+      <wsdl:input message="tns:InsertNameSoapIn" />
+      <wsdl:output message="tns:InsertNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveName">
+      <wsdl:input message="tns:RemoveNameSoapIn" />
+      <wsdl:output message="tns:RemoveNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateName">
+      <wsdl:input message="tns:UpdateNameSoapIn" />
+      <wsdl:output message="tns:UpdateNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NoteTypes">
+      <wsdl:input message="tns:NoteTypesSoapIn" />
+      <wsdl:output message="tns:NoteTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NoteCount">
+      <wsdl:input message="tns:NoteCountSoapIn" />
+      <wsdl:output message="tns:NoteCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Notes">
+      <wsdl:input message="tns:NotesSoapIn" />
+      <wsdl:output message="tns:NotesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertNote">
+      <wsdl:input message="tns:InsertNoteSoapIn" />
+      <wsdl:output message="tns:InsertNoteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomData">
+      <wsdl:input message="tns:GetCustomDataSoapIn" />
+      <wsdl:output message="tns:GetCustomDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetCustomData">
+      <wsdl:input message="tns:SetCustomDataSoapIn" />
+      <wsdl:output message="tns:SetCustomDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertResponse">
+      <wsdl:input message="tns:InsertResponseSoapIn" />
+      <wsdl:output message="tns:InsertResponseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionCodes">
+      <wsdl:input message="tns:GetActionCodesSoapIn" />
+      <wsdl:output message="tns:GetActionCodesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertActionCode">
+      <wsdl:input message="tns:InsertActionCodeSoapIn" />
+      <wsdl:output message="tns:InsertActionCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateActionCode">
+      <wsdl:input message="tns:UpdateActionCodeSoapIn" />
+      <wsdl:output message="tns:UpdateActionCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOtherAccounts">
+      <wsdl:input message="tns:GetOtherAccountsSoapIn" />
+      <wsdl:output message="tns:GetOtherAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BillingInformation">
+      <wsdl:input message="tns:BillingInformationSoapIn" />
+      <wsdl:output message="tns:BillingInformationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BillingSettings">
+      <wsdl:input message="tns:BillingSettingsSoapIn" />
+      <wsdl:output message="tns:BillingSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BillingTransactionsYearsList">
+      <wsdl:input message="tns:BillingTransactionsYearsListSoapIn" />
+      <wsdl:output message="tns:BillingTransactionsYearsListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BillingTransactionDetails">
+      <wsdl:input message="tns:BillingTransactionDetailsSoapIn" />
+      <wsdl:output message="tns:BillingTransactionDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BillingCategoryBalanceHistory">
+      <wsdl:input message="tns:BillingCategoryBalanceHistorySoapIn" />
+      <wsdl:output message="tns:BillingCategoryBalanceHistorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BillingCategoryBalanceHeaders">
+      <wsdl:input message="tns:BillingCategoryBalanceHeadersSoapIn" />
+      <wsdl:output message="tns:BillingCategoryBalanceHeadersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertBillingAccount">
+      <wsdl:input message="tns:InsertBillingAccountSoapIn" />
+      <wsdl:output message="tns:InsertBillingAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessCreditCard">
+      <wsdl:input message="tns:ProcessCreditCardSoapIn" />
+      <wsdl:output message="tns:ProcessCreditCardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessAutoCreditCard">
+      <wsdl:input message="tns:ProcessAutoCreditCardSoapIn" />
+      <wsdl:output message="tns:ProcessAutoCreditCardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessCheck">
+      <wsdl:input message="tns:ProcessCheckSoapIn" />
+      <wsdl:output message="tns:ProcessCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessACH">
+      <wsdl:input message="tns:ProcessACHSoapIn" />
+      <wsdl:output message="tns:ProcessACHSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PendingPayments">
+      <wsdl:input message="tns:PendingPaymentsSoapIn" />
+      <wsdl:output message="tns:PendingPaymentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Payment">
+      <wsdl:input message="tns:PaymentSoapIn" />
+      <wsdl:output message="tns:PaymentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateRoutingNumber">
+      <wsdl:input message="tns:ValidateRoutingNumberSoapIn" />
+      <wsdl:output message="tns:ValidateRoutingNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateCreditCard">
+      <wsdl:input message="tns:ValidateCreditCardSoapIn" />
+      <wsdl:output message="tns:ValidateCreditCardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindCreditCardType">
+      <wsdl:input message="tns:FindCreditCardTypeSoapIn" />
+      <wsdl:output message="tns:FindCreditCardTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatements">
+      <wsdl:input message="tns:GetStatementsSoapIn" />
+      <wsdl:output message="tns:GetStatementsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatementLink">
+      <wsdl:input message="tns:GetStatementLinkSoapIn" />
+      <wsdl:output message="tns:GetStatementLinkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccounts">
+      <wsdl:input message="tns:GetCampaignAccountsSoapIn" />
+      <wsdl:output message="tns:GetCampaignAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNextCampaignAccount">
+      <wsdl:input message="tns:GetNextCampaignAccountSoapIn" />
+      <wsdl:output message="tns:GetNextCampaignAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetExitCode">
+      <wsdl:input message="tns:SetExitCodeSoapIn" />
+      <wsdl:output message="tns:SetExitCodeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GatewaySoap" type="tns:GatewaySoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IsValidAccount">
+      <soap:operation soapAction="http://www.equiant.com/IsValidAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:IsValidAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsValidIvrAccount">
+      <soap:operation soapAction="http://www.equiant.com/IsValidIvrAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:IsValidIvrAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchByPhone">
+      <soap:operation soapAction="http://www.equiant.com/SearchByPhone" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SearchByPhoneCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SystemStatus">
+      <soap:operation soapAction="http://www.equiant.com/SystemStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SystemStatusCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoanInformation">
+      <soap:operation soapAction="http://www.equiant.com/LoanInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoanInformationCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoanSettings">
+      <soap:operation soapAction="http://www.equiant.com/LoanSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoanSettingsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoanTransactionsYearsList">
+      <soap:operation soapAction="http://www.equiant.com/LoanTransactionsYearsList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoanTransactionsYearsListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoanTransactionDetails">
+      <soap:operation soapAction="http://www.equiant.com/LoanTransactionDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LoanTransactionDetailsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertLoanAccount">
+      <soap:operation soapAction="http://www.equiant.com/InsertLoanAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InsertLoanAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountClass">
+      <soap:operation soapAction="http://www.equiant.com/AccountClass" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AccountClassCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountInformation">
+      <soap:operation soapAction="http://www.equiant.com/AccountInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AccountInformationCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountCommunicationList">
+      <soap:operation soapAction="http://www.equiant.com/AccountCommunicationList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AccountCommunicationListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountNames">
+      <soap:operation soapAction="http://www.equiant.com/AccountNames" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AccountNamesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CountryList">
+      <soap:operation soapAction="http://www.equiant.com/CountryList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CountryListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StateList">
+      <soap:operation soapAction="http://www.equiant.com/StateList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:StateListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProvinceList">
+      <soap:operation soapAction="http://www.equiant.com/ProvinceList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ProvinceListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ManageAddress">
+      <soap:operation soapAction="http://www.equiant.com/ManageAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ManageAddressCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmailTypes">
+      <soap:operation soapAction="http://www.equiant.com/EmailTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:EmailTypesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertPhoneNumber">
+      <soap:operation soapAction="http://www.equiant.com/InsertPhoneNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InsertPhoneNumberCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemovePhoneNumber">
+      <soap:operation soapAction="http://www.equiant.com/RemovePhoneNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RemovePhoneNumberCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePhoneNumber">
+      <soap:operation soapAction="http://www.equiant.com/UpdatePhoneNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdatePhoneNumberCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmailAddress">
+      <soap:operation soapAction="http://www.equiant.com/InsertEmailAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InsertEmailAddressCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveEmailAddress">
+      <soap:operation soapAction="http://www.equiant.com/RemoveEmailAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RemoveEmailAddressCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEmailAddress">
+      <soap:operation soapAction="http://www.equiant.com/UpdateEmailAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateEmailAddressCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PhoneTypes">
+      <soap:operation soapAction="http://www.equiant.com/PhoneTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:PhoneTypesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertName">
+      <soap:operation soapAction="http://www.equiant.com/InsertName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InsertNameCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveName">
+      <soap:operation soapAction="http://www.equiant.com/RemoveName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RemoveNameCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateName">
+      <soap:operation soapAction="http://www.equiant.com/UpdateName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateNameCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NoteTypes">
+      <soap:operation soapAction="http://www.equiant.com/NoteTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:NoteTypesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NoteCount">
+      <soap:operation soapAction="http://www.equiant.com/NoteCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:NoteCountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Notes">
+      <soap:operation soapAction="http://www.equiant.com/Notes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:NotesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertNote">
+      <soap:operation soapAction="http://www.equiant.com/InsertNote" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InsertNoteCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomData">
+      <soap:operation soapAction="http://www.equiant.com/GetCustomData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCustomDataCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCustomData">
+      <soap:operation soapAction="http://www.equiant.com/SetCustomData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetCustomDataCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertResponse">
+      <soap:operation soapAction="http://www.equiant.com/InsertResponse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InsertResponseCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionCodes">
+      <soap:operation soapAction="http://www.equiant.com/GetActionCodes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetActionCodesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertActionCode">
+      <soap:operation soapAction="http://www.equiant.com/InsertActionCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InsertActionCodeCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateActionCode">
+      <soap:operation soapAction="http://www.equiant.com/UpdateActionCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateActionCodeCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOtherAccounts">
+      <soap:operation soapAction="http://www.equiant.com/GetOtherAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetOtherAccountsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingInformation">
+      <soap:operation soapAction="http://www.equiant.com/BillingInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BillingInformationCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingSettings">
+      <soap:operation soapAction="http://www.equiant.com/BillingSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BillingSettingsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingTransactionsYearsList">
+      <soap:operation soapAction="http://www.equiant.com/BillingTransactionsYearsList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BillingTransactionsYearsListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingTransactionDetails">
+      <soap:operation soapAction="http://www.equiant.com/BillingTransactionDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BillingTransactionDetailsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingCategoryBalanceHistory">
+      <soap:operation soapAction="http://www.equiant.com/BillingCategoryBalanceHistory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BillingCategoryBalanceHistoryCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingCategoryBalanceHeaders">
+      <soap:operation soapAction="http://www.equiant.com/BillingCategoryBalanceHeaders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BillingCategoryBalanceHeadersCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertBillingAccount">
+      <soap:operation soapAction="http://www.equiant.com/InsertBillingAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:InsertBillingAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessCreditCard">
+      <soap:operation soapAction="http://www.equiant.com/ProcessCreditCard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ProcessCreditCardCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessAutoCreditCard">
+      <soap:operation soapAction="http://www.equiant.com/ProcessAutoCreditCard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ProcessAutoCreditCardCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessCheck">
+      <soap:operation soapAction="http://www.equiant.com/ProcessCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ProcessCheckCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessACH">
+      <soap:operation soapAction="http://www.equiant.com/ProcessACH" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ProcessACHCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PendingPayments">
+      <soap:operation soapAction="http://www.equiant.com/PendingPayments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:PendingPaymentsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Payment">
+      <soap:operation soapAction="http://www.equiant.com/Payment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:PaymentCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateRoutingNumber">
+      <soap:operation soapAction="http://www.equiant.com/ValidateRoutingNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ValidateRoutingNumberCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateCreditCard">
+      <soap:operation soapAction="http://www.equiant.com/ValidateCreditCard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ValidateCreditCardCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindCreditCardType">
+      <soap:operation soapAction="http://www.equiant.com/FindCreditCardType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:FindCreditCardTypeCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatements">
+      <soap:operation soapAction="http://www.equiant.com/GetStatements" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStatementsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatementLink">
+      <soap:operation soapAction="http://www.equiant.com/GetStatementLink" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStatementLinkCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccounts">
+      <soap:operation soapAction="http://www.equiant.com/GetCampaignAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCampaignAccountsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNextCampaignAccount">
+      <soap:operation soapAction="http://www.equiant.com/GetNextCampaignAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetNextCampaignAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExitCode">
+      <soap:operation soapAction="http://www.equiant.com/SetExitCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetExitCodeCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GatewaySoap12" type="tns:GatewaySoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IsValidAccount">
+      <soap12:operation soapAction="http://www.equiant.com/IsValidAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:IsValidAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsValidIvrAccount">
+      <soap12:operation soapAction="http://www.equiant.com/IsValidIvrAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:IsValidIvrAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchByPhone">
+      <soap12:operation soapAction="http://www.equiant.com/SearchByPhone" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SearchByPhoneCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SystemStatus">
+      <soap12:operation soapAction="http://www.equiant.com/SystemStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SystemStatusCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoanInformation">
+      <soap12:operation soapAction="http://www.equiant.com/LoanInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoanInformationCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoanSettings">
+      <soap12:operation soapAction="http://www.equiant.com/LoanSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoanSettingsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoanTransactionsYearsList">
+      <soap12:operation soapAction="http://www.equiant.com/LoanTransactionsYearsList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoanTransactionsYearsListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoanTransactionDetails">
+      <soap12:operation soapAction="http://www.equiant.com/LoanTransactionDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LoanTransactionDetailsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertLoanAccount">
+      <soap12:operation soapAction="http://www.equiant.com/InsertLoanAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InsertLoanAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountClass">
+      <soap12:operation soapAction="http://www.equiant.com/AccountClass" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AccountClassCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountInformation">
+      <soap12:operation soapAction="http://www.equiant.com/AccountInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AccountInformationCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountCommunicationList">
+      <soap12:operation soapAction="http://www.equiant.com/AccountCommunicationList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AccountCommunicationListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountNames">
+      <soap12:operation soapAction="http://www.equiant.com/AccountNames" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AccountNamesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CountryList">
+      <soap12:operation soapAction="http://www.equiant.com/CountryList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CountryListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StateList">
+      <soap12:operation soapAction="http://www.equiant.com/StateList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:StateListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProvinceList">
+      <soap12:operation soapAction="http://www.equiant.com/ProvinceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ProvinceListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ManageAddress">
+      <soap12:operation soapAction="http://www.equiant.com/ManageAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ManageAddressCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmailTypes">
+      <soap12:operation soapAction="http://www.equiant.com/EmailTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:EmailTypesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertPhoneNumber">
+      <soap12:operation soapAction="http://www.equiant.com/InsertPhoneNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InsertPhoneNumberCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemovePhoneNumber">
+      <soap12:operation soapAction="http://www.equiant.com/RemovePhoneNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RemovePhoneNumberCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePhoneNumber">
+      <soap12:operation soapAction="http://www.equiant.com/UpdatePhoneNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdatePhoneNumberCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertEmailAddress">
+      <soap12:operation soapAction="http://www.equiant.com/InsertEmailAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InsertEmailAddressCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveEmailAddress">
+      <soap12:operation soapAction="http://www.equiant.com/RemoveEmailAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RemoveEmailAddressCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEmailAddress">
+      <soap12:operation soapAction="http://www.equiant.com/UpdateEmailAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateEmailAddressCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PhoneTypes">
+      <soap12:operation soapAction="http://www.equiant.com/PhoneTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:PhoneTypesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertName">
+      <soap12:operation soapAction="http://www.equiant.com/InsertName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InsertNameCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveName">
+      <soap12:operation soapAction="http://www.equiant.com/RemoveName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RemoveNameCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateName">
+      <soap12:operation soapAction="http://www.equiant.com/UpdateName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateNameCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NoteTypes">
+      <soap12:operation soapAction="http://www.equiant.com/NoteTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:NoteTypesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NoteCount">
+      <soap12:operation soapAction="http://www.equiant.com/NoteCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:NoteCountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Notes">
+      <soap12:operation soapAction="http://www.equiant.com/Notes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:NotesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertNote">
+      <soap12:operation soapAction="http://www.equiant.com/InsertNote" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InsertNoteCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomData">
+      <soap12:operation soapAction="http://www.equiant.com/GetCustomData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCustomDataCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCustomData">
+      <soap12:operation soapAction="http://www.equiant.com/SetCustomData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetCustomDataCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertResponse">
+      <soap12:operation soapAction="http://www.equiant.com/InsertResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InsertResponseCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionCodes">
+      <soap12:operation soapAction="http://www.equiant.com/GetActionCodes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetActionCodesCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertActionCode">
+      <soap12:operation soapAction="http://www.equiant.com/InsertActionCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InsertActionCodeCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateActionCode">
+      <soap12:operation soapAction="http://www.equiant.com/UpdateActionCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateActionCodeCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOtherAccounts">
+      <soap12:operation soapAction="http://www.equiant.com/GetOtherAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetOtherAccountsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingInformation">
+      <soap12:operation soapAction="http://www.equiant.com/BillingInformation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BillingInformationCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingSettings">
+      <soap12:operation soapAction="http://www.equiant.com/BillingSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BillingSettingsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingTransactionsYearsList">
+      <soap12:operation soapAction="http://www.equiant.com/BillingTransactionsYearsList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BillingTransactionsYearsListCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingTransactionDetails">
+      <soap12:operation soapAction="http://www.equiant.com/BillingTransactionDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BillingTransactionDetailsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingCategoryBalanceHistory">
+      <soap12:operation soapAction="http://www.equiant.com/BillingCategoryBalanceHistory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BillingCategoryBalanceHistoryCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillingCategoryBalanceHeaders">
+      <soap12:operation soapAction="http://www.equiant.com/BillingCategoryBalanceHeaders" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BillingCategoryBalanceHeadersCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertBillingAccount">
+      <soap12:operation soapAction="http://www.equiant.com/InsertBillingAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:InsertBillingAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessCreditCard">
+      <soap12:operation soapAction="http://www.equiant.com/ProcessCreditCard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ProcessCreditCardCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessAutoCreditCard">
+      <soap12:operation soapAction="http://www.equiant.com/ProcessAutoCreditCard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ProcessAutoCreditCardCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessCheck">
+      <soap12:operation soapAction="http://www.equiant.com/ProcessCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ProcessCheckCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessACH">
+      <soap12:operation soapAction="http://www.equiant.com/ProcessACH" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ProcessACHCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PendingPayments">
+      <soap12:operation soapAction="http://www.equiant.com/PendingPayments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:PendingPaymentsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Payment">
+      <soap12:operation soapAction="http://www.equiant.com/Payment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:PaymentCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateRoutingNumber">
+      <soap12:operation soapAction="http://www.equiant.com/ValidateRoutingNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ValidateRoutingNumberCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateCreditCard">
+      <soap12:operation soapAction="http://www.equiant.com/ValidateCreditCard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ValidateCreditCardCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindCreditCardType">
+      <soap12:operation soapAction="http://www.equiant.com/FindCreditCardType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:FindCreditCardTypeCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatements">
+      <soap12:operation soapAction="http://www.equiant.com/GetStatements" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStatementsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatementLink">
+      <soap12:operation soapAction="http://www.equiant.com/GetStatementLink" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStatementLinkCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCampaignAccounts">
+      <soap12:operation soapAction="http://www.equiant.com/GetCampaignAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCampaignAccountsCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNextCampaignAccount">
+      <soap12:operation soapAction="http://www.equiant.com/GetNextCampaignAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetNextCampaignAccountCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetExitCode">
+      <soap12:operation soapAction="http://www.equiant.com/SetExitCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetExitCodeCredentials" part="Credentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Gateway">
+    <wsdl:port name="GatewaySoap" binding="tns:GatewaySoap">
+      <soap:address location="https://api.equiant.com/webservices/gateway.asmx" />
+    </wsdl:port>
+    <wsdl:port name="GatewaySoap12" binding="tns:GatewaySoap12">
+      <soap12:address location="https://api.equiant.com/webservices/gateway.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

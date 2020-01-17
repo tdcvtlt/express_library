@@ -1,0 +1,65 @@
+<style type="text/css" media="print">
+
+body {
+background-color:white;
+font-size: 12pt;
+margin:0;
+margin-top:.5;
+margin-bottom:.5;
+}
+
+table {
+table-layout:fixed;
+}
+
+*/table.pagebreak
+{
+page-break-before:always;
+}*/
+
+*/table.nopagebreak
+{
+page-break-before:;
+}*/
+
+td {
+font-size: 12pt;
+width:66.675mm;
+height:25.4mm;
+text-align:middle;
+padding-left:8mm;
+border-collapse: collapse;
+}
+
+..scherm {display:none;}
+
+</style>
+
+
+<style type="text/css" media="screen">
+
+body {
+background:#bbb;
+font-size: 18pt;
+text-align:center;
+}
+
+table {
+background-color: #eee;
+margin:0px;
+margin-top:.5;
+margin-bottom:.5;
+}
+
+td {
+font-size: 10pt;
+text-align:center;
+width:66.675mm;
+height:20mm;
+padding-left:0mm;
+border-collapse: collapse;
+}
+
+..scherm {display:;}
+
+</style>
