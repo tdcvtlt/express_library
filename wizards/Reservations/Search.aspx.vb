@@ -429,6 +429,7 @@ Partial Class wizard_Reservations_Search
             Case EnumScenario.Three
 
                 accom_name = package_base.Get_Accom_Name(wiz.Packages(0).PackageID)
+                'Welcome to Hello World
                 If accom_name = "KCP" Then
                     Dim dd_nights = 0
                     If package_base.Get_Package_Type(package_id) = "Rental" Then
