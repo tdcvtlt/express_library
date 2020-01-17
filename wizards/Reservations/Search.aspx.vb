@@ -27,7 +27,7 @@ Partial Class wizard_Reservations_Search
 #Region "Event Handlers"
 
     Private Sub wizard_Reservations_Search_Load(sender As Object, e As EventArgs) Handles Me.Load
-
+        '1:43 PM 1/17/2020
         Dim ph = CType(Me.Master.Master.FindControl("ContentPlaceHolder1"), ContentPlaceHolder)
         Dim wiz_data = CType(ph.FindControl("LB_WIZ_DATA"), Label)
 
